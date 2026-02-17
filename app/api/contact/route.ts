@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
 
     // Send email to site owner
     const result = await resend.emails.send({
-      from: process.env.CONTACT_FROM_EMAIL || 'onboarding@resend.dev',
+      from: 'Apex Labs <onboarding@resend.dev>',
       to: contactTo,
       replyTo: body.email,
       subject: `New Contact Form: ${body.subject}`,

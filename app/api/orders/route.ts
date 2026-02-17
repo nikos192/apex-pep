@@ -55,14 +55,19 @@ export async function POST(request: NextRequest) {
 
     // Send owner notification email
     const ownerEmailResponse = await resend.emails.send({
-      from: "onboarding@resend.dev",
+      from: "Apex Labs <onboarding@resend.dev>",
       to: OWNER_EMAIL,
       subject: `New Order ${orderNumber} - ${SHOP_NAME}`,
       html: ownerEmailHtml,
+      replyTo: payload.email,
     });
 
     if (ownerEmailResponse.error) {
-      console.error("[OrderAPI] Owner email failed:", ownerEmailResponse.error);
+      console.error("[OrderAPI] Owner email failed:", {
+        error: ownerEmailResponse.error,
+        to: OWNER_EMAIL,
+        orderNumber,
+      });
       return NextResponse.json(
         {
           success: false,
@@ -75,7 +80,7 @@ export async function POST(request: NextRequest) {
     // Send customer confirmation email (optional, don't fail if this fails)
     try {
       await resend.emails.send({
-        from: "onboarding@resend.dev",
+        from: "Apex Labs <onboarding@resend.dev>",
         to: payload.email,
         subject: `Order Confirmation - ${orderNumber}`,
         html: customerEmailHtml,
