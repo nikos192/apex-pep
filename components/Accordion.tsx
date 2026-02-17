@@ -18,12 +18,12 @@ export function Accordion({ items }: AccordionProps) {
   );
 
   return (
-    <div className="space-y-1 border border-brand-400 rounded-xl overflow-hidden shadow-card">
+    <div className="space-y-1 border border-brand-300 rounded-xl overflow-hidden shadow-card">
       {items.map((item, index) => (
-        <div key={index} className="border-b border-brand-300 last:border-b-0">
+        <div key={index} className="border-b border-brand-200 last:border-b-0">
           <button
             onClick={() => setOpenIndex(openIndex === index ? null : index)}
-            className="w-full px-6 py-4 flex items-center justify-between hover:bg-brand-100 transition-colors text-left"
+            className="w-full px-6 py-4 flex items-center justify-between hover:bg-brand-50 transition-colors text-left"
           >
             <h3 className="font-bold text-brand-900 text-lg">{item.title}</h3>
             <span
@@ -35,7 +35,7 @@ export function Accordion({ items }: AccordionProps) {
             </span>
           </button>
           {openIndex === index && (
-            <div className="px-6 py-5 bg-brand-200 text-brand-700 leading-relaxed border-t border-brand-300">
+            <div className="px-6 py-5 bg-white text-brand-700 leading-relaxed border-t border-brand-200">
               {item.children}
             </div>
           )}

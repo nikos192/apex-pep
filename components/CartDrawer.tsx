@@ -48,12 +48,12 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         className={cn(
           "fixed right-0 top-0 h-screen w-full max-w-sm z-50",
           "transform transition-all duration-300 flex flex-col",
-          "bg-brand-200/95 backdrop-blur-xl border-l border-brand-300 shadow-card-hover",
+          "bg-white/95 backdrop-blur-xl border-l border-brand-200 shadow-card-hover",
           isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
         )}
       >
         {/* Header */}
-        <div className="sticky top-0 flex items-center justify-between p-6 border-b border-brand-300 bg-brand-200/80 backdrop-blur-sm">
+        <div className="sticky top-0 flex items-center justify-between p-6 border-b border-brand-200 bg-white/80 backdrop-blur-sm">
           <h2 className="text-xl font-bold text-brand-900">Shopping Cart</h2>
           <button
             onClick={onClose}
@@ -84,10 +84,10 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               {cart.items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex gap-4 border-b border-brand-300 pb-4 last:border-0 last:pb-0"
+                  className="flex gap-4 border-b border-brand-100 pb-4 last:border-0 last:pb-0"
                 >
                   {/* Image */}
-                  <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-brand-100 border border-brand-300">
+                  <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-brand-100 border border-brand-200">
                     <Image
                       src={item.image}
                       alt={item.name}
@@ -135,7 +135,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
         {/* Footer */}
         {!isEmpty && (
-          <div className="border-t border-brand-300 p-6 space-y-4 bg-brand-200/80 backdrop-blur-sm">
+          <div className="border-t border-brand-200 p-6 space-y-4 bg-white/80 backdrop-blur-sm">
             {/* Total */}
             <div className="flex justify-between items-baseline">
               <span className="text-brand-600 font-medium">Subtotal</span>
@@ -157,7 +157,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
             <button
               onClick={onClose}
-              className="w-full border border-brand-400 text-brand-900 font-semibold py-2.5 rounded-lg hover:bg-brand-100 transition-colors"
+              className="w-full border border-brand-300 text-brand-900 font-semibold py-2.5 rounded-lg hover:bg-brand-100 transition-colors"
             >
               Continue Shopping
             </button>
