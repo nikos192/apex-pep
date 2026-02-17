@@ -127,6 +127,16 @@ export default function OrderConfirmationContent() {
       <section className="section-padding container-custom">
         <div className="max-w-3xl mx-auto space-y-8">
           {/* Order Summary Info Card */}
+          {order.warnings && order.warnings.length > 0 && (
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-amber-900">
+              <h3 className="font-semibold mb-1">Notice</h3>
+              <ul className="text-sm">
+                {order.warnings.map((w: string, i: number) => (
+                  <li key={i}>{w}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className="bg-white rounded-lg border border-slate-200 p-8 shadow-sm">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>

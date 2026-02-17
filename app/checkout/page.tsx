@@ -39,6 +39,7 @@ export default function CheckoutPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [apiWarnings, setApiWarnings] = useState<string[]>([]);
 
   const SHIPPING_COST = 20;
 
@@ -132,10 +133,11 @@ export default function CheckoutPage() {
         return;
       }
 
-      // Save order to localStorage for confirmation page
+      // Save order (and any API warnings) to localStorage for confirmation page
       const orderData = {
         orderNumber: result.orderNumber,
         ...orderPayload,
+        warnings: result.warnings || [],
       };
       localStorage.setItem("lastOrder", JSON.stringify(orderData));
 
@@ -188,6 +190,42 @@ export default function CheckoutPage() {
             {submitError && (
               <div className="bg-red-50 border border-red-200 rounded-lg p-3 md:p-4 text-red-700 text-sm md:text-base">
                 {submitError}
+              </div>
+            )}
+
+            {/* API Warnings (visible alert) */}
+            {apiWarnings && apiWarnings.length > 0 && (
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-amber-900">
+                <h3 className="font-semibold mb-1">Notice</h3>
+                <ul className="list-disc pl-5 text-sm mb-3">
+                  {apiWarnings.map((w, i) => (
+                    <li key={i}>{w}</li>
+                  ))}
+                </ul>
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      // Continue to confirmation (clear cart and redirect)
+                      try {
+                        const stored = localStorage.getItem("lastOrder");
+                        const parsed = stored ? JSON.parse(stored) : null;
+                        if (parsed?.orderNumber) {
+                          clearCart();
+                          router.push(`/order-confirmation?order=${parsed.orderNumber}`);
+                          return;
+                        }
+                      } catch (err) {
+                        // fallback
+                      }
+                      clearCart();
+                      router.push(`/order-confirmation`);
+                    }}
+                    className="btn-primary"
+                  >
+                    Continue to Confirmation
+                  </button>
+                </div>
               </div>
             )}
 
