@@ -4,7 +4,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-brand-100 bg-white">
+    <footer className="border-t border-brand-300 bg-brand-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
@@ -15,10 +15,10 @@ export function Footer() {
               Research-grade peptides. Premium purity. Precision manufacturing.
             </p>
             <div className="flex gap-2 flex-wrap">
-              <span className="inline-block px-3 py-1 bg-brand-50 border border-brand-100 text-xs font-semibold text-brand-700 rounded-full">
+              <span className="inline-block px-3 py-1 bg-brand-100 border border-brand-300 text-xs font-semibold text-brand-900 rounded-full">
                 99%+ Purity
               </span>
-              <span className="inline-block px-3 py-1 bg-brand-50 border border-brand-100 text-xs font-semibold text-brand-700 rounded-full">
+              <span className="inline-block px-3 py-1 bg-brand-100 border border-brand-300 text-xs font-semibold text-brand-900 rounded-full">
                 3P Tested
               </span>
             </div>
@@ -119,21 +119,21 @@ export function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-brand-100 pt-8">
+        <div className="border-t border-brand-300 pt-8">
           {/* Compliance Notice */}
-          <div className="bg-brand-50 border border-brand-100 rounded-lg p-4 mb-6">
-            <p className="text-xs text-brand-700 font-semibold mb-1">RESEARCH USE ONLY</p>
-            <p className="text-xs text-brand-600 leading-relaxed">
+          <div className="bg-brand-100 border border-brand-300 rounded-lg p-4 mb-6">
+            <p className="text-xs text-brand-900 font-semibold mb-1">RESEARCH USE ONLY</p>
+            <p className="text-xs text-brand-700 leading-relaxed">
               Products are intended for research purposes only and are not for human consumption. All customers agree to use products in compliance with applicable laws and regulations.
             </p>
           </div>
 
           {/* Bottom Footer */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-brand-600">
+            <p className="text-sm text-brand-700">
               &copy; {currentYear} Apex Labs Australia. All rights reserved.
             </p>
-            <p className="text-xs text-brand-500">
+            <p className="text-xs text-brand-600">
               🇦🇺 Made in Australia | Premium Research Grade
             </p>
           </div>

@@ -10,7 +10,7 @@ export default function PeptidesPage() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="border-b border-brand-100 bg-gradient-to-b from-brand-50 to-white">
+      <section className="border-b border-brand-300 bg-gradient-to-b from-brand-50 to-brand-100">
         <div className="container-custom py-16 animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-bold text-brand-900 mb-4">
             Research-Grade Peptides
@@ -39,9 +39,9 @@ export default function PeptidesPage() {
       </section>
 
       {/* Disclaimer */}
-      <section className="bg-brand-50 border-t border-brand-100 py-12">
+      <section className="bg-brand-50 border-t border-brand-300 py-12">
         <div className="container-custom">
-          <div className="bg-white border border-brand-200 rounded-xl p-8 shadow-card">
+          <div className="bg-brand-200 border border-brand-300 rounded-xl p-8 shadow-card">
             <div className="flex items-start gap-4">
               <span className="text-2xl">📋</span>
               <div>

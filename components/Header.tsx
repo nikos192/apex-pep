@@ -24,8 +24,8 @@ export function Header() {
     <>
       <header className={`sticky top-0 z-40 transition-all duration-300 ${
         isScrolled 
-          ? "bg-white/80 backdrop-blur-lg shadow-header border-b border-brand-100" 
-          : "bg-white border-b border-brand-50"
+          ? "bg-brand-200/80 backdrop-blur-lg shadow-header border-b border-brand-300" 
+          : "bg-brand-200 border-b border-brand-100"
       }`}>
         <div className="container-custom py-4 flex items-center justify-between">
           {/* Logo */}

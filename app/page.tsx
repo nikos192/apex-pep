@@ -71,7 +71,7 @@ export default function HomePage() {
       {/* Why Apex Labs */}
       <section
         id="why-us"
-        className="section-padding bg-gradient-to-b from-brand-50 to-white border-t border-brand-100"
+        className="section-padding bg-gradient-to-b from-brand-50 to-brand-100 border-t border-brand-300"
       >
         <div className="container-custom">
           <div className="text-center mb-16 animate-fade-in">
@@ -108,7 +108,7 @@ export default function HomePage() {
             ].map((item, idx) => (
               <div
                 key={item.title}
-                className="group border border-brand-100 rounded-xl p-8 bg-white hover-lift shadow-card hover:shadow-card-hover animate-scale-in"
+                className="group border border-brand-300 rounded-xl p-8 bg-brand-200 hover-lift shadow-card hover:shadow-card-hover animate-scale-in"
                 style={{ animationDelay: `${idx * 150}ms` }}
               >
                 <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>

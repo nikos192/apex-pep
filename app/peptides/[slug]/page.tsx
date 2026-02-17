@@ -48,7 +48,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   return (
     <div className="w-full">
       {/* Breadcrumb */}
-      <div className="border-b border-brand-100 bg-white">
+      <div className="border-b border-brand-300 bg-brand-200">
         <div className="container-custom py-4 animate-fade-in">
           <div className="flex items-center gap-2 text-sm">
             <Link href="/" className="text-brand-600 hover:text-brand-primary transition-colors">
@@ -69,7 +69,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start animate-fade-in">
           {/* Product Image */}
           <div className="flex items-center justify-center sticky top-24">
-            <div className="w-full max-w-md aspect-square overflow-hidden rounded-xl bg-brand-50 border border-brand-100 shadow-card relative">
+            <div className="w-full max-w-md aspect-square overflow-hidden rounded-xl bg-brand-100 border border-brand-300 shadow-card relative">
               {hasDiscount && (
                 <div className="absolute top-4 right-4 z-10 bg-brand-primary text-white px-4 py-2 rounded-full font-bold text-sm">
                   Save {discountPercent}%
@@ -125,7 +125,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
             {/* Key Points */}
             {product.bullets.length > 0 && (
-              <div className="mb-8 bg-brand-50 border border-brand-100 rounded-lg p-5">
+              <div className="mb-8 bg-brand-100 border border-brand-300 rounded-lg p-5">
                 <h3 className="font-bold text-brand-900 mb-4 text-sm">
                   Research Applications
                 </h3>
@@ -144,7 +144,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             <AddToCartButton product={product} />
 
             {/* Research Disclaimer */}
-            <div className="mt-8 p-5 bg-brand-50 border border-brand-200 rounded-lg">
+            <div className="mt-8 p-5 bg-brand-100 border border-brand-300 rounded-lg">
               <p className="text-xs text-brand-700 leading-relaxed">
                 <strong>Research Use Only:</strong> This product is for laboratory research only. Not for human consumption. Not intended to diagnose, treat, cure, or prevent any disease.
               </p>
@@ -154,7 +154,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
       </section>
 
       {/* Details Section */}
-      <section className="section-padding container-custom bg-gradient-to-b from-brand-50 to-white border-y border-brand-100 animate-fade-in">
+      <section className="section-padding container-custom bg-gradient-to-b from-brand-50 to-brand-100 border-y border-brand-300 animate-fade-in">
         <h2 className="text-4xl font-bold text-brand-900 mb-10">Product Information</h2>
         <Accordion
           items={[
