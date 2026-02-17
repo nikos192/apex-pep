@@ -2,7 +2,7 @@ export default function ResearchPage() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-50 border-b border-slate-200">
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-slate-50 to-blue-50 border-b border-slate-200">
         <div className="container-custom py-20 text-center">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 mb-6 tracking-tight">
             Research Protocols & Standards
