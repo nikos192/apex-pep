@@ -108,6 +108,20 @@ export async function POST(request: NextRequest) {
         error: supabaseError,
         orderNumber,
       });
+
+      // Detect missing table error (PostgREST schema cache)
+      if (supabaseError.code === "PGRST205" || (supabaseError.message || "").includes("Could not find the table")) {
+        const hint = `Supabase error PGRST205: table \"public.orders\" not found. Run the provided SQL in your Supabase project's SQL editor (see instructions) and then refresh the API schema.`;
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Failed to save order to database: orders table missing",
+            details: hint,
+          },
+          { status: 500 }
+        );
+      }
+
       return NextResponse.json(
         {
           success: false,
