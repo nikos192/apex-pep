@@ -57,23 +57,23 @@ export function Footer() {
 
           {/* Resources */}
           <div>
-            <h4 className="font-bold text-brand-900 mb-5 text-sm">Resources</h4>
+            <h4 className="font-bold text-brand-900 mb-5 text-sm">Support</h4>
             <ul className="space-y-3">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/contact"
                   className="text-sm text-brand-600 hover:text-brand-primary transition-colors"
                 >
-                  Research Guidelines
-                </a>
+                  Contact Us
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/research"
                   className="text-sm text-brand-600 hover:text-brand-primary transition-colors"
                 >
-                  Purity Certificates
-                </a>
+                  Research Info
+                </Link>
               </li>
               <li>
                 <a

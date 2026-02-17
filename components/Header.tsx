@@ -26,7 +26,7 @@ export function Header() {
     { href: "/peptides", label: "Peptides" },
     { href: "/research", label: "Research" },
     { href: "/about", label: "About" },
-    { href: "#contact", label: "Contact" },
+    { href: "/contact", label: "Contact" },
   ];
 
   return (
