@@ -31,6 +31,7 @@ export default function CheckoutPage() {
     country: "Australia",
     // Payment & Notes
     shippingOption: "standard",
+    promoCode: "",
     note: "",
     acknowledgement: false,
   });
@@ -96,6 +97,7 @@ export default function CheckoutPage() {
           country: formData.country,
         },
         note: formData.note,
+        ...(formData.promoCode && { promoCode: formData.promoCode }),
         paymentMethod: "Direct bank transfer",
         shippingCost,
         items: cart.items,
@@ -505,7 +507,25 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
+            {/* Promo Code */}
+            <div className="bg-white border border-slate-200 rounded-lg p-4 md:p-8">
+              <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-4 md:mb-6">
+                Promo Code
+              </h2>
 
+              <input
+                type="text"
+                name="promoCode"
+                value={formData.promoCode}
+                onChange={handleInputChange}
+                placeholder="Enter promo code (optional)"
+                className="input-field text-sm"
+                disabled={isLoading}
+              />
+              <p className="text-xs text-slate-600 mt-2">
+                If you have a promotional or discount code, enter it here. It will be recorded with your order.
+              </p>
+            </div>
             {/* Order Notes */}
             <div className="bg-white border border-slate-200 rounded-lg p-4 md:p-8">
               <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-4 md:mb-6">

@@ -24,6 +24,7 @@ export interface OrderPayload {
   email: string;
   shipping: ShippingAddress;
   note: string;
+  promoCode?: string;
   paymentMethod: "Direct bank transfer";
   shippingCost: number;
   items: CartItem[];

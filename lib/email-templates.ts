@@ -62,6 +62,14 @@ export function OrderEmailTemplate({
         <span class="detail-label">Payment Method</span>
         <span class="detail-value">Direct Bank Transfer</span>
       </div>
+      ${
+        payload.promoCode
+          ? `<div class="detail-row">
+        <span class="detail-label">Promo Code</span>
+        <span class="detail-value">${payload.promoCode}</span>
+      </div>`
+          : ""
+      }
     </div>
 
     <div class="section">
