@@ -8,6 +8,8 @@ const secret = new TextEncoder().encode(
   process.env.ADMIN_SESSION_SECRET || "default-secret-change-in-production"
 );
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: NextRequest) {
   try {
     // verify admin session

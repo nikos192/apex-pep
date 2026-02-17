@@ -3,6 +3,8 @@ import fs from "fs";
 import path from "path";
 import { jwtVerify } from "jose";
 
+export const dynamic = "force-dynamic";
+
 const secret = new TextEncoder().encode(
   process.env.ADMIN_SESSION_SECRET || "default-secret-change-in-production"
 );
