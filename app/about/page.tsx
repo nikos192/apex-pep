@@ -41,7 +41,7 @@ export default function AboutPage() {
                 Our laboratory operates under strict Standard Operating Procedures (SOPs) that align with international research material handling guidelines. Each batch is assigned a unique tracking identifier, enabling full traceability from synthesis through delivery.
               </p>
               <p className="text-lg text-slate-700 leading-relaxed">
-                Temperature-controlled storage, inert packaging materials, and sterile handling protocols ensure compound integrity throughout the supply chain. We exclude additives and fillers that could compromise analytical research applications.
+                All products are supplied as lyophilized powder in inert containers. This format ensures stability during standard shipping and storage, eliminating the need for temperature-controlled transport. We exclude additives and fillers that could compromise analytical research applications.
               </p>
             </div>
             <div className="bg-white border border-slate-200 rounded-lg p-8 shadow-sm">
@@ -57,7 +57,7 @@ export default function AboutPage() {
                 </li>
                 <li className="flex gap-3">
                   <span className="text-slate-400 font-bold">•</span>
-                  <span className="text-slate-700"><strong>Storage Standards:</strong> 2-8°C controlled environment</span>
+                  <span className="text-slate-700"><strong>Shipping Format:</strong> Lyophilized powder for stable transport</span>
                 </li>
                 <li className="flex gap-3">
                   <span className="text-slate-400 font-bold">•</span>
@@ -134,8 +134,8 @@ export default function AboutPage() {
                   <p className="text-slate-700">Direct access to local biosecurity and compliance expertise</p>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-slate-900 mb-2">Professional Packaging</h4>
-                  <p className="text-slate-700">Secure, temperature-controlled containers designed for research environments</p>
+                  <h4 className="font-semibold text-slate-900 mb-2">Lyophilized Powder Format</h4>
+                  <p className="text-slate-700">Stable powder form shipped in secure, inert containers without temperature requirements</p>
                 </div>
                 <div>
                   <h4 className="font-semibold text-slate-900 mb-2">Regulatory Compliance</h4>
