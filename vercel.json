@@ -1,0 +1,11 @@
+{
+  "buildCommand": "next build",
+  "outputDirectory": ".next",
+  "regions": ["syd1"],
+  "functions": {
+    "api/**/*.ts": {
+      "memory": 128,
+      "maxDuration": 60
+    }
+  }
+}
