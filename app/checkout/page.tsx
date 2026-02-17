@@ -181,7 +181,7 @@ export default function CheckoutPage() {
       <section className="section-padding container-custom">
         <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           {/* Left Column - Order Content */}
-          <div className="lg:col-span-2 space-y-6 lg:space-y-8"
+          <div className="lg:col-span-2 space-y-6 lg:space-y-8">
             {/* Global Error Message */}
             {submitError && (
               <div className="bg-red-50 border border-red-200 rounded-lg p-3 md:p-4 text-red-700 text-sm md:text-base">
