@@ -24,18 +24,18 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black/40" />
         
         {/* Content */}
-        <div className="container-custom py-20 text-center relative z-10">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
+        <div className="container-custom py-12 md:py-20 text-center relative z-10">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-6 tracking-tight">
             Research-Grade Peptides
           </h1>
-          <p className="text-xl md:text-2xl text-slate-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-100 mb-6 md:mb-8 max-w-3xl mx-auto leading-relaxed px-4">
             Premium purity. Precision manufactured. Australian supplied.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/peptides" className="btn-primary">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center px-4">
+            <Link href="/peptides" className="btn-primary text-sm md:text-base py-3 md:py-4">
               Browse Peptides
             </Link>
-            <a href="#why-us" className="btn-secondary">
+            <a href="#why-us" className="btn-secondary text-sm md:text-base py-3 md:py-4">
               Learn More
             </a>
           </div>
@@ -45,14 +45,14 @@ export default function HomePage() {
       {/* Featured Products */}
       {featuredProducts.length > 0 && (
         <section className="section-padding container-custom">
-          <div className="mb-12 text-center animate-fade-in">
-            <h2 className="text-4xl font-bold text-brand-900 mb-3">Featured Products</h2>
-            <p className="text-lg text-brand-600 max-w-2xl mx-auto">
+          <div className="mb-8 md:mb-12 text-center animate-fade-in">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-2 md:mb-3">Featured Products</h2>
+            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto px-4">
               Explore our most popular research-grade peptide compounds
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {featuredProducts.map((product, idx) => (
               <div key={product.id} className="animate-slide-up" style={{ animationDelay: `${idx * 100}ms` }}>
                 <ProductCard product={product} />
@@ -60,8 +60,8 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="text-center mt-16 animate-fade-in">
-            <Link href="/peptides" className="btn-primary">
+          <div className="text-center mt-8 md:mt-16 animate-fade-in">
+            <Link href="/peptides" className="btn-primary text-sm md:text-base py-3 md:py-4">
               View All Products
             </Link>
           </div>
@@ -71,19 +71,19 @@ export default function HomePage() {
       {/* Why Apex Labs */}
       <section
         id="why-us"
-        className="section-padding bg-gradient-to-b from-brand-50 to-white border-t border-brand-100"
+        className="section-padding bg-gradient-to-b from-slate-50 to-white border-t border-slate-100"
       >
         <div className="container-custom">
-          <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl font-bold text-brand-900 mb-3">
+          <div className="text-center mb-8 md:mb-16 animate-fade-in">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-2 md:mb-3">
               Why Choose Apex Labs
             </h2>
-            <p className="text-lg text-brand-600 max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto px-4">
               Premium quality, trusted standards, and scientific excellence
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
             {[
               {
                 icon: "🔬",
@@ -108,14 +108,14 @@ export default function HomePage() {
             ].map((item, idx) => (
               <div
                 key={item.title}
-                className="group border border-brand-200 rounded-xl p-8 bg-white hover-lift shadow-card hover:shadow-card-hover animate-scale-in"
+                className="group border border-slate-200 rounded-xl p-6 md:p-8 bg-white hover-lift shadow-card hover:shadow-card-hover animate-scale-in"
                 style={{ animationDelay: `${idx * 150}ms` }}
               >
-                <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
-                <h3 className="text-xl font-bold text-brand-900 mb-3 group-hover:text-brand-primary transition-colors">
+                <div className="text-4xl md:text-5xl mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
+                <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-2 md:mb-3 group-hover:text-blue-600 transition-colors">
                   {item.title}
                 </h3>
-                <p className="text-brand-600 text-sm leading-relaxed">{item.description}</p>
+                <p className="text-slate-600 text-sm leading-relaxed">{item.description}</p>
               </div>
             ))}
           </div>
@@ -124,13 +124,13 @@ export default function HomePage() {
 
       {/* CTA Section */}
       <section className="section-padding container-custom text-center animate-fade-in">
-        <h2 className="text-4xl font-bold text-brand-900 mb-4">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-3 md:mb-4 px-4">
           Ready to get started?
         </h2>
-        <p className="text-lg text-brand-600 mb-10 max-w-2xl mx-auto">
+        <p className="text-base md:text-lg text-slate-600 mb-6 md:mb-10 max-w-2xl mx-auto px-4">
           Browse our complete collection of research-grade peptides with guaranteed purity and quality.
         </p>
-        <Link href="/peptides" className="btn-primary inline-block">
+        <Link href="/peptides" className="btn-primary inline-block text-sm md:text-base py-3 md:py-4 px-6 md:px-8">
           Shop Now
         </Link>
       </section>
