@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ProductCard } from "@/components/ProductCard";
 import { PRODUCTS } from "@/lib/catalog";
 
@@ -8,7 +9,21 @@ export default function HomePage() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image */}
+        <Image
+          src="/hero/hero-image.png"
+          alt="Apex Labs Hero"
+          fill
+          className="object-cover"
+          priority
+          unoptimized
+        />
+        
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/40" />
+        
+        {/* Content */}
         <div className="container-custom py-20 text-center relative z-10">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
             Research-Grade Peptides
