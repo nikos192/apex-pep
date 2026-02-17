@@ -43,8 +43,15 @@ export default function AdminOrdersClient() {
     fetchOrders();
     // Poll every 10 seconds
     intervalRef.current = window.setInterval(fetchOrders, 10000);
+    // Listen for status updates and refresh immediately
+    const handler = (e: any) => {
+      fetchOrders();
+    };
+    window.addEventListener("order-updated", handler);
+
     return () => {
       if (intervalRef.current) window.clearInterval(intervalRef.current);
+      window.removeEventListener("order-updated", handler);
     };
   }, []);
 

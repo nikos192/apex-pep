@@ -43,11 +43,19 @@ export default function StatusUpdateForm({
 
       setSuccess("Order status updated successfully");
       setIsLoading(false);
+      // Dispatch a global event so client lists can refresh immediately
+      try {
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("order-updated", { detail: { orderNumber, status } })
+          );
+        }
+      } catch (e) {
+        // ignore
+      }
 
-      // Refresh page after 1 second
-      setTimeout(() => {
-        router.refresh();
-      }, 1000);
+      // Refresh server-side data immediately
+      router.refresh();
     } catch (err) {
       setError("An error occurred while updating status");
       setIsLoading(false);
