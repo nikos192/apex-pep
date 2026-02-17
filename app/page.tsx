@@ -17,6 +17,7 @@ export default function HomePage() {
           fill
           className="object-cover"
           priority
+          unoptimized
         />
         
         {/* Overlay */}
