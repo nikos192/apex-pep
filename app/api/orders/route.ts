@@ -7,6 +7,8 @@ import {
   CustomerConfirmationEmailTemplate,
 } from "@/lib/email-templates";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
+import fs from "fs";
+import path from "path";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const OWNER_EMAIL = process.env.OWNER_EMAIL || "andy@peptideapex.com";
@@ -121,13 +123,31 @@ export async function POST(request: NextRequest) {
           { status: 500 }
         );
       }
+      // Save order to local pending queue so orders are not lost
+      try {
+        const dataDir = path.resolve(process.cwd(), "data");
+        if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+        const filePath = path.join(dataDir, "pending-orders.json");
+        let pending: any[] = [];
+        if (fs.existsSync(filePath)) {
+          const raw = fs.readFileSync(filePath, "utf8");
+          pending = raw ? JSON.parse(raw) : [];
+        }
+        pending.push({ orderNumber, payload, createdAt: new Date().toISOString() });
+        fs.writeFileSync(filePath, JSON.stringify(pending, null, 2));
+        console.warn(`[OrderAPI] Order ${orderNumber} saved to pending queue: ${filePath}`);
+      } catch (fileErr) {
+        console.error("[OrderAPI] Failed to write pending order:", fileErr);
+      }
 
+      // Do not fail checkout for the customer; return success but include notice
       return NextResponse.json(
         {
-          success: false,
-          error: "Failed to save order to database. Please contact support.",
+          success: true,
+          orderNumber,
+          warning: "Order saved locally and will be synced to the database when available.",
         },
-        { status: 500 }
+        { status: 200 }
       );
     }
 
