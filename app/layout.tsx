@@ -1,0 +1,39 @@
+import type { Metadata } from "next";
+import { CartProvider } from "@/app/context/CartContext";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import "@/app/globals.css";
+
+export const metadata: Metadata = {
+  title: "Apex Labs Australia - Research-Grade Peptides",
+  description:
+    "Premium, research-grade peptides from Australia. Third-party tested. Pharmaceutical precision. Highest purity standards.",
+  keywords:
+    "peptides, research, Australian, BPC-157, TB-500, Ipamorelin, CJC-1295",
+  openGraph: {
+    type: "website",
+    locale: "en_AU",
+    url: "https://apexlabs.com.au",
+    siteName: "Apex Labs Australia",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-white text-slate-900 antialiased">
+        <CartProvider>
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+        </CartProvider>
+      </body>
+    </html>
+  );
+}

@@ -1,0 +1,21 @@
+// Cart types
+export interface CartItem {
+  id: string;
+  productId: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
+export interface Cart {
+  items: CartItem[];
+  total: number;
+}
+
+// UI types
+export interface NavLink {
+  name: string;
+  href: string;
+}
+

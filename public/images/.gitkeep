@@ -1,0 +1,11 @@
+# Place product images here
+
+This directory should contain product images with names like:
+- bpc-157.jpg
+- tb-500.jpg
+- ipamorelin.jpg
+- cjc-1295.jpg
+
+Each image file will be automatically detected and turned into a product at build time.
+
+See README.md for detailed setup instructions.
