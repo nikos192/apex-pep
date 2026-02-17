@@ -4,6 +4,8 @@ import AdminHeader from "@/components/AdminHeader";
 import OrderDetailCard from "@/components/OrderDetailCard";
 import StatusUpdateForm from "@/components/StatusUpdateForm";
 
+export const dynamic = "force-dynamic";
+
 interface Order {
   id: string;
   order_number: string;

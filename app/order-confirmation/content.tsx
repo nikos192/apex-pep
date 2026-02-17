@@ -10,6 +10,7 @@ import type { OrderPayload } from "@/lib/order";
 
 interface OrderData extends OrderPayload {
   orderNumber: string;
+  warnings?: string[];
 }
 
 export default function OrderConfirmationContent() {

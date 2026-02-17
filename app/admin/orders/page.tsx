@@ -3,6 +3,8 @@ import Link from "next/link";
 import AdminHeader from "@/components/AdminHeader";
 import OrdersTable from "@/components/OrdersTable";
 
+export const dynamic = "force-dynamic";
+
 interface Order {
   id: string;
   order_number: string;
