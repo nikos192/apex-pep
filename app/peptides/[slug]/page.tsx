@@ -48,30 +48,30 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   return (
     <div className="w-full">
       {/* Breadcrumb */}
-      <div className="border-b border-slate-200 bg-slate-50">
-        <div className="container-custom py-4">
+      <div className="border-b border-brand-100 bg-white">
+        <div className="container-custom py-4 animate-fade-in">
           <div className="flex items-center gap-2 text-sm">
-            <Link href="/" className="text-slate-600 hover:text-slate-900">
+            <Link href="/" className="text-brand-600 hover:text-brand-primary transition-colors">
               Home
             </Link>
-            <span className="text-slate-400">/</span>
-            <Link href="/peptides" className="text-slate-600 hover:text-slate-900">
+            <span className="text-brand-300">/</span>
+            <Link href="/peptides" className="text-brand-600 hover:text-brand-primary transition-colors">
               Peptides
             </Link>
-            <span className="text-slate-400">/</span>
-            <span className="font-medium text-slate-900">{product.name}</span>
+            <span className="text-brand-300">/</span>
+            <span className="font-bold text-brand-900">{product.name}</span>
           </div>
         </div>
       </div>
 
       {/* Product Detail Section */}
       <section className="section-padding container-custom">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start animate-fade-in">
           {/* Product Image */}
-          <div className="flex items-center justify-center">
-            <div className="w-full aspect-square overflow-hidden rounded-lg bg-slate-50 border border-slate-200 shadow-sm relative">
+          <div className="flex items-center justify-center sticky top-24">
+            <div className="w-full max-w-md aspect-square overflow-hidden rounded-xl bg-brand-50 border border-brand-100 shadow-card relative">
               {hasDiscount && (
-                <div className="absolute top-4 right-4 z-10 bg-red-500 text-white px-4 py-2 rounded-full font-bold text-sm">
+                <div className="absolute top-4 right-4 z-10 bg-brand-primary text-white px-4 py-2 rounded-full font-bold text-sm">
                   Save {discountPercent}%
                 </div>
               )}
@@ -86,53 +86,53 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           </div>
 
           {/* Product Info */}
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-start">
             {/* Badge */}
-            <div className="inline-block w-fit px-3 py-1 bg-slate-100 text-xs font-semibold text-slate-700 rounded mb-4">
+            <div className="inline-block w-fit px-3 py-1 bg-brand-100 text-xs font-bold text-brand-primary rounded-full mb-5">
               {product.badge}
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-brand-900 mb-6 leading-tight">
               {product.name}
             </h1>
 
             {/* Price */}
-            <div className="mb-6">
+            <div className="mb-8 pb-8 border-b border-brand-100">
               {hasDiscount ? (
                 <div className="flex items-center gap-4">
-                  <span className="text-4xl font-bold text-slate-900">
+                  <span className="text-5xl font-bold text-brand-900">
                     {formatAUD(product.salePrice!)}
                   </span>
-                  <span className="text-xl text-slate-500 line-through">
+                  <span className="text-2xl text-brand-400 line-through">
                     {formatAUD(product.regularPrice)}
                   </span>
                 </div>
               ) : (
-                <p className="text-4xl font-bold text-slate-900">
+                <p className="text-5xl font-bold text-brand-900">
                   {formatAUD(product.regularPrice)}
                 </p>
               )}
               {product.dosageForm && (
-                <p className="text-sm text-slate-600 mt-2">{product.dosageForm}</p>
+                <p className="text-sm text-brand-600 mt-3 font-medium">{product.dosageForm}</p>
               )}
             </div>
 
             {/* Quick Description */}
-            <p className="text-slate-700 mb-8 leading-relaxed text-sm">
+            <p className="text-brand-700 mb-8 leading-relaxed text-base">
               {product.description.substring(0, 200)}...
             </p>
 
             {/* Key Points */}
             {product.bullets.length > 0 && (
-              <div className="mb-8 bg-slate-50 border border-slate-200 rounded-lg p-4">
-                <h3 className="font-semibold text-slate-900 mb-3 text-sm">
+              <div className="mb-8 bg-brand-50 border border-brand-100 rounded-lg p-5">
+                <h3 className="font-bold text-brand-900 mb-4 text-sm">
                   Research Applications
                 </h3>
-                <ul className="space-y-2">
+                <ul className="space-y-2.5">
                   {product.bullets.map((bullet, idx) => (
-                    <li key={idx} className="flex gap-2 text-sm text-slate-700">
-                      <span className="text-slate-400 font-bold">•</span>
+                    <li key={idx} className="flex gap-3 text-sm text-brand-700">
+                      <span className="text-brand-primary font-bold flex-shrink-0">✓</span>
                       {bullet}
                     </li>
                   ))}
@@ -144,8 +144,8 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             <AddToCartButton product={product} />
 
             {/* Research Disclaimer */}
-            <div className="mt-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-              <p className="text-xs text-amber-900">
+            <div className="mt-8 p-5 bg-brand-50 border border-brand-200 rounded-lg">
+              <p className="text-xs text-brand-700 leading-relaxed">
                 <strong>Research Use Only:</strong> This product is for laboratory research only. Not for human consumption. Not intended to diagnose, treat, cure, or prevent any disease.
               </p>
             </div>
@@ -154,25 +154,25 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
       </section>
 
       {/* Details Section */}
-      <section className="section-padding container-custom bg-slate-50 border-y border-slate-200">
-        <h2 className="text-3xl font-bold text-slate-900 mb-8">Product Information</h2>
+      <section className="section-padding container-custom bg-gradient-to-b from-brand-50 to-white border-y border-brand-100 animate-fade-in">
+        <h2 className="text-4xl font-bold text-brand-900 mb-10">Product Information</h2>
         <Accordion
           items={[
             {
               title: "Full Description",
               defaultOpen: true,
               children: (
-                <div className="space-y-4">
-                  <p>{product.description}</p>
+                <div className="space-y-4 text-brand-700">
+                  <p className="leading-relaxed">{product.description}</p>
                   {product.bullets.length > 0 && (
                     <div>
-                      <h4 className="font-semibold text-slate-900 mb-3">
+                      <h4 className="font-bold text-brand-900 mb-3">
                         Commonly Studied For:
                       </h4>
-                      <ul className="space-y-2">
+                      <ul className="space-y-2.5">
                         {product.bullets.map((bullet, idx) => (
-                          <li key={idx} className="flex gap-2">
-                            <span className="text-slate-400 font-bold">•</span>
+                          <li key={idx} className="flex gap-3">
+                            <span className="text-brand-primary font-bold flex-shrink-0">•</span>
                             {bullet}
                           </li>
                         ))}
@@ -184,18 +184,18 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             },
             {
               title: "Storage & Handling",
-              children: <p>{product.storage}</p>,
+              children: <p className="text-brand-700 leading-relaxed">{product.storage}</p>,
             },
             {
               title: "Shipping Information",
-              children: <p>{product.shipping}</p>,
+              children: <p className="text-brand-700 leading-relaxed">{product.shipping}</p>,
             },
             {
               title: "Research Use Disclaimer",
               children: (
-                <div className="space-y-3 text-sm">
+                <div className="space-y-3 text-sm text-brand-700 leading-relaxed">
                   <p>
-                    <strong>
+                    <strong className="text-brand-900">
                       This product is intended for research use only in laboratory settings.
                     </strong>
                   </p>
@@ -217,11 +217,13 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
       {/* Related Products */}
       {relatedProducts.length > 0 && (
-        <section className="section-padding container-custom">
-          <h2 className="text-3xl font-bold text-slate-900 mb-8">Related Products</h2>
+        <section className="section-padding container-custom animate-slide-up">
+          <h2 className="text-4xl font-bold text-brand-900 mb-10">Related Products</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {relatedProducts.map((relProduct) => (
-              <ProductCard key={relProduct.slug} product={relProduct} />
+            {relatedProducts.map((relProduct, idx) => (
+              <div key={relProduct.slug} style={{ animationDelay: `${idx * 100}ms` }}>
+                <ProductCard product={relProduct} />
+              </div>
             ))}
           </div>
         </section>

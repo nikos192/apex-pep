@@ -17,22 +17,23 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Link href={`/peptides/${product.slug}`}>
-      <div className="group cursor-pointer h-full">
-        <div className="relative mb-4 overflow-hidden rounded-lg bg-slate-50 border border-slate-200 shadow-sm hover:shadow-lg transition-all duration-300">
+      <div className="group cursor-pointer h-full flex flex-col animate-fade-in">
+        {/* Product Image Container */}
+        <div className="relative mb-5 overflow-hidden rounded-xl bg-brand-50 border border-brand-100 shadow-card hover-lift flex-1">
           {/* Discount Badge */}
           {hasDiscount && (
-            <div className="absolute top-3 right-3 z-10 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-              -{discountPercent}%
+            <div className="absolute top-4 right-4 z-10 bg-brand-primary text-white text-sm font-bold px-3 py-1.5 rounded-full animate-scale-in">
+              Save {discountPercent}%
             </div>
           )}
 
           {/* Image */}
-          <div className="relative w-full aspect-square overflow-hidden bg-slate-100">
+          <div className="relative w-full aspect-square overflow-hidden bg-brand-100">
             <Image
               src={product.image}
               alt={product.name}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
               onError={(e) => {
                 const img = e.target as HTMLImageElement;
                 img.src = "/images/placeholder.png";
@@ -42,41 +43,41 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Product Info */}
-        <div className="space-y-2">
+        <div className="space-y-3 flex-1 flex flex-col justify-between">
           {/* Badge */}
-          <div className="inline-block px-2 py-1 bg-slate-100 text-xs font-semibold text-slate-700 rounded">
+          <div className="inline-block w-fit px-2.5 py-1 bg-brand-100 text-xs font-semibold text-brand-primary rounded-full">
             {product.badge}
           </div>
 
-          {/* Name */}
-          <h3 className="text-sm font-semibold text-slate-900 group-hover:text-slate-700 transition-colors line-clamp-2">
-            {product.name}
-          </h3>
+          {/* Product Name */}
+          <div>
+            <h3 className="text-lg font-semibold text-brand-900 group-hover:text-brand-primary transition-colors">
+              {product.name}
+            </h3>
+          </div>
 
           {/* Price */}
           <div className="space-y-1">
             {hasDiscount ? (
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-slate-500 line-through">
-                  {formatAUD(product.regularPrice)}
-                </span>
-                <span className="text-lg font-bold text-slate-900">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl font-bold text-brand-900">
                   {formatAUD(product.salePrice!)}
+                </span>
+                <span className="text-sm text-brand-400 line-through">
+                  {formatAUD(product.regularPrice)}
                 </span>
               </div>
             ) : (
-              <p className="text-lg font-bold text-slate-900">
+              <p className="text-2xl font-bold text-brand-900">
                 {formatAUD(product.regularPrice)}
               </p>
             )}
           </div>
 
           {/* CTA */}
-          <div className="pt-2">
-            <span className="inline-block text-xs font-medium text-slate-600 group-hover:text-slate-900 transition-colors">
-              View Details →
-            </span>
-          </div>
+          <button className="w-full mt-4 py-2.5 px-4 bg-brand-primary text-white text-sm font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200 shadow-subtle hover:shadow-card-hover group-hover:translate-y-0 translate-y-1 opacity-90 group-hover:opacity-100">
+            View Details →
+          </button>
         </div>
       </div>
     </Link>

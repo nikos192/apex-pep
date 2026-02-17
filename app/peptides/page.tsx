@@ -10,42 +10,47 @@ export default function PeptidesPage() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="border-b border-slate-200 bg-slate-50">
-        <div className="container-custom py-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+      <section className="border-b border-brand-100 bg-gradient-to-b from-brand-50 to-white">
+        <div className="container-custom py-16 animate-fade-in">
+          <h1 className="text-5xl md:text-6xl font-bold text-brand-900 mb-4">
             Research-Grade Peptides
           </h1>
-          <p className="text-lg text-slate-600 max-w-2xl">
-            Premium purity peptide compounds for laboratory research. All products are for research use only.
+          <p className="text-xl text-brand-600 max-w-3xl leading-relaxed">
+            Premium purity peptide compounds for laboratory research. All products are pharmaceutical-grade and independently tested.
           </p>
         </div>
       </section>
 
       {/* Product Grid */}
       <section className="section-padding container-custom">
-        <div className="mb-8">
-          <p className="text-slate-600">
-            Showing{" "}
-            <span className="font-semibold text-slate-900">{PRODUCTS.length}</span> products
+        <div className="mb-10 animate-fade-in">
+          <p className="text-brand-600 text-lg">
+            <span className="font-bold text-brand-900">{PRODUCTS.length}</span> premium peptide products available
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {PRODUCTS.map((product) => (
-            <ProductCard key={product.slug} product={product} />
+          {PRODUCTS.map((product, idx) => (
+            <div key={product.slug} className="animate-slide-up" style={{ animationDelay: `${(idx % 3) * 100}ms` }}>
+              <ProductCard product={product} />
+            </div>
           ))}
         </div>
       </section>
 
       {/* Disclaimer */}
-      <section className="bg-blue-50 border-t border-blue-200 py-8">
+      <section className="bg-brand-50 border-t border-brand-100 py-12">
         <div className="container-custom">
-          <div className="bg-blue-100 border border-blue-300 rounded-lg p-6">
-            <h3 className="font-semibold text-blue-900 mb-2">Research Use Only</h3>
-            <p className="text-sm text-blue-800">
-              All products are intended for research purposes in qualified laboratory environments only.
-              Not for human consumption. Not intended to diagnose, treat, cure, or prevent any disease.
-            </p>
+          <div className="bg-white border border-brand-200 rounded-xl p-8 shadow-card">
+            <div className="flex items-start gap-4">
+              <span className="text-2xl">📋</span>
+              <div>
+                <h3 className="font-bold text-brand-900 mb-2 text-lg">Research Use Only</h3>
+                <p className="text-brand-600 text-sm leading-relaxed">
+                  All products are intended for research purposes in qualified laboratory environments only. Not for human consumption. Not intended to diagnose, treat, cure, or prevent any disease. Users are responsible for compliance with all applicable laws and regulations in their jurisdiction.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

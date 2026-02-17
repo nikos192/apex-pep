@@ -46,18 +46,18 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
       {/* Drawer */}
       <div
         className={cn(
-          "fixed right-0 top-0 h-screen w-full max-w-sm bg-white z-50",
-          "transform transition-transform duration-300 flex flex-col",
-          "border-l border-slate-200 shadow-lg",
-          isOpen ? "translate-x-0" : "translate-x-full"
+          "fixed right-0 top-0 h-screen w-full max-w-sm z-50",
+          "transform transition-all duration-300 flex flex-col",
+          "bg-white/95 backdrop-blur-xl border-l border-brand-100 shadow-card-hover",
+          isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-200">
-          <h2 className="text-lg font-semibold text-slate-900">Cart</h2>
+        <div className="sticky top-0 flex items-center justify-between p-6 border-b border-brand-100 bg-white/80 backdrop-blur-sm">
+          <h2 className="text-xl font-bold text-brand-900">Shopping Cart</h2>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 transition-colors"
+            className="text-brand-400 hover:text-brand-600 transition-colors p-2 -mr-2"
             aria-label="Close cart"
           >
             <span className="text-2xl leading-none">×</span>
@@ -67,12 +67,12 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         {/* Content */}
         <div className="flex-1 overflow-y-auto px-6 py-4">
           {isEmpty && (
-            <div className="flex flex-col items-center justify-center h-full gap-4">
-              <p className="text-slate-500 text-center">Your cart is empty</p>
+            <div className="flex flex-col items-center justify-center h-full gap-4 animate-fade-in">
+              <p className="text-brand-500 text-center text-lg">Your cart is empty</p>
               <Link
                 href="/peptides"
                 onClick={onClose}
-                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                className="text-brand-primary hover:text-blue-600 text-sm font-semibold transition-colors"
               >
                 Continue shopping
               </Link>
@@ -80,14 +80,14 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           )}
 
           {!isEmpty && (
-            <div className="space-y-4">
+            <div className="space-y-4 animate-fade-in">
               {cart.items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex gap-4 border-b border-slate-100 pb-4"
+                  className="flex gap-4 border-b border-brand-100 pb-4 last:border-0 last:pb-0"
                 >
                   {/* Image */}
-                  <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md bg-slate-50 border border-slate-200">
+                  <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-brand-50 border border-brand-100">
                     <Image
                       src={item.image}
                       alt={item.name}
@@ -100,10 +100,10 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   {/* Details */}
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
-                      <h3 className="text-sm font-medium text-slate-900">
+                      <h3 className="text-sm font-semibold text-brand-900">
                         {item.name}
                       </h3>
-                      <p className="text-xs text-slate-500 mt-0.5">
+                      <p className="text-xs text-brand-600 mt-0.5">
                         {formatPrice(item.price)} each
                       </p>
                     </div>
@@ -122,7 +122,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   {/* Remove */}
                   <button
                     onClick={() => removeItemFromCart(item.productId)}
-                    className="text-slate-400 hover:text-slate-600 transition-colors"
+                    className="text-brand-300 hover:text-brand-600 transition-colors font-bold text-lg"
                     aria-label="Remove item"
                   >
                     ×
@@ -135,27 +135,29 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
         {/* Footer */}
         {!isEmpty && (
-          <div className="border-t border-slate-200 p-6 space-y-4 bg-slate-50">
+          <div className="border-t border-brand-100 p-6 space-y-4 bg-white/80 backdrop-blur-sm">
             {/* Total */}
             <div className="flex justify-between items-baseline">
-              <span className="text-slate-600">Total</span>
-              <span className="text-2xl font-bold text-slate-900">
+              <span className="text-brand-600 font-medium">Subtotal</span>
+              <span className="text-3xl font-bold text-brand-900">
                 {formatPrice(cart.total)}
               </span>
             </div>
+            
+            <p className="text-xs text-brand-500">Shipping & GST calculated at checkout</p>
 
             {/* Buttons */}
             <Link
               href="/checkout"
               onClick={onClose}
-              className="block w-full text-center bg-slate-900 text-white font-medium py-2.5 rounded-lg hover:bg-slate-800 transition-colors"
+              className="block w-full text-center bg-brand-primary text-white font-semibold py-3 rounded-lg hover:bg-blue-600 transition-all duration-200 shadow-subtle hover:shadow-card-hover"
             >
-              Checkout
+              Proceed to Checkout
             </Link>
 
             <button
               onClick={onClose}
-              className="w-full border border-slate-300 text-slate-900 font-medium py-2.5 rounded-lg hover:bg-slate-50 transition-colors"
+              className="w-full border border-brand-200 text-brand-900 font-semibold py-2.5 rounded-lg hover:bg-brand-50 transition-colors"
             >
               Continue Shopping
             </button>
