@@ -35,7 +35,7 @@ export default function HomePage() {
             <Link href="/peptides" className="btn-primary text-sm md:text-base py-3 md:py-4">
               Browse Peptides
             </Link>
-            <a href="#why-us" className="btn-secondary text-sm md:text-base py-3 md:py-4">
+            <a href="#why-us" className="inline-flex items-center justify-center px-4 sm:px-6 py-3 md:py-4 border border-white text-white text-sm md:text-base font-semibold rounded-lg hover:bg-white hover:text-slate-900 transition-all duration-200 min-h-[48px] sm:min-h-[auto]">
               Learn More
             </a>
           </div>
