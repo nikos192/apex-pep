@@ -120,7 +120,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
             {/* Quick Description */}
             <p className="text-brand-700 mb-8 leading-relaxed text-base">
-              {product.description.substring(0, 200)}...
+              {product.description}
             </p>
 
             {/* Key Points */}
