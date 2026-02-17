@@ -460,59 +460,26 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
-
             {/* Shipping Options */}
             <div className="bg-white border border-slate-200 rounded-lg p-4 md:p-8">
               <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-4 md:mb-6">
                 Shipping Method
               </h2>
 
-              <div className="space-y-3">
-                <label className="flex items-start gap-3 md:gap-4 p-3 md:p-4 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
-                  <input
-                    type="radio"
-                    name="shippingOption"
-                    value="standard"
-                    checked={formData.shippingOption === "standard"}
-                    onChange={handleInputChange}
-                    disabled={isLoading}
-                    className="mt-1"
-                  />
-                  <div className="flex-1 min-w-0">
+              <div className="p-3 md:p-4 border border-slate-200 rounded-lg bg-slate-50">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
                     <p className="font-medium text-slate-900 text-sm md:text-base">
                       Standard Shipping
                     </p>
-                    <p className="text-xs md:text-sm text-slate-600">
+                    <p className="text-xs md:text-sm text-slate-600 mt-1">
                       Australia-wide delivery
                     </p>
                   </div>
                   <span className="font-semibold text-slate-900 text-sm md:text-base flex-shrink-0">
                     $20
                   </span>
-                </label>
-
-                <label className="flex items-start gap-3 md:gap-4 p-3 md:p-4 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors">
-                  <input
-                    type="radio"
-                    name="shippingOption"
-                    value="local"
-                    checked={formData.shippingOption === "local"}
-                    onChange={handleInputChange}
-                    disabled={isLoading}
-                    className="mt-1"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-slate-900 text-sm md:text-base">
-                      Local Pickup
-                    </p>
-                    <p className="text-xs md:text-sm text-slate-600">
-                      Brisbane, Queensland
-                    </p>
-                  </div>
-                  <span className="font-semibold text-slate-900 text-sm md:text-base flex-shrink-0">
-                    Free
-                  </span>
-                </label>
+                </div>
               </div>
             </div>
 
