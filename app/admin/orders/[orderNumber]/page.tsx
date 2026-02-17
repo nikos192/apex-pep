@@ -47,12 +47,18 @@ export default async function OrderDetailPage({
     if (fetchError) {
       error = `Order not found: ${fetchError.message}`;
       console.error("[OrderDetail] Supabase error:", fetchError);
+      if (fetchError.details && fetchError.details.includes("getaddrinfo")) {
+        error += " — Check NEXT_PUBLIC_SUPABASE_URL in your environment variables.";
+      }
     } else {
       order = data;
     }
-  } catch (err) {
-    error = "An error occurred while fetching the order";
+  } catch (err: any) {
     console.error("[OrderDetail] Error:", err);
+    error = String(err?.message || err) || "An error occurred while fetching the order";
+    if (error.includes("Missing Supabase environment variables")) {
+      error += " — Ensure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set.";
+    }
   }
 
   // Format date

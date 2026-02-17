@@ -28,12 +28,19 @@ export default async function AdminOrdersPage() {
     if (fetchError) {
       error = `Failed to fetch orders: ${fetchError.message}`;
       console.error("[AdminOrders] Supabase error:", fetchError);
+      // Provide actionable hint
+      if (fetchError.details && fetchError.details.includes("getaddrinfo")) {
+        error += " — Check NEXT_PUBLIC_SUPABASE_URL in your environment variables.";
+      }
     } else {
       orders = data || [];
     }
-  } catch (err) {
-    error = "An error occurred while fetching orders";
+  } catch (err: any) {
     console.error("[AdminOrders] Error:", err);
+    error = String(err?.message || err) || "An error occurred while fetching orders";
+    if (error.includes("Missing Supabase environment variables")) {
+      error += " — Ensure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set.";
+    }
   }
 
   return (
