@@ -1,31 +1,48 @@
 import { PRODUCTS } from "@/lib/catalog";
 import { ProductCard } from "@/components/ProductCard";
+import { ShippingInfo } from "@/components/ShippingInfo";
 
 export const metadata = {
-  title: "Research-Grade Peptides | Apex Labs Australia",
-  description: "Browse our complete catalog of research-grade peptides for laboratory use.",
+  title: "Research Peptides | Apex Labs Australia",
+  description: "Browse our catalog of research peptide compounds for laboratory use.",
 };
 
 export default function PeptidesPage() {
   return (
     <div className="w-full">
-      {/* Hero Section */}
-      <section className="border-b border-brand-200 bg-gradient-to-b from-brand-50 to-white">
-        <div className="container-custom py-16 animate-fade-in">
-          <h1 className="text-5xl md:text-6xl font-bold text-brand-900 mb-4">
-            Research-Grade Peptides
+      {/* Header Section */}
+      <section className="border-b border-slate-200 bg-white">
+        <div className="container-custom py-12 md:py-16 animate-fade-in">
+          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-4">
+            Research Peptides
           </h1>
-          <p className="text-xl text-brand-600 max-w-3xl leading-relaxed">
-            Premium purity peptide compounds for laboratory research. All products are pharmaceutical-grade and independently tested.
+          <p className="text-xl text-slate-600 max-w-3xl leading-relaxed mb-6">
+            Premium research compounds supplied for laboratory use.
           </p>
+          
+          {/* Info Strip */}
+          <div className="flex flex-wrap gap-4 md:gap-6 text-sm text-slate-700">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🇦🇺</span>
+              <span>Australian distribution</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-lg">📦</span>
+              <span>Secure packaging</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🔬</span>
+              <span>Research use only</span>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Product Grid */}
       <section className="section-padding container-custom">
         <div className="mb-10 animate-fade-in">
-          <p className="text-brand-600 text-lg">
-            <span className="font-bold text-brand-900">{PRODUCTS.length}</span> premium peptide products available
+          <p className="text-slate-600 text-sm md:text-base">
+            Showing <span className="font-bold text-slate-900">{PRODUCTS.length}</span> products
           </p>
         </div>
 
@@ -38,15 +55,23 @@ export default function PeptidesPage() {
         </div>
       </section>
 
+      {/* Shipping & Handling */}
+      <section className="section-padding container-custom border-t border-slate-200">
+        <div className="mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Shipping & Handling</h2>
+          <ShippingInfo />
+        </div>
+      </section>
+
       {/* Disclaimer */}
-      <section className="bg-brand-50 border-t border-brand-200 py-12">
+      <section className="bg-slate-50 border-t border-slate-200 py-12">
         <div className="container-custom">
-          <div className="bg-white border border-brand-300 rounded-xl p-8 shadow-card">
+          <div className="bg-white border border-slate-200 rounded-lg p-6 md:p-8">
             <div className="flex items-start gap-4">
-              <span className="text-2xl">📋</span>
+              <span className="text-2xl flex-shrink-0">📋</span>
               <div>
-                <h3 className="font-bold text-brand-900 mb-2 text-lg">Research Use Only</h3>
-                <p className="text-brand-600 text-sm leading-relaxed">
+                <h3 className="font-bold text-slate-900 mb-2 text-lg">Research Use Only</h3>
+                <p className="text-slate-700 text-sm leading-relaxed">
                   All products are intended for research purposes in qualified laboratory environments only. Not for human consumption. Not intended to diagnose, treat, cure, or prevent any disease. Users are responsible for compliance with all applicable laws and regulations in their jurisdiction.
                 </p>
               </div>

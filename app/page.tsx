@@ -71,15 +71,15 @@ export default function HomePage() {
       {/* Why Apex Labs */}
       <section
         id="why-us"
-        className="section-padding bg-gradient-to-b from-slate-50 to-white border-t border-slate-100"
+        className="section-padding bg-white border-t border-slate-200"
       >
         <div className="container-custom">
           <div className="text-center mb-8 md:mb-16 animate-fade-in">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-2 md:mb-3">
-              Why Choose Apex Labs
+              Laboratory Handling Standards
             </h2>
             <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto px-4">
-              Premium quality, trusted standards, and scientific excellence
+              Designed for professional research environments
             </p>
           </div>
 
@@ -87,32 +87,32 @@ export default function HomePage() {
             {[
               {
                 icon: "🔬",
-                title: "High Purity",
-                description: "Pharmaceutical-grade purity standards exceeding 99% for all formulations",
+                title: "Research-Grade Preparation",
+                description: "Manufactured using strict quality-controlled processes suitable for laboratory research applications.",
               },
               {
-                icon: "✓",
-                title: "Third-Party Tested",
-                description: "All products independently certified by accredited laboratories",
+                icon: "📦",
+                title: "Secure Packaging",
+                description: "Products are securely packaged to maintain integrity during storage and transport.",
               },
               {
                 icon: "🇦🇺",
-                title: "Australian Supplier",
-                description: "Locally manufactured and supplied with strict quality control",
+                title: "Australian Distribution",
+                description: "Supplied locally from Australia with rapid delivery to research facilities.",
               },
               {
-                icon: "📋",
-                title: "Research Grade",
-                description: "Precision formulated specifically for research applications",
+                icon: "❄️",
+                title: "Proper Storage",
+                description: "Handled and stored according to laboratory-grade standards to ensure product quality.",
               },
             ].map((item, idx) => (
               <div
                 key={item.title}
-                className="group border border-slate-200 rounded-xl p-6 md:p-8 bg-white hover-lift shadow-card hover:shadow-card-hover animate-scale-in"
+                className="group border border-slate-200 rounded-lg p-6 md:p-8 bg-white hover:shadow-md transition-shadow animate-scale-in"
                 style={{ animationDelay: `${idx * 150}ms` }}
               >
                 <div className="text-4xl md:text-5xl mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
-                <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-2 md:mb-3 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-2 md:mb-3">
                   {item.title}
                 </h3>
                 <p className="text-slate-600 text-sm leading-relaxed">{item.description}</p>
@@ -125,10 +125,10 @@ export default function HomePage() {
       {/* CTA Section */}
       <section className="section-padding container-custom text-center animate-fade-in">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-3 md:mb-4 px-4">
-          Ready to get started?
+          Ready to explore our products?
         </h2>
         <p className="text-base md:text-lg text-slate-600 mb-6 md:mb-10 max-w-2xl mx-auto px-4">
-          Browse our complete collection of research-grade peptides with guaranteed purity and quality.
+          Browse our complete catalog of research peptide compounds.
         </p>
         <Link href="/peptides" className="btn-primary inline-block text-sm md:text-base py-3 md:py-4 px-6 md:px-8">
           Shop Now
