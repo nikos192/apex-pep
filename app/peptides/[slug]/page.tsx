@@ -68,7 +68,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
       <section className="section-padding container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start animate-fade-in">
           {/* Product Image */}
-          <div className="flex items-center justify-center sticky top-24">
+          <div className="flex items-center justify-center sticky top-16 lg:top-24 h-fit">
             <div className="w-full max-w-md aspect-square overflow-hidden rounded-xl bg-brand-100 border border-brand-200 shadow-card relative">
               {hasDiscount && (
                 <div className="absolute top-4 right-4 z-10 bg-brand-primary text-white px-4 py-2 rounded-full font-bold text-sm">
