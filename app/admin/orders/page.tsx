@@ -1,7 +1,7 @@
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import Link from "next/link";
 import AdminHeader from "@/components/AdminHeader";
-import OrdersTable from "@/components/OrdersTable";
+import AdminOrdersClient from "@/components/AdminOrdersClient";
 
 export const dynamic = "force-dynamic";
 
@@ -50,29 +50,7 @@ export default async function AdminOrdersPage() {
       <AdminHeader />
 
       <main className="container-custom py-8">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Orders</h1>
-          <p className="text-slate-600">
-            {orders.length} order{orders.length !== 1 ? "s" : ""} in system
-          </p>
-        </div>
-
-        {/* Error Message */}
-        {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <p className="text-sm text-red-700">{error}</p>
-          </div>
-        )}
-
-        {/* Orders Table */}
-        {orders.length === 0 ? (
-          <div className="bg-white rounded-lg border border-slate-200 p-8 text-center">
-            <p className="text-slate-600">No orders found.</p>
-          </div>
-        ) : (
-          <OrdersTable orders={orders} />
-        )}
+        <AdminOrdersClient />
       </main>
     </div>
   );
