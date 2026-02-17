@@ -14,7 +14,7 @@ export default function AboutPage() {
       </section>
 
       {/* Company Overview */}
-      <section className="section-padding bg-white border-b border-slate-200">
+      <section className="section-padding bg-gradient-to-b from-slate-50 to-white border-b border-slate-200">
         <div className="container-custom">
           <div className="max-w-3xl">
             <h2 className="text-4xl font-bold text-slate-900 mb-6">Our Foundation</h2>
@@ -29,7 +29,7 @@ export default function AboutPage() {
       </section>
 
       {/* Quality Commitment */}
-      <section className="section-padding bg-slate-50 border-b border-slate-200">
+      <section className="section-padding bg-gradient-to-br from-slate-50 via-blue-50 to-slate-25 border-b border-slate-200">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -74,7 +74,7 @@ export default function AboutPage() {
       </section>
 
       {/* Manufacturing & Sourcing */}
-      <section className="section-padding bg-white border-b border-slate-200">
+      <section className="section-padding bg-gradient-to-b from-white to-slate-50 border-b border-slate-200">
         <div className="container-custom">
           <h2 className="text-4xl font-bold text-slate-900 mb-8">Manufacturing & Sourcing</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -107,7 +107,7 @@ export default function AboutPage() {
       </section>
 
       {/* Australian Operations */}
-      <section className="section-padding bg-slate-50 border-b border-slate-200">
+      <section className="section-padding bg-gradient-to-br from-slate-50 to-white border-b border-slate-200">
         <div className="container-custom">
           <h2 className="text-4xl font-bold text-slate-900 mb-8">Australian Operations & Support</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -148,7 +148,7 @@ export default function AboutPage() {
       </section>
 
       {/* Vision */}
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-gradient-to-br from-slate-50 via-blue-50 to-white">
         <div className="container-custom max-w-3xl">
           <h2 className="text-4xl font-bold text-slate-900 mb-6">Our Vision</h2>
           <p className="text-lg text-slate-700 mb-6 leading-relaxed">
