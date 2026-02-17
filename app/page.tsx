@@ -12,7 +12,7 @@ export default function HomePage() {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image */}
         <Image
-          src="/hero/ChatGPT Image Feb 17, 2026, 10_25_01 PM.png"
+          src="/hero/hero-image.png"
           alt="Apex Labs Hero"
           fill
           className="object-cover"
