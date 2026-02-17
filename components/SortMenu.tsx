@@ -28,7 +28,7 @@ export function SortMenu({ currentSort, onSortChange }: SortMenuProps) {
       <select
         id="sort"
         value={currentSort}
-        onChange={(e) => onSortChange(e.target.value)}
+        onChange={(e) => onSortChange(e.target.value as "featured" | "price-asc" | "price-desc" | "name")}
         className={cn(
           "input-field px-3 py-2 text-sm",
           "bg-white appearance-none cursor-pointer"
