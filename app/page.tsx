@@ -54,7 +54,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {featuredProducts.map((product, idx) => (
-              <div key={product.id} className="animate-slide-up" style={{ animationDelay: `${idx * 100}ms` }}>
+              <div key={product.id} className={`animate-slide-up delay-${idx}`}>
                 <ProductCard product={product} />
               </div>
             ))}
@@ -108,8 +108,7 @@ export default function HomePage() {
             ].map((item, idx) => (
               <div
                 key={item.title}
-                className="group border border-slate-200 rounded-lg p-6 md:p-8 bg-white hover:shadow-md transition-shadow animate-scale-in"
-                style={{ animationDelay: `${idx * 150}ms` }}
+                className={`group border border-slate-200 rounded-lg p-6 md:p-8 bg-white hover:shadow-md transition-shadow animate-scale-in delay-${idx}`}
               >
                 <div className="text-4xl md:text-5xl mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
                 <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-2 md:mb-3">

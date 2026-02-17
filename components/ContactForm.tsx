@@ -145,9 +145,10 @@ export function ContactForm() {
         name="company"
         value={formData.company}
         onChange={handleChange}
-        style={{ display: 'none' }}
         tabIndex={-1}
         autoComplete="off"
+        placeholder="Company (leave blank)"
+        className="hidden"
       />
 
       {/* Full Name */}

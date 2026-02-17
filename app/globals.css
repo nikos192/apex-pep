@@ -73,7 +73,7 @@
 
 @layer utilities {
   .text-balance {
-    text-wrap: balance;
+    /* text-wrap: balance; */
   }
 
   .line-clamp-3 {

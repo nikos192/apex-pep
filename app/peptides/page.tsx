@@ -48,7 +48,7 @@ export default function PeptidesPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {PRODUCTS.map((product, idx) => (
-            <div key={product.slug} className="animate-slide-up" style={{ animationDelay: `${(idx % 3) * 100}ms` }}>
+            <div key={product.slug} className={`animate-slide-up delay-${idx % 3}`}>
               <ProductCard product={product} />
             </div>
           ))}

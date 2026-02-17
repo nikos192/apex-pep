@@ -6,6 +6,7 @@ import {
   OrderEmailTemplate,
   CustomerConfirmationEmailTemplate,
 } from "@/lib/email-templates";
+import { createSupabaseServerClient } from "@/lib/supabaseServer";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const OWNER_EMAIL = process.env.OWNER_EMAIL || "andy@peptideapex.com";
@@ -72,6 +73,45 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           error: "Order created but email notification failed. Contact support.",
+        },
+        { status: 500 }
+      );
+    }
+
+    // Insert order into Supabase
+    const supabase = createSupabaseServerClient();
+    const { error: supabaseError } = await supabase
+      .from("orders")
+      .insert({
+        order_number: orderNumber,
+        email: payload.email,
+        first_name: payload.shipping.firstName,
+        last_name: payload.shipping.lastName,
+        phone: payload.shipping.phone,
+        country: payload.shipping.country,
+        address1: payload.shipping.address1,
+        address2: payload.shipping.address2,
+        suburb: payload.shipping.suburb,
+        state: payload.shipping.state,
+        postcode: payload.shipping.postcode,
+        note: payload.note,
+        payment_method: "bank_transfer",
+        status: "pending",
+        items: payload.items,
+        subtotal: payload.subtotal,
+        shipping: payload.shippingCost,
+        total: payload.total,
+      });
+
+    if (supabaseError) {
+      console.error("[OrderAPI] Supabase insert failed:", {
+        error: supabaseError,
+        orderNumber,
+      });
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Failed to save order to database. Please contact support.",
         },
         { status: 500 }
       );

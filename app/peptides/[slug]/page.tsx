@@ -222,7 +222,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           <h2 className="text-4xl font-bold text-slate-900 mb-10">Related Products</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {relatedProducts.map((relProduct, idx) => (
-              <div key={relProduct.slug} style={{ animationDelay: `${idx * 100}ms` }}>
+              <div key={relProduct.slug} className={`animate-slide-up delay-${idx}`}>
                 <ProductCard product={relProduct} />
               </div>
             ))}
