@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import { CartProvider } from "@/app/context/CartContext";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import "@/app/globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
   title: "Apex Labs Australia - Research-Grade Peptides",
@@ -25,7 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-white text-slate-900 antialiased">
+      <body className={`${inter.className} bg-white text-slate-900 antialiased`}>
         <CartProvider>
           <div className="flex flex-col min-h-screen">
             <Header />
