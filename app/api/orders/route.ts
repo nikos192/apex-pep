@@ -56,28 +56,32 @@ export async function POST(request: NextRequest) {
       orderDate,
     });
 
-    // Send owner notification email
-    const ownerEmailResponse = await resend.emails.send({
-      from: "Apex Labs <onboarding@resend.dev>",
-      to: OWNER_EMAIL,
-      subject: `New Order ${orderNumber} - ${SHOP_NAME}`,
-      html: ownerEmailHtml,
-      replyTo: payload.email,
-    });
-
-    if (ownerEmailResponse.error) {
-      console.error("[OrderAPI] Owner email failed:", {
-        error: ownerEmailResponse.error,
+    // Send owner notification email. If this fails, log and continue
+    // so the order is still recorded; include a warning in the response.
+    let ownerEmailFailed = false;
+    let ownerEmailError: any = null;
+    try {
+      const ownerEmailResponse = await resend.emails.send({
+        from: "Apex Labs <onboarding@resend.dev>",
         to: OWNER_EMAIL,
-        orderNumber,
+        subject: `New Order ${orderNumber} - ${SHOP_NAME}`,
+        html: ownerEmailHtml,
+        replyTo: payload.email,
       });
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Order created but email notification failed. Contact support.",
-        },
-        { status: 500 }
-      );
+
+      if (ownerEmailResponse?.error) {
+        ownerEmailFailed = true;
+        ownerEmailError = ownerEmailResponse.error;
+        console.error("[OrderAPI] Owner email failed:", {
+          error: ownerEmailResponse.error,
+          to: OWNER_EMAIL,
+          orderNumber,
+        });
+      }
+    } catch (err) {
+      ownerEmailFailed = true;
+      ownerEmailError = err;
+      console.error("[OrderAPI] Owner email threw error:", err);
     }
 
     // Insert order into Supabase
@@ -140,12 +144,17 @@ export async function POST(request: NextRequest) {
         console.error("[OrderAPI] Failed to write pending order:", fileErr);
       }
 
-      // Do not fail checkout for the customer; return success but include notice
+      // Do not fail checkout for the customer; return success but include notices
+      const warnings: string[] = [];
+      warnings.push("Order saved locally and will be synced to the database when available.");
+      if (ownerEmailFailed) {
+        warnings.push("Owner notification email failed to send.");
+      }
       return NextResponse.json(
         {
           success: true,
           orderNumber,
-          warning: "Order saved locally and will be synced to the database when available.",
+          warnings,
         },
         { status: 200 }
       );
@@ -167,14 +176,20 @@ export async function POST(request: NextRequest) {
       // Don't fail the order if customer email fails
     }
 
-    // Return success response with order number
-    return NextResponse.json(
-      {
-        success: true,
-        orderNumber,
-      },
-      { status: 200 }
-    );
+    // Return success response with order number. If owner email failed,
+    // include a warning so admins know to check notifications.
+    if (ownerEmailFailed) {
+      return NextResponse.json(
+        {
+          success: true,
+          orderNumber,
+          warnings: ["Owner notification email failed to send."],
+        },
+        { status: 200 }
+      );
+    }
+
+    return NextResponse.json({ success: true, orderNumber }, { status: 200 });
   } catch (error) {
     console.error("[OrderAPI] Unexpected error:", error);
     return NextResponse.json(
