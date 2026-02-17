@@ -17,8 +17,8 @@ export function Footer() {
             <div className="space-y-2 text-sm">
               <p>
                 <span className="text-slate-600">Email:</span>{" "}
-                <a href="mailto:andy@peptideapex" className="text-blue-600 hover:text-blue-700">
-                  andy@peptideapex
+                <a href="mailto:andy@peptideapex.com" className="text-blue-600 hover:text-blue-700">
+                  andy@peptideapex.com
                 </a>
               </p>
               <p>

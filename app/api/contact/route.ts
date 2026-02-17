@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const contactTo = process.env.CONTACT_TO_EMAIL || 'nikos_192837@outlook.com';
+    const contactTo = process.env.CONTACT_TO_EMAIL || 'andy@peptideapex.com';
     const timestamp = new Date().toLocaleString('en-AU', {
       timeZone: 'Australia/Melbourne',
     });

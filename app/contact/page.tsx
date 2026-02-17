@@ -45,10 +45,10 @@ export default function ContactPage() {
               </div>
               <h3 className="text-lg font-semibold text-slate-900 mb-2">Email</h3>
               <a
-                href="mailto:andy@peptideapex"
+                href="mailto:andy@peptideapex.com"
                 className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
               >
-                andy@peptideapex
+                andy@peptideapex.com
               </a>
             </div>
 

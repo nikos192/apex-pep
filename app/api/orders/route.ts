@@ -8,7 +8,7 @@ import {
 } from "@/lib/email-templates";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const OWNER_EMAIL = process.env.OWNER_EMAIL || "nikos_192837@outlook.com";
+const OWNER_EMAIL = process.env.OWNER_EMAIL || "andy@peptideapex.com";
 const SHOP_NAME = "Apex Labs Australia";
 
 export async function POST(request: NextRequest) {

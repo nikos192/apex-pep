@@ -109,7 +109,7 @@ export function ContactForm() {
       setTimeout(() => setSuccess(false), 5000);
     } catch (err) {
       setError(
-        'Failed to send message. Please try emailing us directly at andy@peptideapex or contacting us on Telegram.'
+        'Failed to send message. Please try emailing us directly at andy@peptideapex.com or contacting us on Telegram.'
       );
       console.error('Form submission error:', err);
     } finally {
