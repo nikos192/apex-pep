@@ -31,6 +31,9 @@ export default function StatusUpdateForm({
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
+        // ensure cookies are sent and we bypass any browser cache for immediate consistency
+        credentials: "same-origin",
+        cache: "no-store",
       });
 
       const data = await response.json();

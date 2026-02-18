@@ -23,7 +23,11 @@ export default function AdminOrdersClient() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin/orders-list");
+      const res = await fetch("/api/admin/orders-list", {
+        // ensure cookies are sent for authentication and bypass any client cache
+        credentials: "same-origin",
+        cache: "no-store",
+      });
       const json = await res.json();
       if (!res.ok) {
         setError(json?.error || "Failed to load orders");
