@@ -18,13 +18,19 @@ export async function PATCH(
     // Verify admin session
     const token = request.cookies.get("admin_session")?.value;
     if (!token) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401, headers: { "Cache-Control": "no-store" } }
+      );
     }
 
     try {
       await jwtVerify(token, secret);
     } catch (err) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401, headers: { "Cache-Control": "no-store" } }
+      );
     }
 
     const body = await request.json();
@@ -33,7 +39,7 @@ export async function PATCH(
     if (!status || !ALLOWED_STATUSES.includes(status)) {
       return NextResponse.json(
         { error: `Invalid status. Must be one of: ${ALLOWED_STATUSES.join(", ")}` },
-        { status: 400 }
+        { status: 400, headers: { "Cache-Control": "no-store" } }
       );
     }
 
@@ -48,7 +54,7 @@ export async function PATCH(
       console.error("[UpdateStatus] Supabase error:", updateError);
       return NextResponse.json(
         { error: "Failed to update order status" },
-        { status: 500 }
+        { status: 500, headers: { "Cache-Control": "no-store" } }
       );
     }
 
@@ -62,10 +68,16 @@ export async function PATCH(
     if (fetchError) {
       console.error("[UpdateStatus] Fetch updated order error:", fetchError);
       // Still return success but without order payload
-      return NextResponse.json({ success: true, status }, { status: 200 });
+      return NextResponse.json(
+        { success: true, status },
+        { status: 200, headers: { "Cache-Control": "no-store" } }
+      );
     }
 
-    return NextResponse.json({ success: true, status, order: updatedOrder }, { status: 200 });
+    return NextResponse.json(
+      { success: true, status, order: updatedOrder },
+      { status: 200, headers: { "Cache-Control": "no-store" } }
+    );
   } catch (error) {
     console.error("[UpdateStatus] Error:", error);
     return NextResponse.json(

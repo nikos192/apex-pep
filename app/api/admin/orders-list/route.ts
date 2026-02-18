@@ -28,10 +28,16 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error("[AdminOrdersList] Supabase error:", error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json(
+        { error: error.message },
+        { status: 500, headers: { "Cache-Control": "no-store" } }
+      );
     }
 
-    return NextResponse.json({ orders: data || [] }, { status: 200 });
+    return NextResponse.json(
+      { orders: data || [] },
+      { status: 200, headers: { "Cache-Control": "no-store" } }
+    );
   } catch (err: any) {
     console.error("[AdminOrdersList] Error:", err);
     return NextResponse.json({ error: String(err?.message || err) }, { status: 500 });
