@@ -46,11 +46,12 @@ export default function StatusUpdateForm({
 
       setSuccess("Order status updated successfully");
       setIsLoading(false);
-      // Dispatch a global event so client lists can refresh immediately
+      // Dispatch a global event so client lists can refresh immediately.
+      // Include the updated order when available so listeners can update optimistically.
       try {
         if (typeof window !== "undefined") {
           window.dispatchEvent(
-            new CustomEvent("order-updated", { detail: { orderNumber, status } })
+            new CustomEvent("order-updated", { detail: { orderNumber, status, order: data.order } })
           );
         }
       } catch (e) {

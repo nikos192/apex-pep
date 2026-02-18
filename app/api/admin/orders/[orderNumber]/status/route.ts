@@ -52,7 +52,20 @@ export async function PATCH(
       );
     }
 
-    return NextResponse.json({ success: true, status });
+    // Re-fetch the updated order to return to the client for immediate UI sync
+    const { data: updatedOrder, error: fetchError } = await supabase
+      .from("orders")
+      .select("*")
+      .eq("order_number", params.orderNumber)
+      .single();
+
+    if (fetchError) {
+      console.error("[UpdateStatus] Fetch updated order error:", fetchError);
+      // Still return success but without order payload
+      return NextResponse.json({ success: true, status }, { status: 200 });
+    }
+
+    return NextResponse.json({ success: true, status, order: updatedOrder }, { status: 200 });
   } catch (error) {
     console.error("[UpdateStatus] Error:", error);
     return NextResponse.json(
