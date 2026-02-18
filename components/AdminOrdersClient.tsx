@@ -92,8 +92,10 @@ export default function AdminOrdersClient() {
     // Read any localStorage fallback written before navigation
     try {
       const stored = localStorage.getItem("order-updated");
+      console.log("AdminOrdersClient: read localStorage order-updated", stored);
       if (stored) {
         const parsed = JSON.parse(stored);
+        console.log("AdminOrdersClient: parsed stored update", parsed);
         if (parsed?.order) {
           applyUpdatedOrder(parsed.order);
         }
@@ -158,7 +160,12 @@ export default function AdminOrdersClient() {
         </div>
       ) : (
         <OrdersTable orders={orders} />
-      )}
-    </div>
-  );
-}
+        bc.onmessage = (ev) => {
+          console.log("AdminOrdersClient: BroadcastChannel message received", ev.data);
+          try {
+            applyUpdatedOrder(ev.data?.order);
+          } catch (err) {
+            console.error("BroadcastChannel handler error:", err);
+            fetchOrders();
+          }
+        };

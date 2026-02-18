@@ -62,6 +62,7 @@ export default function StatusUpdateForm({
       try {
         if (typeof window !== "undefined") {
           // localStorage fallback (read by orders list on mount)
+          console.log("StatusUpdateForm: writing order-updated to localStorage", orderNumber, status, data?.order?.status);
           localStorage.setItem(
             "order-updated",
             JSON.stringify({ orderNumber, status, order: data.order })
@@ -70,6 +71,7 @@ export default function StatusUpdateForm({
           // BroadcastChannel for same-origin tabs/pages
           try {
             const bc = new BroadcastChannel("orders");
+            console.log("StatusUpdateForm: posting BroadcastChannel message", orderNumber, status);
             bc.postMessage({ orderNumber, status, order: data.order });
             bc.close();
           } catch (e) {
