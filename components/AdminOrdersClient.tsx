@@ -49,7 +49,25 @@ export default function AdminOrdersClient() {
     intervalRef.current = window.setInterval(fetchOrders, 10000);
     // Listen for status updates and refresh immediately
     const handler = (e: any) => {
-      fetchOrders();
+      try {
+        // If the event includes the updated order, patch local state immediately for snappy UI
+        const updatedOrder = e?.detail?.order;
+        const updatedStatus = e?.detail?.status;
+        const updatedOrderNumber = e?.detail?.orderNumber;
+        if (updatedOrder) {
+          setOrders((prev) =>
+            prev.map((o) => (o.order_number === updatedOrder.order_number ? updatedOrder : o))
+          );
+          console.log("AdminOrdersClient: applied updated order from event", updatedOrder.order_number, updatedOrder.status);
+          return;
+        }
+
+        // Fallback: re-fetch list
+        fetchOrders();
+      } catch (err) {
+        console.error("AdminOrdersClient event handler error:", err);
+        fetchOrders();
+      }
     };
     window.addEventListener("order-updated", handler);
 
