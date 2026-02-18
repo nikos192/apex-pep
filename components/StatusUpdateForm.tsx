@@ -58,8 +58,8 @@ export default function StatusUpdateForm({
         // ignore
       }
 
-      // Refresh server-side data immediately
-      router.refresh();
+      // Navigate back to orders list so the admin sees the updated list
+      router.push("/admin/orders");
     } catch (err) {
       setError("An error occurred while updating status");
       setIsLoading(false);
