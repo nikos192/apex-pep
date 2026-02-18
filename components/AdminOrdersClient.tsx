@@ -19,6 +19,8 @@ export default function AdminOrdersClient() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const intervalRef = useRef<number | null>(null);
+  // keep a short-lived map of recent updates so fetches don't overwrite optimistic changes
+  const recentUpdatesRef = useRef<Record<string, any>>({});
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -34,7 +36,20 @@ export default function AdminOrdersClient() {
         setError(json?.error || "Failed to load orders");
         setOrders([]);
       } else {
-        setOrders(json.orders || []);
+        let fetched = json.orders || [];
+        // re-apply any recent optimistic updates so UI doesn't flip back
+        try {
+          const recent = recentUpdatesRef.current || {};
+          if (Object.keys(recent).length > 0) {
+            fetched = fetched.map((o: any) =>
+              recent[o.order_number] ? { ...o, ...recent[o.order_number] } : o
+            );
+          }
+        } catch (e) {
+          // ignore
+        }
+
+        setOrders(fetched);
       }
     } catch (err: any) {
       setError(String(err?.message || err));
@@ -52,6 +67,22 @@ export default function AdminOrdersClient() {
     // Handler to apply an updated order payload
     const applyUpdatedOrder = (updatedOrder: any) => {
       if (!updatedOrder) return;
+      // record recent update to avoid being overwritten by a subsequent fetch
+      try {
+        recentUpdatesRef.current = {
+          ...recentUpdatesRef.current,
+          [updatedOrder.order_number]: updatedOrder,
+        };
+        // prune entries older than ~60s
+        const now = Date.now();
+        Object.keys(recentUpdatesRef.current).forEach((k) => {
+          const entry = recentUpdatesRef.current[k];
+          const ts = new Date(entry.updated_at || now).getTime();
+          if (now - ts > 60 * 1000) delete recentUpdatesRef.current[k];
+        });
+      } catch (e) {
+        // ignore
+      }
       setOrders((prev) =>
         prev.map((o) => (o.order_number === updatedOrder.order_number ? { ...o, ...updatedOrder } : o))
       );
