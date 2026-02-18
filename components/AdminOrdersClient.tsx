@@ -47,23 +47,25 @@ export default function AdminOrdersClient() {
     fetchOrders();
     // Poll every 10 seconds
     intervalRef.current = window.setInterval(fetchOrders, 10000);
-    // Listen for status updates and refresh immediately
+
+    // Handler to apply an updated order payload
+    const applyUpdatedOrder = (updatedOrder: any) => {
+      if (!updatedOrder) return;
+      setOrders((prev) =>
+        prev.map((o) => (o.order_number === updatedOrder.order_number ? { ...o, ...updatedOrder } : o))
+      );
+      console.log("AdminOrdersClient: applied updated order", updatedOrder.order_number, updatedOrder.status);
+    };
+
+    // Listen for CustomEvent dispatched in-page
     const handler = (e: any) => {
       try {
-        // If the event includes the updated order, patch local state immediately for snappy UI
         const updatedOrder = e?.detail?.order;
-        const updatedStatus = e?.detail?.status;
-        const updatedOrderNumber = e?.detail?.orderNumber;
         if (updatedOrder) {
-          setOrders((prev) =>
-            prev.map((o) => (o.order_number === updatedOrder.order_number ? updatedOrder : o))
-          );
-          console.log("AdminOrdersClient: applied updated order from event", updatedOrder.order_number, updatedOrder.status);
-          return;
+          applyUpdatedOrder(updatedOrder);
+        } else {
+          fetchOrders();
         }
-
-        // Fallback: re-fetch list
-        fetchOrders();
       } catch (err) {
         console.error("AdminOrdersClient event handler error:", err);
         fetchOrders();
@@ -71,9 +73,58 @@ export default function AdminOrdersClient() {
     };
     window.addEventListener("order-updated", handler);
 
+    // Listen for BroadcastChannel messages from other tabs/pages
+    let bc: BroadcastChannel | null = null;
+    try {
+      bc = new BroadcastChannel("orders");
+      bc.onmessage = (ev) => {
+        try {
+          applyUpdatedOrder(ev.data?.order);
+        } catch (err) {
+          console.error("BroadcastChannel handler error:", err);
+          fetchOrders();
+        }
+      };
+    } catch (e) {
+      // ignore if unsupported
+    }
+
+    // Read any localStorage fallback written before navigation
+    try {
+      const stored = localStorage.getItem("order-updated");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.order) {
+          applyUpdatedOrder(parsed.order);
+        }
+        // remove after reading
+        localStorage.removeItem("order-updated");
+      }
+    } catch (e) {
+      // ignore
+    }
+
+    // Also listen to storage events (other tabs)
+    const storageHandler = (e: StorageEvent) => {
+      if (e.key === "order-updated" && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          if (parsed?.order) applyUpdatedOrder(parsed.order);
+        } catch (err) {
+          console.error("storage event handler error:", err);
+          fetchOrders();
+        }
+      }
+    };
+    window.addEventListener("storage", storageHandler);
+
     return () => {
       if (intervalRef.current) window.clearInterval(intervalRef.current);
       window.removeEventListener("order-updated", handler);
+      window.removeEventListener("storage", storageHandler);
+      if (bc) {
+        bc.close();
+      }
     };
   }, []);
 

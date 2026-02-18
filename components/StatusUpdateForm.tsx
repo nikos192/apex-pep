@@ -58,6 +58,28 @@ export default function StatusUpdateForm({
         // ignore
       }
 
+      // Broadcast the updated order so other pages/tabs can sync immediately
+      try {
+        if (typeof window !== "undefined") {
+          // localStorage fallback (read by orders list on mount)
+          localStorage.setItem(
+            "order-updated",
+            JSON.stringify({ orderNumber, status, order: data.order })
+          );
+
+          // BroadcastChannel for same-origin tabs/pages
+          try {
+            const bc = new BroadcastChannel("orders");
+            bc.postMessage({ orderNumber, status, order: data.order });
+            bc.close();
+          } catch (e) {
+            // ignore if BroadcastChannel unsupported
+          }
+        }
+      } catch (e) {
+        // ignore storage errors
+      }
+
       // Navigate back to orders list so the admin sees the updated list
       router.push("/admin/orders");
     } catch (err) {
