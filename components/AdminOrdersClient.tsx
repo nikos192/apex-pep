@@ -160,12 +160,8 @@ export default function AdminOrdersClient() {
         </div>
       ) : (
         <OrdersTable orders={orders} />
-        bc.onmessage = (ev) => {
-          console.log("AdminOrdersClient: BroadcastChannel message received", ev.data);
-          try {
-            applyUpdatedOrder(ev.data?.order);
-          } catch (err) {
-            console.error("BroadcastChannel handler error:", err);
-            fetchOrders();
-          }
-        };
+      )}
+    </div>
+  );
+}
+ 
