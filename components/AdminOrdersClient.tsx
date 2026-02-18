@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { createClient } from "@supabase/supabase-js";
 import OrdersTable from "@/components/OrdersTable";
 import AdminHeader from "@/components/AdminHeader";
 
@@ -87,6 +88,38 @@ export default function AdminOrdersClient() {
       };
     } catch (e) {
       // ignore if unsupported
+    }
+
+    // Supabase Realtime: subscribe to orders table updates if anon key is available.
+    // This lets the admin list update in real-time when the DB row changes.
+    let supChannel: any = null;
+    try {
+      if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+        );
+
+        supChannel = supabase
+          .channel("orders-realtime")
+          .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table: "orders" },
+            (payload) => {
+              try {
+                // payload.new contains the updated row
+                if (payload?.new) {
+                  applyUpdatedOrder(payload.new);
+                }
+              } catch (err) {
+                console.error("Supabase realtime handler error:", err);
+              }
+            }
+          )
+          .subscribe();
+      }
+    } catch (e) {
+      console.warn("Supabase realtime not enabled:", e);
     }
 
     // Read any localStorage fallback written before navigation
