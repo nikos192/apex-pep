@@ -40,16 +40,62 @@ export default function AdminOrdersClient() {
       } else {
         let fetched = json.orders || [];
         console.debug("AdminOrdersClient: fetched orders count", fetched.length);
-        // re-apply any recent optimistic updates so UI doesn't flip back
+        // re-apply any recent optimistic/realtime updates so UI doesn't flip back
         try {
           const recent = recentUpdatesRef.current || {};
           if (Object.keys(recent).length > 0) {
-            fetched = fetched.map((o: any) =>
-              recent[o.order_number] ? { ...o, ...recent[o.order_number] } : o
+            // Build quick lookup maps for fetched rows
+            const fetchedById = new Map<string, any>(
+              fetched.map((o: any) => [String(o.id), o])
             );
+            const fetchedByNumber = new Map<string, any>(
+              fetched.map((o: any) => [String(o.order_number), o])
+            );
+
+            // Apply recent updates: update existing rows or prepend new ones
+            Object.values(recent).forEach((upd: any) => {
+              if (!upd) return;
+              const id = upd?.id ? String(upd.id) : null;
+              const num = upd?.order_number;
+
+              if (id && fetchedById.has(id)) {
+                const existing = fetchedById.get(id);
+                const merged = { ...existing, ...upd };
+                fetchedById.set(id, merged);
+                if (existing.order_number) fetchedByNumber.set(existing.order_number, merged);
+              } else if (num && fetchedByNumber.has(num)) {
+                const existing = fetchedByNumber.get(num);
+                const merged = { ...existing, ...upd };
+                fetchedByNumber.set(num, merged);
+                if (merged.id) fetchedById.set(String(merged.id), merged);
+              } else {
+                // new order: add to front
+                fetched.unshift(upd);
+                if (upd.id) fetchedById.set(String(upd.id), upd);
+                if (upd.order_number) fetchedByNumber.set(upd.order_number, upd);
+              }
+            });
+
+            // Deduplicate and prefer merged versions
+            const seen = new Set<string>();
+            const mergedArr: any[] = [];
+            for (const o of fetched) {
+              const id = o?.id ? String(o.id) : null;
+              const key = id ?? o?.order_number;
+              if (!key) {
+                mergedArr.push(o);
+                continue;
+              }
+              if (seen.has(key)) continue;
+              seen.add(key);
+              const final = id && fetchedById.has(id) ? fetchedById.get(id) : (o.order_number && fetchedByNumber.has(o.order_number) ? fetchedByNumber.get(o.order_number) : o);
+              mergedArr.push(final);
+            }
+
+            fetched = mergedArr;
           }
         } catch (e) {
-          // ignore
+          // ignore merge errors
         }
 
         setOrders(fetched);
@@ -77,26 +123,41 @@ export default function AdminOrdersClient() {
     // Handler to apply an updated order payload
     const applyUpdatedOrder = (updatedOrder: any) => {
       if (!updatedOrder) return;
-      // record recent update to avoid being overwritten by a subsequent fetch
+      // choose a stable key for recent updates: prefer order_number, fall back to id
+      const key = updatedOrder.order_number ?? updatedOrder.order_number_text ?? updatedOrder.id;
       try {
         recentUpdatesRef.current = {
           ...recentUpdatesRef.current,
-          [updatedOrder.order_number]: updatedOrder,
+          [key]: updatedOrder,
         };
         // prune entries older than ~60s
         const now = Date.now();
         Object.keys(recentUpdatesRef.current).forEach((k) => {
           const entry = recentUpdatesRef.current[k];
-          const ts = new Date(entry.updated_at || now).getTime();
+          const ts = new Date(entry?.updated_at || now).getTime();
           if (now - ts > 60 * 1000) delete recentUpdatesRef.current[k];
         });
       } catch (e) {
         // ignore
       }
-      setOrders((prev) =>
-        prev.map((o) => (o.order_number === updatedOrder.order_number ? { ...o, ...updatedOrder } : o))
-      );
-      console.log("AdminOrdersClient: applied updated order", updatedOrder.order_number, updatedOrder.status);
+
+      setOrders((prev) => {
+        // if order exists by id -> update, else if exists by order_number -> update, otherwise prepend
+        const byId = prev.find((o) => o.id === updatedOrder.id);
+        if (byId) {
+          return prev.map((o) => (o.id === updatedOrder.id ? { ...o, ...updatedOrder } : o));
+        }
+        const byNumber = updatedOrder.order_number
+          ? prev.find((o) => o.order_number === updatedOrder.order_number)
+          : null;
+        if (byNumber) {
+          return prev.map((o) => (o.order_number === updatedOrder.order_number ? { ...o, ...updatedOrder } : o));
+        }
+        // new order: add to top
+        return [updatedOrder, ...prev];
+      });
+
+      console.log("AdminOrdersClient: applied updated order", key, updatedOrder.status ?? updatedOrder.operation);
     };
 
     // Listen for CustomEvent dispatched in-page
@@ -176,15 +237,32 @@ export default function AdminOrdersClient() {
             "broadcast",
             { event: "orders_broadcast" },
             (payload: any) => {
-              try {
-                console.debug("Supabase broadcast payload:", payload);
-                const p = payload?.payload ?? payload?.data ?? payload;
-                if (p?.action && p?.order) applyUpdatedOrder(p.order);
-                else if (p?.order) applyUpdatedOrder(p.order);
-              } catch (err) {
-                console.error("Supabase broadcast handler error:", err);
+                try {
+                  console.debug("Supabase broadcast payload:", payload);
+                  const p = payload?.payload ?? payload?.data ?? payload;
+
+                  // common shapes:
+                  // { payload: { new: {...}, old: {...}, operation: 'UPDATE' } }
+                  // { payload: { order: {...} } }
+                  // { order: {...} }
+                  let order: any = null;
+                  if (p?.order) order = p.order;
+                  else if (p?.new) order = p.new;
+                  else if (p?.payload && p.payload.new) order = p.payload.new;
+                  else if (p?.payload && p.payload.order) order = p.payload.order;
+                  else if (p?.id && (p?.new || p?.old)) order = p.new ?? p.old;
+                  else if (p?.id && !p.new && !p.order) order = p; // payload may already be the order
+
+                  if (order) {
+                    applyUpdatedOrder(order);
+                  } else {
+                    // as a fallback, refresh the full list
+                    fetchOrders();
+                  }
+                } catch (err) {
+                  console.error("Supabase broadcast handler error:", err);
+                }
               }
-            }
           )
           .subscribe((status: any, err: any) => {
             console.log("Supabase orders channel status:", status);
