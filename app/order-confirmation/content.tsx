@@ -185,6 +185,7 @@ export default function OrderConfirmationContent() {
             subtotal={order.subtotal}
             shipping={order.shippingCost}
             total={order.total}
+            promoDiscount={order.promoDiscount}
           />
 
           {/* Customer Details */}

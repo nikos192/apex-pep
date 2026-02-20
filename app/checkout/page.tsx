@@ -46,7 +46,17 @@ export default function CheckoutPage() {
   // Calculate totals
   const subtotal = cart.total;
   const shippingCost = formData.shippingOption === "standard" ? SHIPPING_COST : 0;
-  const total = subtotal + shippingCost;
+  // Promo code handling
+  const promoCode = (formData.promoCode || "").trim();
+  const promoCodeUpper = promoCode.toUpperCase();
+  const VALID_PROMOS: Record<string, number> = {
+    TAMA: 0.1,
+    SYBO: 0.1,
+  };
+  const promoPercent = VALID_PROMOS[promoCodeUpper] || 0;
+  const promoDiscount = Math.round(subtotal * promoPercent * 100) / 100;
+  const discountedSubtotal = Math.max(0, subtotal - promoDiscount);
+  const total = discountedSubtotal + shippingCost;
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -99,6 +109,7 @@ export default function CheckoutPage() {
         },
         note: formData.note,
         ...(formData.promoCode && { promoCode: formData.promoCode }),
+        ...(promoPercent > 0 && { promoPercent, promoDiscount }),
         paymentMethod: "Direct bank transfer",
         shippingCost,
         items: cart.items,
@@ -563,6 +574,11 @@ export default function CheckoutPage() {
               <p className="text-xs text-slate-600 mt-2">
                 If you have a promotional or discount code, enter it here. It will be recorded with your order.
               </p>
+              {promoCode && promoPercent > 0 ? (
+                <p className="text-sm text-green-700 mt-2">Promo applied: {Math.round(promoPercent * 100)}% off — {formatPrice(promoDiscount)} discount</p>
+              ) : promoCode ? (
+                <p className="text-sm text-red-700 mt-2">Invalid promo code</p>
+              ) : null}
             </div>
             {/* Order Notes */}
             <div className="bg-white border border-slate-200 rounded-lg p-4 md:p-8">
@@ -643,6 +659,12 @@ export default function CheckoutPage() {
                     ${shippingCost}
                   </span>
                 </div>
+                {promoDiscount > 0 && (
+                  <div className="flex justify-between text-xs md:text-sm text-slate-600">
+                    <span>Discount</span>
+                    <span className="font-semibold text-slate-900">-{formatPrice(promoDiscount)}</span>
+                  </div>
+                )}
               </div>
 
               <div className="flex justify-between items-baseline">

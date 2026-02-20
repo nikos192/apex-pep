@@ -25,6 +25,8 @@ export interface OrderPayload {
   shipping: ShippingAddress;
   note: string;
   promoCode?: string;
+  promoPercent?: number;
+  promoDiscount?: number;
   paymentMethod: "Direct bank transfer";
   shippingCost: number;
   items: CartItem[];
