@@ -198,42 +198,76 @@ export default function AdminOrdersClient() {
             });
           } catch (e) {}
 
-          supChannel = supabase
-            .channel("orders:all", { config: { private: true, broadcast: { self: true } } })
-            .on("postgres_changes", { event: "*", schema: "public", table: "orders" }, (payload: any) => {
-              try {
-                if (payload?.new) {
-                  applyUpdatedOrder(payload.new);
-                } else if (payload?.old && !payload?.new) {
-                  applyUpdatedOrder({ ...payload.old, __deleted: true });
+          const makeChannel = (isPrivate: boolean) => {
+            return supabase
+              .channel("orders:all", isPrivate ? { config: { private: true, broadcast: { self: true } } } : { config: { broadcast: { self: true } } })
+              .on("postgres_changes", { event: "*", schema: "public", table: "orders" }, (payload: any) => {
+                try {
+                  if (payload?.new) {
+                    applyUpdatedOrder(payload.new);
+                  } else if (payload?.old && !payload?.new) {
+                    applyUpdatedOrder({ ...payload.old, __deleted: true });
+                  }
+                } catch (err) {
+                  console.error("Supabase postgres_changes handler error:", err);
                 }
-              } catch (err) {
-                console.error("Supabase postgres_changes handler error:", err);
-              }
-            })
-            .on("broadcast", { event: "orders_broadcast" }, (payload: any) => {
-              try {
-                const p = payload?.payload ?? payload?.data ?? payload;
-                let order: any = null;
-                if (p?.order) order = p.order;
-                else if (p?.new) order = p.new;
-                else if (p?.payload && p.payload.new) order = p.payload.new;
-                else if (p?.payload && p.payload.order) order = p.payload.order;
-                else if (p?.id && (p?.new || p?.old)) order = p.new ?? p.old;
-                else if (p?.id && !p.new && !p.order) order = p;
+              })
+              .on("broadcast", { event: "orders_broadcast" }, (payload: any) => {
+                try {
+                  const p = payload?.payload ?? payload?.data ?? payload;
+                  let order: any = null;
+                  if (p?.order) order = p.order;
+                  else if (p?.new) order = p.new;
+                  else if (p?.payload && p.payload.new) order = p.payload.new;
+                  else if (p?.payload && p.payload.order) order = p.payload.order;
+                  else if (p?.id && (p?.new || p?.old)) order = p.new ?? p.old;
+                  else if (p?.id && !p.new && !p.order) order = p;
 
-                if (order) {
-                  applyUpdatedOrder(order);
+                  if (order) {
+                    applyUpdatedOrder(order);
+                  }
+                } catch (err) {
+                  console.error("Supabase broadcast handler error:", err);
                 }
-              } catch (err) {
-                console.error("Supabase broadcast handler error:", err);
-              }
-            })
-            .subscribe((status: any, err: any) => {
+              });
+          };
+
+          let attemptedPublicFallback = false;
+          let subscribeAttempt = 0;
+          const trySubscribe = (isPrivate = true) => {
+            subscribeAttempt++;
+            const ch = makeChannel(isPrivate).subscribe((status: any, err: any) => {
               console.log("Supabase orders channel status:", status);
               if (err) console.error("Supabase channel subscribe error:", err);
-              if (status === "SUBSCRIBED") fetchOrders().catch(() => {});
+              if (status === "SUBSCRIBED") {
+                subscribeAttempt = 0;
+                fetchOrders().catch(() => {});
+              }
+
+              // If unauthorized on private channel, fallback to public if we haven't already
+              if (status === "CHANNEL_ERROR" && err && /Unauthorized/i.test(String(err?.message || err))) {
+                if (isPrivate && !attemptedPublicFallback) {
+                  console.warn("Realtime private subscribe unauthorized — falling back to public channel");
+                  attemptedPublicFallback = true;
+                  try { ch.unsubscribe?.(); } catch (e) {}
+                  supChannel = trySubscribe(false);
+                }
+              }
+
+              // Simple retry with backoff for transient errors
+              if (status === "CHANNEL_ERROR" && !/Unauthorized/i.test(String(err?.message || err))) {
+                const backoffMs = Math.min(1000 * 2 ** subscribeAttempt, 30000);
+                console.warn(`Realtime subscribe failed, retrying in ${backoffMs}ms`);
+                setTimeout(() => {
+                  try { ch.unsubscribe?.(); } catch (e) {}
+                  supChannel = trySubscribe(isPrivate);
+                }, backoffMs);
+              }
             });
+            return ch;
+          };
+
+          supChannel = trySubscribe(true);
         })();
       }
     } catch (e) {
