@@ -100,7 +100,13 @@ export default function AdminOrdersClient() {
 
   useEffect(() => {
     fetchOrders();
-    intervalRef.current = window.setInterval(fetchOrders, 60 * 1000);
+    intervalRef.current = window.setInterval(fetchOrders, 5 * 1000);
+
+    // When the admin tab becomes visible again, fetch immediately so new orders appear quickly
+    const visibilityHandler = () => {
+      if (document.visibilityState === "visible") fetchOrders();
+    };
+    document.addEventListener("visibilitychange", visibilityHandler);
 
     const applyUpdatedOrder = (updatedOrder: any) => {
       if (!updatedOrder) return;
@@ -326,6 +332,7 @@ export default function AdminOrdersClient() {
     return () => {
       if (intervalRef.current) window.clearInterval(intervalRef.current);
       window.removeEventListener("order-updated", handler);
+      document.removeEventListener("visibilitychange", visibilityHandler);
       window.removeEventListener("storage", storageHandler);
       if (bc) bc.close();
       try { supChannel?.unsubscribe?.(); } catch (e) {}
