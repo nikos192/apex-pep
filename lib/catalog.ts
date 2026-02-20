@@ -15,6 +15,25 @@ export interface Product {
 
 export const PRODUCTS: Product[] = [
   {
+    id: "reta-10mg",
+    name: "RETA 10MG",
+    slug: "reta-10mg",
+    image: "/images/reta-10mg.png",
+    regularPrice: 149,
+    badge: "Research Grade",
+    description:
+      "Reta (Retatrutide) is a novel GLP-1/GIP/glucagon triple receptor agonist studied in preclinical research contexts. Researchers investigate this advanced peptide for its effects on multiple metabolic signaling pathways simultaneously, examining interactions with glucose homeostasis and energy metabolism mechanisms. In laboratory studies, this compound has demonstrated potential to influence cellular responses through three distinct receptor classes. Scientific literature shows researchers commonly examine triple agonists for understanding complex metabolic pathway interactions in controlled preclinical environments. This research peptide is intended exclusively for laboratory-based research applications by qualified researchers.",
+    bullets: [
+      "Triple receptor agonist research",
+      "Researchers investigate metabolic pathway interactions",
+      "Commonly examined in glucose signaling studies",
+      "Used for complex mechanism analysis",
+    ],
+    storage: "Store at 2-8°C in sealed container away from light. Protect from freezing. Reconstituted solutions stable 7 days refrigerated.",
+    shipping: "Express courier with temperature-controlled insulation. Delivery to Australian cities within 1-2 business days.",
+    dosageForm: "Lyophilized powder, 10mg per vial",
+  },
+  {
     id: "bpc-157",
     name: "BPC-157",
     slug: "bpc-157",
@@ -176,7 +195,8 @@ export const PRODUCTS: Product[] = [
     name: "RETA X10, GHK X10 (MEGA DEAL!)",
     slug: "reta-10x-ghk-10x",
     image: "/images/reta 10x, ghk 10x (mega deal).png",
-    regularPrice: 146,
+    regularPrice: 2600,
+    salePrice: 1250,
     badge: "Research Grade",
     description:
       "Comprehensive peptide research bundle combining 10 vials of Reta-10MG with 10 vials of GHK-Cu for extended preclinical research programs. This bundle supports comparative studies examining growth hormone-releasing pathways alongside copper-dependent signaling mechanisms. Researchers commonly use such combinations to investigate interactive effects between different peptide classes in controlled laboratory environments. The bundled format provides cost efficiency for long-term research protocols, reducing per-vial expenses while maintaining access to high-purity research compounds. Ideal for institutions conducting comprehensive preclinical studies on multiple peptide mechanisms.",
@@ -190,25 +210,7 @@ export const PRODUCTS: Product[] = [
     shipping: "Shipped as complete bundle in insulated temperature-controlled packaging. Delivery within 1-2 business days.",
     dosageForm: "Dual bundle: 10x Reta-10MG + 10x GHK-Cu vials",
   },
-  {
-    id: "reta-10mg",
-    name: "RETA 10MG",
-    slug: "reta-10mg",
-    image: "/images/reta-10mg.png",
-    regularPrice: 181,
-    badge: "Research Grade",
-    description:
-      "Reta (Retatrutide) is a novel GLP-1/GIP/glucagon triple receptor agonist studied in preclinical research contexts. Researchers investigate this advanced peptide for its effects on multiple metabolic signaling pathways simultaneously, examining interactions with glucose homeostasis and energy metabolism mechanisms. In laboratory studies, this compound has demonstrated potential to influence cellular responses through three distinct receptor classes. Scientific literature shows researchers commonly examine triple agonists for understanding complex metabolic pathway interactions in controlled preclinical environments. This research peptide is intended exclusively for laboratory-based research applications by qualified researchers.",
-    bullets: [
-      "Triple receptor agonist research",
-      "Researchers investigate metabolic pathway interactions",
-      "Commonly examined in glucose signaling studies",
-      "Used for complex mechanism analysis",
-    ],
-    storage: "Store at 2-8°C in sealed container away from light. Protect from freezing. Reconstituted solutions stable 7 days refrigerated.",
-    shipping: "Express courier with temperature-controlled insulation. Delivery to Australian cities within 1-2 business days.",
-    dosageForm: "Lyophilized powder, 10mg per vial",
-  },
+  
   {
     id: "semax-11mg",
     name: "SEMAX 11MG",

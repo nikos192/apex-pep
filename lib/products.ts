@@ -81,7 +81,8 @@ function generateDescription(productName: string): string {
  */
 const PRICING_MAP: Record<string, { original: number; sale: number }> = {
   "BPC-157": { original: 100, sale: 90 },
-  "RETA 10MG": { original: 160, sale: 150 },
+  "RETA 10MG": { original: 160, sale: 149 },
+  
   "GHK-CU 100MG": { original: 170, sale: 160 },
   "MT-2 10MG": { original: 90, sale: 75 },
   "BAC WATER 3ML": { original: 30, sale: 20 },
