@@ -166,11 +166,45 @@ export default function AdminOrdersClient() {
     }
 
     let supChannel: any = null;
+    let es: EventSource | null = null;
+    let usingSSE = false;
     try {
       if (typeof window !== "undefined") {
+
         const supabase = supabaseClient;
 
-        (async () => {
+        // Try server-sent events relay first (server subscribes with service key)
+        try {
+          const url = '/api/admin/orders/stream';
+          es = new EventSource(url);
+          es.onopen = () => {
+            console.debug('Admin SSE: connected');
+            usingSSE = true;
+          };
+          es.onmessage = (ev) => {
+            try {
+              const d = JSON.parse(ev.data);
+              if (d?.type === 'postgres_changes' && d.payload) {
+                const payload = d.payload;
+                if (payload?.new) applyUpdatedOrder(payload.new);
+                else if (payload?.old && !payload?.new) applyUpdatedOrder({ ...payload.old, __deleted: true });
+              }
+            } catch (err) {
+              console.error('Admin SSE parse error:', err);
+            }
+          };
+          es.onerror = (err) => {
+            console.warn('Admin SSE error, falling back to client realtime', err);
+            try { es?.close(); } catch (e) {}
+            es = null;
+            usingSSE = false;
+          };
+        } catch (e) {
+          // ignore and fall back to client realtime
+        }
+
+
+          (async () => {
           try {
             const { data } = await supabase.auth.getSession();
             const accessToken = data?.session?.access_token;
@@ -232,6 +266,7 @@ export default function AdminOrdersClient() {
               });
           };
 
+          const isProd = (process.env.NODE_ENV === "production") || (process.env.NEXT_PUBLIC_VERCEL_ENV === "production");
           let attemptedPublicFallback = false;
           let subscribeAttempt = 0;
           const trySubscribe = (isPrivate = true) => {
@@ -246,11 +281,14 @@ export default function AdminOrdersClient() {
 
               // If unauthorized on private channel, fallback to public if we haven't already
               if (status === "CHANNEL_ERROR" && err && /Unauthorized/i.test(String(err?.message || err))) {
-                if (isPrivate && !attemptedPublicFallback) {
-                  console.warn("Realtime private subscribe unauthorized — falling back to public channel");
+                if (!isProd && isPrivate && !attemptedPublicFallback) {
+                  // Dev-only fallback to public channel so local/dev admin can still see updates
+                  console.warn("Realtime private subscribe unauthorized — falling back to public channel (dev only)");
                   attemptedPublicFallback = true;
                   try { ch.unsubscribe?.(); } catch (e) {}
                   supChannel = trySubscribe(false);
+                } else {
+                  console.error("Realtime private subscribe unauthorized; no fallback in production.");
                 }
               }
 
@@ -267,7 +305,8 @@ export default function AdminOrdersClient() {
             return ch;
           };
 
-          supChannel = trySubscribe(true);
+          // If SSE is active, skip client-side realtime subscribe
+          if (!usingSSE) supChannel = trySubscribe(true);
         })();
       }
     } catch (e) {
