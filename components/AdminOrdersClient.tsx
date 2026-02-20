@@ -61,8 +61,8 @@ export default function AdminOrdersClient() {
 
   useEffect(() => {
     fetchOrders();
-    // Poll every 5 seconds (reduced for faster updates)
-    intervalRef.current = window.setInterval(fetchOrders, 5000);
+    // Poll every 20 seconds
+    intervalRef.current = window.setInterval(fetchOrders, 20000);
 
     // Handler to apply an updated order payload
     const applyUpdatedOrder = (updatedOrder: any) => {
@@ -231,6 +231,36 @@ export default function AdminOrdersClient() {
     };
     window.addEventListener("storage", storageHandler);
 
+    // Start a fast update poll for deltas (every 2s)
+    let fastPollId: number | null = null;
+    try {
+      let lastCheck = new Date().toISOString();
+      const fastFetch = async () => {
+        try {
+          const res = await fetch(`/api/admin/orders/updates?since=${encodeURIComponent(lastCheck)}`, {
+            credentials: "same-origin",
+            cache: "no-store",
+          });
+          if (!res.ok) return;
+          const json = await res.json();
+          const changed: any[] = json.orders || [];
+          if (changed.length > 0) {
+            changed.forEach((o) => applyUpdatedOrder(o));
+            // set lastCheck to newest updated_at from returned rows
+            const newest = changed.reduce((acc, cur) => (cur.updated_at > acc ? cur.updated_at : acc), lastCheck);
+            lastCheck = newest || new Date().toISOString();
+          }
+        } catch (e) {
+          // ignore transient errors
+        }
+      };
+      // run immediately then every 20s
+      fastFetch();
+      fastPollId = window.setInterval(fastFetch, 20000);
+    } catch (e) {
+      // ignore
+    }
+
     return () => {
       if (intervalRef.current) window.clearInterval(intervalRef.current);
       window.removeEventListener("order-updated", handler);
@@ -238,6 +268,7 @@ export default function AdminOrdersClient() {
       if (bc) {
         bc.close();
       }
+      if (fastPollId) window.clearInterval(fastPollId);
     };
   }, []);
 
