@@ -137,6 +137,7 @@ export default function AdminOrdersClient() {
         const supabase = supabaseClient;
 
         // Attach auth token if available (helps private channels)
+        const lastCheckRef = useRef<string>(new Date().toISOString());
         try {
           supabase.auth.getSession().then(({ data }) => {
               if (data?.session) {
@@ -164,7 +165,14 @@ export default function AdminOrdersClient() {
           .on(
             "postgres_changes",
             { event: "*", schema: "public", table: "orders" },
-            (payload) => {
+              setOrders(fetched);
+              try {
+                // set lastCheck to newest updated_at from fetched rows
+                const newest = fetched.reduce((acc: string, cur: any) => (cur.updated_at && cur.updated_at > acc ? cur.updated_at : acc), lastCheckRef.current);
+                lastCheckRef.current = newest || new Date().toISOString();
+              } catch (e) {
+                lastCheckRef.current = new Date().toISOString();
+              }
               try {
                 console.debug("Supabase postgres_changes payload:", payload);
                 if (payload?.new) applyUpdatedOrder(payload.new);
@@ -207,34 +215,6 @@ export default function AdminOrdersClient() {
       console.warn("Supabase realtime error:", e);
     }
 
-    // Read any localStorage fallback written before navigation
-    try {
-      const stored = localStorage.getItem("order-updated");
-      console.log("AdminOrdersClient: read localStorage order-updated", stored);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        console.log("AdminOrdersClient: parsed stored update", parsed);
-        if (parsed?.order) {
-          applyUpdatedOrder(parsed.order);
-        }
-        // remove after reading
-        localStorage.removeItem("order-updated");
-      }
-    } catch (e) {
-      // ignore
-    }
-
-    // Also listen to storage events (other tabs)
-    const storageHandler = (e: StorageEvent) => {
-      if (e.key === "order-updated" && e.newValue) {
-        try {
-          const parsed = JSON.parse(e.newValue);
-          if (parsed?.order) applyUpdatedOrder(parsed.order);
-        } catch (err) {
-          console.error("storage event handler error:", err);
-          fetchOrders();
-        }
-      }
     };
     window.addEventListener("storage", storageHandler);
 
