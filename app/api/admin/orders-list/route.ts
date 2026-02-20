@@ -20,9 +20,9 @@ export async function GET(request: NextRequest) {
     }
 
     const supabase = createSupabaseServerClient();
-    const { data, error } = await supabase
+    const { data, error, count } = await supabase
       .from("orders")
-      .select("id, order_number, created_at, email, total, status")
+      .select("id, order_number, created_at, email, total, status", { count: "exact" })
       .order("created_at", { ascending: false })
       .limit(200);
 
@@ -34,8 +34,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    console.debug('[AdminOrdersList] returning', (data || []).length, 'rows, count:', count);
     return NextResponse.json(
-      { orders: data || [] },
+      { orders: data || [], count: count ?? (data ? data.length : 0) },
       { status: 200, headers: { "Cache-Control": "no-store" } }
     );
   } catch (err: any) {
