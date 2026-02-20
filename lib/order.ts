@@ -44,17 +44,9 @@ export interface OrderResponse {
  * Generate unique order number in format: APL-YYYYMMDD-ABCDE
  */
 export function generateOrderNumber(): string {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  const randomChars = Math.random()
-    .toString(36)
-    .substring(2, 7)
-    .toUpperCase()
-    .padEnd(5, "0");
-
-  return `APL-${year}${month}${day}-${randomChars}`;
+  // Return a simple 5-digit numeric order number (10000-99999)
+  const num = Math.floor(10000 + Math.random() * 90000);
+  return String(num).padStart(5, "0");
 }
 
 /**

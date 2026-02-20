@@ -30,8 +30,36 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate unique order number
-    const orderNumber = generateOrderNumber();
+    // Create Supabase client early so we can check uniqueness of order number
+    const supabase = createSupabaseServerClient();
+
+    // Generate unique order number (try a few times to avoid collisions)
+    let orderNumber = "";
+    for (let i = 0; i < 5; i++) {
+      const candidate = generateOrderNumber();
+      const { data: exists, error: existsErr } = await supabase
+        .from("orders")
+        .select("id")
+        .eq("order_number", candidate)
+        .limit(1);
+
+      if (existsErr) {
+        console.warn("[OrderAPI] Error checking existing order_number:", existsErr);
+        // If we can't check, assume candidate is fine
+        orderNumber = candidate;
+        break;
+      }
+
+      if (!exists || (Array.isArray(exists) && exists.length === 0)) {
+        orderNumber = candidate;
+        break;
+      }
+    }
+
+    // Fallback: if still empty, generate a timestamp-based fallback
+    if (!orderNumber) {
+      orderNumber = String(Math.floor(Date.now() / 1000) % 100000).padStart(5, "0");
+    }
 
     // Get current date/time in Australian timezone
     const orderDate = new Date().toLocaleString("en-AU", {
@@ -85,7 +113,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Insert order into Supabase
-    const supabase = createSupabaseServerClient();
     const { error: supabaseError } = await supabase
       .from("orders")
       .insert({
