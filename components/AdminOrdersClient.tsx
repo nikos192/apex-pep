@@ -33,11 +33,13 @@ export default function AdminOrdersClient() {
         cache: "no-store",
       });
       const json = await res.json();
+      console.debug("AdminOrdersClient: fetchOrders response status", res.status);
       if (!res.ok) {
         setError(json?.error || "Failed to load orders");
         setOrders([]);
       } else {
         let fetched = json.orders || [];
+        console.debug("AdminOrdersClient: fetched orders count", fetched.length);
         // re-apply any recent optimistic updates so UI doesn't flip back
         try {
           const recent = recentUpdatesRef.current || {};
