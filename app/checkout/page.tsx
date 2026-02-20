@@ -12,7 +12,7 @@ import type { OrderPayload } from "@/lib/order";
 
 export default function CheckoutPage() {
   const { cart } = useCart();
-  const { clearCart } = useCartActions();
+  const { clearCart, addToCart } = useCartActions();
   const router = useRouter();
 
   // Form state
@@ -639,6 +639,41 @@ export default function CheckoutPage() {
               </Link>
             </div>
           </div>
+
+            {/* Suggested Product */}
+            <div className="bg-white border border-slate-200 rounded-lg p-4 md:p-6">
+              <h2 className="text-lg font-semibold text-slate-900 mb-3">Suggested</h2>
+              <div className="flex items-center gap-4">
+                <div className="h-16 w-16 rounded-lg overflow-hidden bg-slate-50 border border-slate-200 flex-shrink-0">
+                  <Image
+                    src="/images/bac water 10ml.png"
+                    alt="BAC Water 10ML"
+                    width={64}
+                    height={64}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm font-semibold text-slate-900">BAC Water 10ML</div>
+                  <div className="text-xs text-slate-600">Bacteriostatic water for peptide reconstitution</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm font-semibold text-slate-900 mb-2">$30</div>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => addToCart({ id: 'bac-water-10ml', name: 'BAC Water 10ML', price: 30, image: '/images/bac water 10ml.png' })}
+                      className="btn-primary text-xs py-2 px-3"
+                    >
+                      Add
+                    </button>
+                    <Link href="/peptides/bac-water-10ml" className="btn-secondary text-xs py-2 px-3">
+                      View
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
 
           {/* Right Column - Order Total (Sticky) */}
           <div className="lg:col-span-1">
