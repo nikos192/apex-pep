@@ -3,12 +3,12 @@
 import { useEffect, useState, useRef } from "react";
 import supabaseClient from "@/lib/supabaseClient";
 import OrdersTable from "@/components/OrdersTable";
-import AdminHeader from "@/components/AdminHeader";
 
 interface Order {
   id: string;
   order_number: string;
   created_at: string;
+  updated_at?: string;
   email: string;
   total: number;
   status: string;
@@ -25,74 +25,72 @@ export default function AdminOrdersClient() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin/orders-list", {
-        credentials: "same-origin",
-        cache: "no-store",
-      });
+      const res = await fetch("/api/admin/orders-list", { credentials: "same-origin", cache: "no-store" });
       const json = await res.json();
       console.debug("AdminOrdersClient: fetchOrders response status", res.status);
       if (!res.ok) {
         setError(json?.error || "Failed to load orders");
         setOrders([]);
-      } else {
-        let fetched = json.orders || [];
-        console.debug("AdminOrdersClient: fetched orders count", fetched.length);
-
-        try {
-          const recent = recentUpdatesRef.current || {};
-          if (Object.keys(recent).length > 0) {
-            const fetchedById = new Map<string, any>(fetched.map((o: any) => [String(o.id), o]));
-            const fetchedByNumber = new Map<string, any>(fetched.map((o: any) => [String(o.order_number), o]));
-
-            Object.values(recent).forEach((entry) => {
-              const upd = entry?.order;
-              const updUpdatedAt = entry?.updatedAtMs || Date.now();
-              if (!upd) return;
-              const id = upd?.id ? String(upd.id) : null;
-              const num = upd?.order_number;
-
-              if (id && fetchedById.has(id)) {
-                const existing = fetchedById.get(id);
-                const existingUpdatedAt = existing?.updated_at ? new Date(existing.updated_at).getTime() : 0;
-                const final = existingUpdatedAt >= updUpdatedAt ? existing : { ...existing, ...upd };
-                fetchedById.set(id, final);
-                if (existing.order_number) fetchedByNumber.set(existing.order_number, final);
-              } else if (num && fetchedByNumber.has(num)) {
-                const existing = fetchedByNumber.get(num);
-                const existingUpdatedAt = existing?.updated_at ? new Date(existing.updated_at).getTime() : 0;
-                const final = existingUpdatedAt >= updUpdatedAt ? existing : { ...existing, ...upd };
-                fetchedByNumber.set(num, final);
-                if (final.id) fetchedById.set(String(final.id), final);
-              } else {
-                fetched.unshift(upd);
-                if (upd.id) fetchedById.set(String(upd.id), upd);
-                if (upd.order_number) fetchedByNumber.set(upd.order_number, upd);
-              }
-            });
-
-            const seen = new Set<string>();
-            const mergedArr: any[] = [];
-            for (const o of fetched) {
-              const id = o?.id ? String(o.id) : null;
-              const key = id ?? o?.order_number;
-              if (!key) {
-                mergedArr.push(o);
-                continue;
-              }
-              if (seen.has(key)) continue;
-              seen.add(key);
-              const final = id && fetchedById.has(id) ? fetchedById.get(id) : (o.order_number && fetchedByNumber.has(o.order_number) ? fetchedByNumber.get(o.order_number) : o);
-              mergedArr.push(final);
-            }
-
-            fetched = mergedArr;
-          }
-        } catch (e) {
-          // ignore merge errors
-        }
-
-        setOrders(fetched);
+        return;
       }
+
+      let fetched: any[] = json.orders || [];
+      console.debug("AdminOrdersClient: fetched orders count", fetched.length);
+
+      try {
+        const recent = recentUpdatesRef.current || {};
+        if (Object.keys(recent).length > 0) {
+          const fetchedById = new Map(fetched.map((o: any) => [String(o.id), o]));
+          const fetchedByNumber = new Map(fetched.map((o: any) => [String(o.order_number), o]));
+
+          Object.values(recent).forEach((entry) => {
+            const upd = entry?.order;
+            const updUpdatedAt = entry?.updatedAtMs || Date.now();
+            if (!upd) return;
+            const id = upd?.id ? String(upd.id) : null;
+            const num = upd?.order_number;
+
+            if (id && fetchedById.has(id)) {
+              const existing = fetchedById.get(id);
+              const existingUpdatedAt = existing?.updated_at ? new Date(existing.updated_at).getTime() : 0;
+              const final = existingUpdatedAt >= updUpdatedAt ? existing : { ...existing, ...upd };
+              fetchedById.set(id, final);
+              if (existing.order_number) fetchedByNumber.set(existing.order_number, final);
+            } else if (num && fetchedByNumber.has(num)) {
+              const existing = fetchedByNumber.get(num);
+              const existingUpdatedAt = existing?.updated_at ? new Date(existing.updated_at).getTime() : 0;
+              const final = existingUpdatedAt >= updUpdatedAt ? existing : { ...existing, ...upd };
+              fetchedByNumber.set(num, final);
+              if (final.id) fetchedById.set(String(final.id), final);
+            } else {
+              fetched.unshift(upd);
+              if (upd.id) fetchedById.set(String(upd.id), upd);
+              if (upd.order_number) fetchedByNumber.set(upd.order_number, upd);
+            }
+          });
+
+          // rebuild deduped list
+          const seen = new Set<string>();
+          const mergedArr: any[] = [];
+          for (const o of fetched) {
+            const id = o?.id ? String(o.id) : null;
+            const key = id ?? o?.order_number;
+            if (!key) {
+              mergedArr.push(o);
+              continue;
+            }
+            if (seen.has(key)) continue;
+            seen.add(key);
+            const final = id && fetchedById.has(id) ? fetchedById.get(id) : (o.order_number && fetchedByNumber.has(o.order_number) ? fetchedByNumber.get(o.order_number) : o);
+            mergedArr.push(final);
+          }
+          fetched = mergedArr;
+        }
+      } catch (e) {
+        // ignore merge errors
+      }
+
+      setOrders(fetched);
     } catch (err: any) {
       setError(String(err?.message || err));
       setOrders([]);
@@ -112,6 +110,7 @@ export default function AdminOrdersClient() {
         const now = Date.now();
         const updatedAtMs = updatedOrder?.updated_at ? new Date(updatedOrder.updated_at).getTime() : now;
         recentUpdatesRef.current = { ...recentUpdatesRef.current, [key]: { order: updatedOrder, receivedAt: now, updatedAtMs } };
+        // prune entries older than ~60s (based on receivedAt)
         Object.keys(recentUpdatesRef.current).forEach((k) => {
           const entry = recentUpdatesRef.current[k];
           if (!entry) return;
