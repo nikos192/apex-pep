@@ -259,19 +259,19 @@ export function CustomerConfirmationEmailTemplate({
       
       <div class="bank-details">
         <div class="bank-label">Account Name</div>
-        <div class="bank-value">Apex Labs Australia Pty Ltd</div>
-        
+        <div class="bank-value">Apex Labs Australia</div>
+
         <div class="bank-label">BSB Number</div>
-        <div class="bank-value">XXX XXX</div>
-        
+        <div class="bank-value">067872</div>
+
         <div class="bank-label">Account Number</div>
-        <div class="bank-value">XXXX XXXX</div>
-        
+        <div class="bank-value">25422126</div>
+
         <div class="bank-label">Reference</div>
         <div class="bank-value">${orderNumber}</div>
       </div>
 
-      <p style="color: #6b7280; font-size: 14px; margin: 15px 0 0 0;"><strong>Note:</strong> Bank details have been removed for security. You'll receive complete transfer instructions via email or phone shortly.</p>
+      <p style="color: #6b7280; font-size: 14px; margin: 15px 0 0 0;"><strong>Note:</strong> The account name shown by some banks may differ; please ensure the BSB and account number are correct and include your order number as the reference.</p>
     </div>
 
     <div class="section">
