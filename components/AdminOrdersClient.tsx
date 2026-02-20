@@ -132,16 +132,22 @@ export default function AdminOrdersClient() {
         // Attach auth token if available (helps private channels)
         try {
           supabase.auth.getSession().then(({ data }) => {
-            const token = data?.session?.access_token;
-            if (token) {
-              try {
-                supabase.auth.setAuth(token);
-                console.debug("Supabase realtime: setAuth token applied");
-              } catch (e) {
-                // setAuth may be noop in some builds
+              if (data?.session) {
+                console.debug("Supabase realtime: session present");
               }
-            }
-          }).catch(() => {});
+            }).catch(() => {});
+
+          // Listen for auth changes and refetch on change (helps when user logs in/out)
+          try {
+            supabase.auth.onAuthStateChange((_event, session) => {
+              console.debug("Supabase auth change", _event);
+              if (session?.access_token) {
+                fetchOrders().catch(() => {});
+              }
+            });
+          } catch (e) {
+            // ignore if not available
+          }
         } catch (e) {
           // ignore
         }
