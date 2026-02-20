@@ -20,8 +20,16 @@ export default function AdminOrdersClient() {
   const [error, setError] = useState<string | null>(null);
   const intervalRef = useRef<number | null>(null);
   const recentUpdatesRef = useRef<Record<string, { order: any; receivedAt: number; updatedAtMs: number }>>({});
+  const skipFetchUntilRef = useRef<number>(0);
 
   const fetchOrders = async () => {
+    // If we recently applied a realtime update, skip an immediate fetch
+    // to avoid race where the server snapshot (just before trigger) overwrites the in-memory update.
+    if (Date.now() < skipFetchUntilRef.current) {
+      console.debug("AdminOrdersClient: skipping fetch due to recent realtime update");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     try {
@@ -98,7 +106,8 @@ export default function AdminOrdersClient() {
 
   useEffect(() => {
     fetchOrders();
-    intervalRef.current = window.setInterval(fetchOrders, 20000);
+    // Background reconciliation: keep a low-frequency full-sync to reconcile missed events
+    intervalRef.current = window.setInterval(fetchOrders, 60 * 1000);
 
     const applyUpdatedOrder = (updatedOrder: any) => {
       if (!updatedOrder) return;
@@ -107,6 +116,8 @@ export default function AdminOrdersClient() {
         const now = Date.now();
         const updatedAtMs = updatedOrder?.updated_at ? new Date(updatedOrder.updated_at).getTime() : now;
         recentUpdatesRef.current = { ...recentUpdatesRef.current, [key]: { order: updatedOrder, receivedAt: now, updatedAtMs } };
+        // prevent immediate fetches from clobbering this recent realtime update
+        skipFetchUntilRef.current = Date.now() + 1500; // 1.5s
         Object.keys(recentUpdatesRef.current).forEach((k) => {
           const entry = recentUpdatesRef.current[k];
           if (!entry) return;
@@ -132,9 +143,6 @@ export default function AdminOrdersClient() {
         const updatedOrder = e?.detail?.order;
         if (updatedOrder) {
           applyUpdatedOrder(updatedOrder);
-          fetchOrders();
-        } else {
-          fetchOrders();
         }
       } catch (err) {
         console.error("AdminOrdersClient event handler error:", err);
@@ -149,10 +157,8 @@ export default function AdminOrdersClient() {
       bc.onmessage = (ev) => {
         try {
           applyUpdatedOrder(ev.data?.order);
-          fetchOrders();
         } catch (err) {
           console.error("BroadcastChannel handler error:", err);
-          fetchOrders();
         }
       };
     } catch (e) {
@@ -181,10 +187,8 @@ export default function AdminOrdersClient() {
             try {
               if (payload?.new) {
                 applyUpdatedOrder(payload.new);
-                fetchOrders().catch(() => {});
               } else if (payload?.old && !payload?.new) {
                 applyUpdatedOrder({ ...payload.old, __deleted: true });
-                fetchOrders().catch(() => {});
               }
             } catch (err) {
               console.error("Supabase postgres_changes handler error:", err);
@@ -203,9 +207,6 @@ export default function AdminOrdersClient() {
 
               if (order) {
                 applyUpdatedOrder(order);
-                fetchOrders().catch(() => {});
-              } else {
-                fetchOrders().catch(() => {});
               }
             } catch (err) {
               console.error("Supabase broadcast handler error:", err);
@@ -214,6 +215,7 @@ export default function AdminOrdersClient() {
           .subscribe((status: any, err: any) => {
             console.log("Supabase orders channel status:", status);
             if (err) console.error("Supabase channel subscribe error:", err);
+            // Keep an initial fetch when channel becomes active to ensure we have a consistent snapshot
             if (status === "SUBSCRIBED") fetchOrders().catch(() => {});
           });
       }

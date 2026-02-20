@@ -41,7 +41,7 @@ export default async function AdminOrdersPage() {
     console.error("[AdminOrders] Error:", err);
     error = String(err?.message || err) || "An error occurred while fetching orders";
     if (error.includes("Missing Supabase environment variables")) {
-      error += " — Ensure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set.";
+      error += " — Ensure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SECRET_KEY (or SUPABASE_SERVICE_ROLE_KEY) are set.";
     }
   }
 

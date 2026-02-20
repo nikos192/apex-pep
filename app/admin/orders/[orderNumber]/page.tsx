@@ -59,7 +59,7 @@ export default async function OrderDetailPage({
     console.error("[OrderDetail] Error:", err);
     error = String(err?.message || err) || "An error occurred while fetching the order";
     if (error.includes("Missing Supabase environment variables")) {
-      error += " — Ensure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set.";
+      error += " — Ensure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SECRET_KEY (or SUPABASE_SERVICE_ROLE_KEY) are set.";
     }
   }
 

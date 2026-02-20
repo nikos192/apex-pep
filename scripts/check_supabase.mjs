@@ -23,10 +23,11 @@ if (!fs.existsSync(envPath)) {
 
 const env = parseEnvFile(envPath);
 const url = env.NEXT_PUBLIC_SUPABASE_URL;
-const key = env.SUPABASE_SERVICE_ROLE_KEY;
+  // Accept either SUPABASE_SECRET_KEY (preferred) or SUPABASE_SERVICE_ROLE_KEY for backwards compatibility
+  const key = env.SUPABASE_SECRET_KEY || env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!url || !key) {
-  console.error('Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in .env.local');
+  console.error('Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SECRET_KEY (or SUPABASE_SERVICE_ROLE_KEY) in .env.local');
   process.exit(1);
 }
 

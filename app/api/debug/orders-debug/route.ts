@@ -9,8 +9,8 @@ export async function GET() {
     const env = {
       NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || null,
       SUPABASE_URL: process.env.SUPABASE_URL || null,
-      SUPABASE_SERVICE_ROLE_KEY_present: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
-      SUPABASE_SERVICE_ROLE_KEY_prefix: process.env.SUPABASE_SERVICE_ROLE_KEY ? String(process.env.SUPABASE_SERVICE_ROLE_KEY).slice(0, 6) : null,
+      SUPABASE_SERVICE_KEY_present: !!(process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY),
+      SUPABASE_SERVICE_KEY_prefix: (process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY) ? String(process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY).slice(0, 12) : null,
     };
     const { data, error, count } = await supabase
       .from("orders")
