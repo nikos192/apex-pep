@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 import { NextRequest, NextResponse } from 'next/server';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY!);
 
 interface ContactFormData {
   name: string;
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
     // Send email to site owner
     try {
       const result = await resend.emails.send({
-        from: process.env.CONTACT_FROM_EMAIL,
+        from: process.env.CONTACT_FROM_EMAIL!,
         to: contactTo,
         replyTo: body.email,
         subject: `New Contact Form: ${body.subject}`,
