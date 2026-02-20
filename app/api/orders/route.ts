@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
     let ownerEmailError: any = null;
     try {
       const ownerEmailResponse = await resend.emails.send({
-        from: "Apex Labs <onboarding@resend.dev>",
+        from: process.env.CONTACT_FROM_EMAIL,
         to: OWNER_EMAIL,
         subject: `New Order ${orderNumber} - ${SHOP_NAME}`,
         html: ownerEmailHtml,
@@ -190,7 +190,7 @@ export async function POST(request: NextRequest) {
     // Send customer confirmation email (optional, don't fail if this fails)
     try {
       await resend.emails.send({
-        from: "Apex Labs <onboarding@resend.dev>",
+        from: process.env.CONTACT_FROM_EMAIL,
         to: payload.email,
         subject: `Order Confirmation - ${orderNumber}`,
         html: customerEmailHtml,

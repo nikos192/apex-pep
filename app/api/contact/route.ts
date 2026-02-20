@@ -73,20 +73,25 @@ export async function POST(request: NextRequest) {
     `;
 
     // Send email to site owner
-    const result = await resend.emails.send({
-      from: 'Apex Labs <onboarding@resend.dev>',
-      to: contactTo,
-      replyTo: body.email,
-      subject: `New Contact Form: ${body.subject}`,
-      html: emailHtml,
-    });
+    try {
+      const result = await resend.emails.send({
+        from: process.env.CONTACT_FROM_EMAIL,
+        to: contactTo,
+        replyTo: body.email,
+        subject: `New Contact Form: ${body.subject}`,
+        html: emailHtml,
+      });
 
-    if (result.error) {
-      console.error('Resend error:', result.error);
-      return NextResponse.json(
-        { error: 'Failed to send email' },
-        { status: 500 }
-      );
+      if (result?.error) {
+        console.error('Resend error (contact):', result.error);
+        return NextResponse.json(
+          { error: 'Failed to send email' },
+          { status: 500 }
+        );
+      }
+    } catch (err) {
+      console.error('Resend send threw (contact):', err);
+      return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true }, { status: 200 });
