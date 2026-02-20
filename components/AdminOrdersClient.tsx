@@ -194,7 +194,6 @@ export default function AdminOrdersClient() {
       console.warn("Supabase realtime error:", e);
     }
 
-    };
     window.addEventListener("storage", storageHandler);
 
     return () => {
