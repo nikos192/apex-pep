@@ -169,55 +169,72 @@ export default function AdminOrdersClient() {
     try {
       if (typeof window !== "undefined") {
         const supabase = supabaseClient;
-        try {
-          supabase.auth.getSession().then(({ data }) => {
-            if (data?.session) console.debug("Supabase realtime: session present");
-          }).catch(() => {});
+
+        (async () => {
+          try {
+            const { data } = await supabase.auth.getSession();
+            const accessToken = data?.session?.access_token;
+            if (accessToken) {
+              try {
+                await supabase.realtime.setAuth(accessToken);
+                console.debug("Supabase realtime: setAuth OK");
+              } catch (e) {
+                console.warn("Supabase realtime.setAuth failed:", e);
+              }
+            } else {
+              console.debug("Supabase realtime: no session access token");
+            }
+          } catch (e) {
+            console.debug("Supabase auth.getSession failed:", e);
+          }
+
           try {
             supabase.auth.onAuthStateChange((_event, session) => {
               console.debug("Supabase auth change", _event);
-              if (session?.access_token) fetchOrders().catch(() => {});
+              if (session?.access_token) {
+                supabase.realtime.setAuth(session.access_token).catch(() => {});
+                fetchOrders().catch(() => {});
+              }
             });
           } catch (e) {}
-        } catch (e) {}
 
-        supChannel = supabase
-          .channel("orders:all", { config: { broadcast: { self: true } } })
-          .on("postgres_changes", { event: "*", schema: "public", table: "orders" }, (payload: any) => {
-            try {
-              if (payload?.new) {
-                applyUpdatedOrder(payload.new);
-              } else if (payload?.old && !payload?.new) {
-                applyUpdatedOrder({ ...payload.old, __deleted: true });
+          supChannel = supabase
+            .channel("orders:all", { config: { private: true, broadcast: { self: true } } })
+            .on("postgres_changes", { event: "*", schema: "public", table: "orders" }, (payload: any) => {
+              try {
+                if (payload?.new) {
+                  applyUpdatedOrder(payload.new);
+                } else if (payload?.old && !payload?.new) {
+                  applyUpdatedOrder({ ...payload.old, __deleted: true });
+                }
+              } catch (err) {
+                console.error("Supabase postgres_changes handler error:", err);
               }
-            } catch (err) {
-              console.error("Supabase postgres_changes handler error:", err);
-            }
-          })
-          .on("broadcast", { event: "orders_broadcast" }, (payload: any) => {
-            try {
-              const p = payload?.payload ?? payload?.data ?? payload;
-              let order: any = null;
-              if (p?.order) order = p.order;
-              else if (p?.new) order = p.new;
-              else if (p?.payload && p.payload.new) order = p.payload.new;
-              else if (p?.payload && p.payload.order) order = p.payload.order;
-              else if (p?.id && (p?.new || p?.old)) order = p.new ?? p.old;
-              else if (p?.id && !p.new && !p.order) order = p;
+            })
+            .on("broadcast", { event: "orders_broadcast" }, (payload: any) => {
+              try {
+                const p = payload?.payload ?? payload?.data ?? payload;
+                let order: any = null;
+                if (p?.order) order = p.order;
+                else if (p?.new) order = p.new;
+                else if (p?.payload && p.payload.new) order = p.payload.new;
+                else if (p?.payload && p.payload.order) order = p.payload.order;
+                else if (p?.id && (p?.new || p?.old)) order = p.new ?? p.old;
+                else if (p?.id && !p.new && !p.order) order = p;
 
-              if (order) {
-                applyUpdatedOrder(order);
+                if (order) {
+                  applyUpdatedOrder(order);
+                }
+              } catch (err) {
+                console.error("Supabase broadcast handler error:", err);
               }
-            } catch (err) {
-              console.error("Supabase broadcast handler error:", err);
-            }
-          })
-          .subscribe((status: any, err: any) => {
-            console.log("Supabase orders channel status:", status);
-            if (err) console.error("Supabase channel subscribe error:", err);
-            // Keep an initial fetch when channel becomes active to ensure we have a consistent snapshot
-            if (status === "SUBSCRIBED") fetchOrders().catch(() => {});
-          });
+            })
+            .subscribe((status: any, err: any) => {
+              console.log("Supabase orders channel status:", status);
+              if (err) console.error("Supabase channel subscribe error:", err);
+              if (status === "SUBSCRIBED") fetchOrders().catch(() => {});
+            });
+        })();
       }
     } catch (e) {
       console.warn("Supabase realtime error:", e);
