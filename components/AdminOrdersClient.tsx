@@ -20,7 +20,8 @@ export default function AdminOrdersClient() {
   const [error, setError] = useState<string | null>(null);
   const intervalRef = useRef<number | null>(null);
   // keep a short-lived map of recent updates so fetches don't overwrite optimistic changes
-  const recentUpdatesRef = useRef<Record<string, any>>({});
+  // shape: { [key]: { order: any, receivedAt: number, updatedAtMs: number } }
+  const recentUpdatesRef = useRef<Record<string, { order: any; receivedAt: number; updatedAtMs: number }>>({});
   const lastCheckRef = useRef<string>(new Date().toISOString());
 
   const fetchOrders = async () => {
@@ -126,16 +127,17 @@ export default function AdminOrdersClient() {
       // choose a stable key for recent updates: prefer order_number, fall back to id
       const key = updatedOrder.order_number ?? updatedOrder.order_number_text ?? updatedOrder.id;
       try {
+        const now = Date.now();
+        const updatedAtMs = updatedOrder?.updated_at ? new Date(updatedOrder.updated_at).getTime() : now;
         recentUpdatesRef.current = {
           ...recentUpdatesRef.current,
-          [key]: updatedOrder,
+          [key]: { order: updatedOrder, receivedAt: now, updatedAtMs },
         };
-        // prune entries older than ~60s
-        const now = Date.now();
+        // prune entries older than ~60s (based on receivedAt)
         Object.keys(recentUpdatesRef.current).forEach((k) => {
           const entry = recentUpdatesRef.current[k];
-          const ts = new Date(entry?.updated_at || now).getTime();
-          if (now - ts > 60 * 1000) delete recentUpdatesRef.current[k];
+          if (!entry) return;
+          if (now - (entry.receivedAt || now) > 60 * 1000) delete recentUpdatesRef.current[k];
         });
       } catch (e) {
         // ignore
@@ -171,9 +173,9 @@ export default function AdminOrdersClient() {
         } else {
           fetchOrders();
         }
-      } catch (err) {
-        console.error("AdminOrdersClient event handler error:", err);
-        fetchOrders();
+        try {
+          const recent = recentUpdatesRef.current || {};
+          if (Object.keys(recent).length > 0) {
       }
     };
     window.addEventListener("order-updated", handler);
@@ -181,30 +183,34 @@ export default function AdminOrdersClient() {
     // Listen for BroadcastChannel messages from other tabs/pages
     let bc: BroadcastChannel | null = null;
     try {
-      bc = new BroadcastChannel("orders");
-      bc.onmessage = (ev) => {
-        try {
-          applyUpdatedOrder(ev.data?.order);
-        } catch (err) {
-          console.error("BroadcastChannel handler error:", err);
-          fetchOrders();
-        }
-      };
-    } catch (e) {
-      // ignore if unsupported
-    }
+            // Apply recent updates: update existing rows or prepend new ones
+            Object.values(recent).forEach((entry) => {
+              const upd = entry?.order;
+              const updUpdatedAt = entry?.updatedAtMs || Date.now();
+              if (!upd) return;
+              const id = upd?.id ? String(upd.id) : null;
+              const num = upd?.order_number;
 
-    // Supabase Realtime: subscribe to orders table updates and broadcast messages.
-    let supChannel: any = null;
-    try {
-      if (typeof window !== "undefined") {
-        const supabase = supabaseClient;
-
-        // Attach auth token if available (helps private channels)
-        try {
-          supabase.auth.getSession().then(({ data }) => {
-            if (data?.session) console.debug("Supabase realtime: session present");
-          }).catch(() => {});
+              if (id && fetchedById.has(id)) {
+                const existing = fetchedById.get(id);
+                const existingUpdatedAt = existing?.updated_at ? new Date(existing.updated_at).getTime() : 0;
+                // prefer the more recent row
+                const final = existingUpdatedAt >= updUpdatedAt ? existing : { ...existing, ...upd };
+                fetchedById.set(id, final);
+                if (existing.order_number) fetchedByNumber.set(existing.order_number, final);
+              } else if (num && fetchedByNumber.has(num)) {
+                const existing = fetchedByNumber.get(num);
+                const existingUpdatedAt = existing?.updated_at ? new Date(existing.updated_at).getTime() : 0;
+                const final = existingUpdatedAt >= updUpdatedAt ? existing : { ...existing, ...upd };
+                fetchedByNumber.set(num, final);
+                if (final.id) fetchedById.set(String(final.id), final);
+              } else {
+                // new order: add to front
+                fetched.unshift(upd);
+                if (upd.id) fetchedById.set(String(upd.id), upd);
+                if (upd.order_number) fetchedByNumber.set(upd.order_number, upd);
+              }
+            });
 
           try {
             supabase.auth.onAuthStateChange((_event, session) => {
