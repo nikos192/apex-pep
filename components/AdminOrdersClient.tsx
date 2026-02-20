@@ -23,13 +23,7 @@ export default function AdminOrdersClient() {
   const skipFetchUntilRef = useRef<number>(0);
 
   const fetchOrders = async () => {
-    // If we recently applied a realtime update, skip an immediate fetch
-    // to avoid race where the server snapshot (just before trigger) overwrites the in-memory update.
-    if (Date.now() < skipFetchUntilRef.current) {
-      console.debug("AdminOrdersClient: skipping fetch due to recent realtime update");
-      return;
-    }
-
+    if (Date.now() < skipFetchUntilRef.current) return;
     setLoading(true);
     setError(null);
     try {
@@ -106,7 +100,6 @@ export default function AdminOrdersClient() {
 
   useEffect(() => {
     fetchOrders();
-    // Background reconciliation: keep a low-frequency full-sync to reconcile missed events
     intervalRef.current = window.setInterval(fetchOrders, 60 * 1000);
 
     const applyUpdatedOrder = (updatedOrder: any) => {
@@ -116,8 +109,7 @@ export default function AdminOrdersClient() {
         const now = Date.now();
         const updatedAtMs = updatedOrder?.updated_at ? new Date(updatedOrder.updated_at).getTime() : now;
         recentUpdatesRef.current = { ...recentUpdatesRef.current, [key]: { order: updatedOrder, receivedAt: now, updatedAtMs } };
-        // prevent immediate fetches from clobbering this recent realtime update
-        skipFetchUntilRef.current = Date.now() + 1500; // 1.5s
+        skipFetchUntilRef.current = Date.now() + 1500;
         Object.keys(recentUpdatesRef.current).forEach((k) => {
           const entry = recentUpdatesRef.current[k];
           if (!entry) return;
@@ -168,69 +160,86 @@ export default function AdminOrdersClient() {
     let supChannel: any = null;
     let es: EventSource | null = null;
     let usingSSE = false;
-    try {
-      if (typeof window !== "undefined") {
 
-        const supabase = supabaseClient;
+    if (typeof window !== "undefined") {
+      const supabase = supabaseClient;
 
+      (async () => {
         // Try server-sent events relay first (server subscribes with service key)
         try {
           const url = '/api/admin/orders/stream';
           es = new EventSource(url);
-          es.onopen = () => {
-            console.debug('Admin SSE: connected');
-            usingSSE = true;
-          };
-          es.onmessage = (ev) => {
-            try {
-              const d = JSON.parse(ev.data);
-              if (d?.type === 'postgres_changes' && d.payload) {
-                const payload = d.payload;
-                if (payload?.new) applyUpdatedOrder(payload.new);
-                else if (payload?.old && !payload?.new) applyUpdatedOrder({ ...payload.old, __deleted: true });
+
+          const sseConnected = await new Promise<boolean>((resolve) => {
+            let resolved = false;
+            const onOpen = () => { if (!resolved) { resolved = true; resolve(true); } };
+            const onError = () => { if (!resolved) { resolved = true; resolve(false); } };
+            es!.onopen = onOpen;
+            es!.onmessage = (ev) => {
+              try {
+                const d = JSON.parse(ev.data);
+                if (d?.type === 'postgres_changes' && d.payload) {
+                  const payload = d.payload;
+                  if (payload?.new) applyUpdatedOrder(payload.new);
+                  else if (payload?.old && !payload?.new) applyUpdatedOrder({ ...payload.old, __deleted: true });
+                }
+              } catch (err) {
+                console.error('Admin SSE parse error:', err);
               }
-            } catch (err) {
-              console.error('Admin SSE parse error:', err);
-            }
-          };
-          es.onerror = (err) => {
-            console.warn('Admin SSE error, falling back to client realtime', err);
+            };
+            es!.onerror = (err) => {
+              console.warn('Admin SSE error (early):', err);
+              if (!resolved) { resolved = true; resolve(false); }
+            };
+
+            setTimeout(() => { if (!resolved) { resolved = true; resolve(false); } }, 800);
+          });
+
+          if (sseConnected) {
+            usingSSE = true;
+            console.debug('Admin SSE: connected');
+            es.onmessage = (ev) => {
+              try {
+                const d = JSON.parse(ev.data);
+                if (d?.type === 'postgres_changes' && d.payload) {
+                  const payload = d.payload;
+                  if (payload?.new) applyUpdatedOrder(payload.new);
+                  else if (payload?.old && !payload?.new) applyUpdatedOrder({ ...payload.old, __deleted: true });
+                }
+              } catch (err) {
+                console.error('Admin SSE parse error:', err);
+              }
+            };
+            es.onerror = (err) => {
+              console.warn('Admin SSE error, falling back to client realtime', err);
+              try { es?.close(); } catch (e) {}
+              es = null;
+              usingSSE = false;
+            };
+          } else {
             try { es?.close(); } catch (e) {}
             es = null;
             usingSSE = false;
-          };
+          }
         } catch (e) {
-          // ignore and fall back to client realtime
+          try { es?.close(); } catch (er) {}
+          es = null;
+          usingSSE = false;
         }
 
-
-          (async () => {
+        // If SSE isn't available, fall back to direct Supabase realtime (dev-only fallback)
+        if (!usingSSE) {
           try {
             const { data } = await supabase.auth.getSession();
             const accessToken = data?.session?.access_token;
             if (accessToken) {
-              try {
-                await supabase.realtime.setAuth(accessToken);
-                console.debug("Supabase realtime: setAuth OK");
-              } catch (e) {
-                console.warn("Supabase realtime.setAuth failed:", e);
-              }
+              try { await supabase.realtime.setAuth(accessToken); console.debug('Supabase realtime: setAuth OK'); } catch (e) { console.warn('Supabase realtime.setAuth failed:', e); }
             } else {
-              console.debug("Supabase realtime: no session access token");
+              console.debug('Supabase realtime: no session access token');
             }
           } catch (e) {
-            console.debug("Supabase auth.getSession failed:", e);
+            console.debug('Supabase auth.getSession failed:', e);
           }
-
-          try {
-            supabase.auth.onAuthStateChange((_event, session) => {
-              console.debug("Supabase auth change", _event);
-              if (session?.access_token) {
-                supabase.realtime.setAuth(session.access_token).catch(() => {});
-                fetchOrders().catch(() => {});
-              }
-            });
-          } catch (e) {}
 
           const makeChannel = (isPrivate: boolean) => {
             return supabase
@@ -274,15 +283,10 @@ export default function AdminOrdersClient() {
             const ch = makeChannel(isPrivate).subscribe((status: any, err: any) => {
               console.log("Supabase orders channel status:", status);
               if (err) console.error("Supabase channel subscribe error:", err);
-              if (status === "SUBSCRIBED") {
-                subscribeAttempt = 0;
-                fetchOrders().catch(() => {});
-              }
+              if (status === "SUBSCRIBED") { subscribeAttempt = 0; fetchOrders().catch(() => {}); }
 
-              // If unauthorized on private channel, fallback to public if we haven't already
               if (status === "CHANNEL_ERROR" && err && /Unauthorized/i.test(String(err?.message || err))) {
                 if (!isProd && isPrivate && !attemptedPublicFallback) {
-                  // Dev-only fallback to public channel so local/dev admin can still see updates
                   console.warn("Realtime private subscribe unauthorized — falling back to public channel (dev only)");
                   attemptedPublicFallback = true;
                   try { ch.unsubscribe?.(); } catch (e) {}
@@ -292,25 +296,18 @@ export default function AdminOrdersClient() {
                 }
               }
 
-              // Simple retry with backoff for transient errors
               if (status === "CHANNEL_ERROR" && !/Unauthorized/i.test(String(err?.message || err))) {
                 const backoffMs = Math.min(1000 * 2 ** subscribeAttempt, 30000);
                 console.warn(`Realtime subscribe failed, retrying in ${backoffMs}ms`);
-                setTimeout(() => {
-                  try { ch.unsubscribe?.(); } catch (e) {}
-                  supChannel = trySubscribe(isPrivate);
-                }, backoffMs);
+                setTimeout(() => { try { ch.unsubscribe?.(); } catch (e) {} ; supChannel = trySubscribe(isPrivate); }, backoffMs);
               }
             });
             return ch;
           };
 
-          // If SSE is active, skip client-side realtime subscribe
-          if (!usingSSE) supChannel = trySubscribe(true);
-        })();
-      }
-    } catch (e) {
-      console.warn("Supabase realtime error:", e);
+          supChannel = trySubscribe(true);
+        }
+      })();
     }
 
     const storageHandler = (e: StorageEvent) => {
@@ -332,6 +329,7 @@ export default function AdminOrdersClient() {
       window.removeEventListener("storage", storageHandler);
       if (bc) bc.close();
       try { supChannel?.unsubscribe?.(); } catch (e) {}
+      try { es?.close?.(); } catch (e) {}
     };
   }, []);
 
