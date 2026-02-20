@@ -32,6 +32,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/favicon.svg" />
+      </head>
       <body className={`${inter.className} bg-white text-slate-900 antialiased`}>
         <CartProvider>
           <div className="flex flex-col min-h-screen">
