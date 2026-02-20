@@ -27,7 +27,6 @@ export default function AdminOrdersClient() {
     try {
       const res = await fetch("/api/admin/orders-list", { credentials: "same-origin", cache: "no-store" });
       const json = await res.json();
-      console.debug("AdminOrdersClient: fetchOrders response status", res.status);
       if (!res.ok) {
         setError(json?.error || "Failed to load orders");
         setOrders([]);
@@ -35,7 +34,6 @@ export default function AdminOrdersClient() {
       }
 
       let fetched: any[] = json.orders || [];
-      console.debug("AdminOrdersClient: fetched orders count", fetched.length);
 
       try {
         const recent = recentUpdatesRef.current || {};
@@ -69,7 +67,6 @@ export default function AdminOrdersClient() {
             }
           });
 
-          // rebuild deduped list
           const seen = new Set<string>();
           const mergedArr: any[] = [];
           for (const o of fetched) {
@@ -110,7 +107,6 @@ export default function AdminOrdersClient() {
         const now = Date.now();
         const updatedAtMs = updatedOrder?.updated_at ? new Date(updatedOrder.updated_at).getTime() : now;
         recentUpdatesRef.current = { ...recentUpdatesRef.current, [key]: { order: updatedOrder, receivedAt: now, updatedAtMs } };
-        // prune entries older than ~60s (based on receivedAt)
         Object.keys(recentUpdatesRef.current).forEach((k) => {
           const entry = recentUpdatesRef.current[k];
           if (!entry) return;
@@ -183,7 +179,6 @@ export default function AdminOrdersClient() {
           .channel("orders:all", { config: { broadcast: { self: true } } })
           .on("postgres_changes", { event: "*", schema: "public", table: "orders" }, (payload: any) => {
             try {
-              console.debug("Supabase postgres_changes payload:", payload);
               if (payload?.new) {
                 applyUpdatedOrder(payload.new);
                 fetchOrders().catch(() => {});
@@ -197,7 +192,6 @@ export default function AdminOrdersClient() {
           })
           .on("broadcast", { event: "orders_broadcast" }, (payload: any) => {
             try {
-              console.debug("Supabase broadcast payload:", payload);
               const p = payload?.payload ?? payload?.data ?? payload;
               let order: any = null;
               if (p?.order) order = p.order;
@@ -279,95 +273,3 @@ export default function AdminOrdersClient() {
     </div>
   );
 }
-                  // common shapes:
-                  // { payload: { new: {...}, old: {...}, operation: 'UPDATE' } }
-                  // { payload: { order: {...} } }
-                  // { order: {...} }
-                  let order: any = null;
-                  if (p?.order) order = p.order;
-                  else if (p?.new) order = p.new;
-                  else if (p?.payload && p.payload.new) order = p.payload.new;
-                  else if (p?.payload && p.payload.order) order = p.payload.order;
-                  else if (p?.id && (p?.new || p?.old)) order = p.new ?? p.old;
-                  else if (p?.id && !p.new && !p.order) order = p; // payload may already be the order
-
-                  if (order) {
-                    applyUpdatedOrder(order);
-                    fetchOrders().catch(() => {});
-                  } else {
-                    // as a fallback, refresh the full list
-                    fetchOrders().catch(() => {});
-                  }
-                } catch (err) {
-                  console.error("Supabase broadcast handler error:", err);
-                }
-              }
-          )
-          .subscribe((status: any, err: any) => {
-            console.log("Supabase orders channel status:", status);
-            if (err) console.error("Supabase channel subscribe error:", err);
-            if (status === "SUBSCRIBED") fetchOrders().catch(() => {});
-          });
-      }
-    } catch (e) {
-      console.warn("Supabase realtime error:", e);
-    }
-
-    // Listen to storage events (other tabs)
-    const storageHandler = (e: StorageEvent) => {
-      if (e.key === "order-updated" && e.newValue) {
-        try {
-          const parsed = JSON.parse(e.newValue);
-          if (parsed?.order) applyUpdatedOrder(parsed.order);
-        } catch (err) {
-          console.error("storage event handler error:", err);
-          fetchOrders();
-        }
-      }
-    };
-
-    window.addEventListener("storage", storageHandler);
-
-    return () => {
-      if (intervalRef.current) window.clearInterval(intervalRef.current);
-      window.removeEventListener("order-updated", handler);
-      window.removeEventListener("storage", storageHandler);
-      if (bc) bc.close();
-    };
-  }, []);
-
-  return (
-    <div>
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-1">Orders</h1>
-          <p className="text-slate-600">{orders.length} order{orders.length !== 1 ? "s" : ""} in system</p>
-        </div>
-        <div className="flex gap-3">
-          <button
-            className="btn-outline"
-            onClick={() => fetchOrders()}
-            disabled={loading}
-          >
-            {loading ? "Refreshing…" : "Refresh"}
-          </button>
-        </div>
-      </div>
-
-      {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-          <p className="text-sm text-red-700">{error}</p>
-        </div>
-      )}
-
-      {orders.length === 0 ? (
-        <div className="bg-white rounded-lg border border-slate-200 p-8 text-center">
-          <p className="text-slate-600">No orders found.</p>
-        </div>
-      ) : (
-        <OrdersTable orders={orders} />
-      )}
-    </div>
-  );
-}
- 
