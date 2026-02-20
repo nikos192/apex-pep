@@ -61,8 +61,8 @@ export default function AdminOrdersClient() {
 
   useEffect(() => {
     fetchOrders();
-    // Poll every 10 seconds
-    intervalRef.current = window.setInterval(fetchOrders, 10000);
+    // Poll every 5 seconds (reduced for faster updates)
+    intervalRef.current = window.setInterval(fetchOrders, 5000);
 
     // Handler to apply an updated order payload
     const applyUpdatedOrder = (updatedOrder: any) => {
@@ -95,6 +95,8 @@ export default function AdminOrdersClient() {
         const updatedOrder = e?.detail?.order;
         if (updatedOrder) {
           applyUpdatedOrder(updatedOrder);
+          // Also fetch fresh list immediately to ensure ordering/aggregates are correct
+          fetchOrders();
         } else {
           fetchOrders();
         }
