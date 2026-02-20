@@ -226,8 +226,13 @@ export default function AdminOrdersClient() {
             (payload: any) => {
               try {
                 console.debug("Supabase postgres_changes payload:", payload);
-                if (payload?.new) applyUpdatedOrder(payload.new);
-                else if (payload?.old && !payload?.new) applyUpdatedOrder({ ...payload.old, __deleted: true });
+                if (payload?.new) {
+                  applyUpdatedOrder(payload.new);
+                  fetchOrders().catch(() => {});
+                } else if (payload?.old && !payload?.new) {
+                  applyUpdatedOrder({ ...payload.old, __deleted: true });
+                  fetchOrders().catch(() => {});
+                }
               } catch (err) {
                 console.error("Supabase postgres_changes handler error:", err);
               }
@@ -255,9 +260,10 @@ export default function AdminOrdersClient() {
 
                   if (order) {
                     applyUpdatedOrder(order);
+                    fetchOrders().catch(() => {});
                   } else {
                     // as a fallback, refresh the full list
-                    fetchOrders();
+                    fetchOrders().catch(() => {});
                   }
                 } catch (err) {
                   console.error("Supabase broadcast handler error:", err);
