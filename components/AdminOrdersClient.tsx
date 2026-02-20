@@ -21,6 +21,7 @@ export default function AdminOrdersClient() {
   const intervalRef = useRef<number | null>(null);
   // keep a short-lived map of recent updates so fetches don't overwrite optimistic changes
   const recentUpdatesRef = useRef<Record<string, any>>({});
+  const lastCheckRef = useRef<string>(new Date().toISOString());
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -137,21 +138,15 @@ export default function AdminOrdersClient() {
         const supabase = supabaseClient;
 
         // Attach auth token if available (helps private channels)
-        const lastCheckRef = useRef<string>(new Date().toISOString());
         try {
           supabase.auth.getSession().then(({ data }) => {
-              if (data?.session) {
-                console.debug("Supabase realtime: session present");
-              }
-            }).catch(() => {});
+            if (data?.session) console.debug("Supabase realtime: session present");
+          }).catch(() => {});
 
-          // Listen for auth changes and refetch on change (helps when user logs in/out)
           try {
             supabase.auth.onAuthStateChange((_event, session) => {
               console.debug("Supabase auth change", _event);
-              if (session?.access_token) {
-                fetchOrders().catch(() => {});
-              }
+              if (session?.access_token) fetchOrders().catch(() => {});
             });
           } catch (e) {
             // ignore if not available
@@ -165,14 +160,7 @@ export default function AdminOrdersClient() {
           .on(
             "postgres_changes",
             { event: "*", schema: "public", table: "orders" },
-              setOrders(fetched);
-              try {
-                // set lastCheck to newest updated_at from fetched rows
-                const newest = fetched.reduce((acc: string, cur: any) => (cur.updated_at && cur.updated_at > acc ? cur.updated_at : acc), lastCheckRef.current);
-                lastCheckRef.current = newest || new Date().toISOString();
-              } catch (e) {
-                lastCheckRef.current = new Date().toISOString();
-              }
+            (payload: any) => {
               try {
                 console.debug("Supabase postgres_changes payload:", payload);
                 if (payload?.new) applyUpdatedOrder(payload.new);
@@ -185,30 +173,21 @@ export default function AdminOrdersClient() {
           .on(
             "broadcast",
             { event: "orders_broadcast" },
-            (payload) => {
+            (payload: any) => {
               try {
                 console.debug("Supabase broadcast payload:", payload);
-                // payload may contain nested shapes depending on trigger
                 const p = payload?.payload ?? payload?.data ?? payload;
-                // Expecting { action: 'INSERT'|'UPDATE'|'DELETE', order: {...} }
-                if (p?.action && p?.order) {
-                  applyUpdatedOrder(p.order);
-                } else if (p?.order) {
-                  // fallback
-                  applyUpdatedOrder(p.order);
-                }
+                if (p?.action && p?.order) applyUpdatedOrder(p.order);
+                else if (p?.order) applyUpdatedOrder(p.order);
               } catch (err) {
                 console.error("Supabase broadcast handler error:", err);
               }
             }
           )
-          .subscribe((status, err) => {
+          .subscribe((status: any, err: any) => {
             console.log("Supabase orders channel status:", status);
             if (err) console.error("Supabase channel subscribe error:", err);
-            if (status === "SUBSCRIBED") {
-              // Optionally refetch to ensure no missed rows
-              fetchOrders().catch(() => {});
-            }
+            if (status === "SUBSCRIBED") fetchOrders().catch(() => {});
           });
       }
     } catch (e) {
@@ -218,44 +197,11 @@ export default function AdminOrdersClient() {
     };
     window.addEventListener("storage", storageHandler);
 
-    // Start a fast update poll for deltas (every 2s)
-    let fastPollId: number | null = null;
-    try {
-      let lastCheck = new Date().toISOString();
-      const fastFetch = async () => {
-        try {
-          const res = await fetch(`/api/admin/orders/updates?since=${encodeURIComponent(lastCheck)}`, {
-            credentials: "same-origin",
-            cache: "no-store",
-          });
-          if (!res.ok) return;
-          const json = await res.json();
-          const changed: any[] = json.orders || [];
-          if (changed.length > 0) {
-            changed.forEach((o) => applyUpdatedOrder(o));
-            // set lastCheck to newest updated_at from returned rows
-            const newest = changed.reduce((acc, cur) => (cur.updated_at > acc ? cur.updated_at : acc), lastCheck);
-            lastCheck = newest || new Date().toISOString();
-          }
-        } catch (e) {
-          // ignore transient errors
-        }
-      };
-      // run immediately then every 20s
-      fastFetch();
-      fastPollId = window.setInterval(fastFetch, 20000);
-    } catch (e) {
-      // ignore
-    }
-
     return () => {
       if (intervalRef.current) window.clearInterval(intervalRef.current);
       window.removeEventListener("order-updated", handler);
       window.removeEventListener("storage", storageHandler);
-      if (bc) {
-        bc.close();
-      }
-      if (fastPollId) window.clearInterval(fastPollId);
+      if (bc) bc.close();
     };
   }, []);
 
