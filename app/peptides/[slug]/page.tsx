@@ -7,6 +7,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { ProductImage } from "@/components/ProductImage";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { ShippingInfo } from "@/components/ShippingInfo";
+import StorageInstructions from "@/components/StorageInstructions";
 
 interface ProductDetailPageProps {
   params: {
@@ -185,7 +186,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             },
             {
               title: "Storage & Handling",
-              children: <p className="text-slate-700 leading-relaxed">{product.storage}</p>,
+              children: <div className="py-2"><StorageInstructions /></div>,
             },
             {
               title: "Shipping",
