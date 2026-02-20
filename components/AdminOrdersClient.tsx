@@ -61,6 +61,13 @@ export default function AdminOrdersClient() {
 
   useEffect(() => {
     fetchOrders();
+    // Log presence of public Supabase env vars (these are inlined at build time)
+    try {
+      console.debug("NEXT_PUBLIC_SUPABASE_URL present:", !!process.env.NEXT_PUBLIC_SUPABASE_URL);
+      console.debug("NEXT_PUBLIC_SUPABASE_ANON_KEY present:", !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+    } catch (e) {
+      // process may not be available in some runtimes; ignore
+    }
     // Poll every 20 seconds
     intervalRef.current = window.setInterval(fetchOrders, 20000);
 
