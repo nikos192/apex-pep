@@ -161,7 +161,7 @@ export default function AdminOrdersClient() {
               try {
                 console.debug("Supabase postgres_changes payload:", payload);
                 if (payload?.new) applyUpdatedOrder(payload.new);
-                else if (payload?.old && String(payload.event).toUpperCase().includes("DELETE")) applyUpdatedOrder({ ...payload.old, __deleted: true });
+                else if (payload?.old && !payload?.new) applyUpdatedOrder({ ...payload.old, __deleted: true });
               } catch (err) {
                 console.error("Supabase postgres_changes handler error:", err);
               }
