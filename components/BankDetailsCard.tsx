@@ -24,7 +24,7 @@ export default function BankDetailsCard({ orderNumber, total }: BankDetailsCardP
         </div>
         <div className="flex gap-3">
           <span className="text-slate-400 flex-shrink-0">•</span>
-          <span className="text-slate-700">Ensure account number and BSB match exactly</span>
+          <span className="text-slate-700">Ensure account number and BSB match exactly. The account name shown by your bank may not match our internal name, but the account number and BSB are correct — please proceed with the transfer.</span>
         </div>
       </div>
 
@@ -34,6 +34,7 @@ export default function BankDetailsCard({ orderNumber, total }: BankDetailsCardP
           <div>
             <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Account Name</p>
             <p className="text-lg font-semibold text-slate-900">Apex Labs Australia</p>
+            <p className="text-xs text-slate-500 mt-1">Note: the account name displayed by some banks may differ; rely on the account number and BSB above.</p>
           </div>
           <div>
             <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Account Number</p>
