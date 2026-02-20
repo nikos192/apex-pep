@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { createClient } from "@supabase/supabase-js";
+import supabaseClient from "@/lib/supabaseClient";
 import OrdersTable from "@/components/OrdersTable";
 import AdminHeader from "@/components/AdminHeader";
 
@@ -123,36 +123,75 @@ export default function AdminOrdersClient() {
       // ignore if unsupported
     }
 
-    // Supabase Realtime: subscribe to orders table updates if anon key is available.
-    // This lets the admin list update in real-time when the DB row changes.
+    // Supabase Realtime: subscribe to orders table updates and broadcast messages.
     let supChannel: any = null;
     try {
-      if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-        const supabase = createClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL,
-          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-        );
+      if (typeof window !== "undefined") {
+        const supabase = supabaseClient;
+
+        // Attach auth token if available (helps private channels)
+        try {
+          supabase.auth.getSession().then(({ data }) => {
+            const token = data?.session?.access_token;
+            if (token) {
+              try {
+                supabase.auth.setAuth(token);
+                console.debug("Supabase realtime: setAuth token applied");
+              } catch (e) {
+                // setAuth may be noop in some builds
+              }
+            }
+          }).catch(() => {});
+        } catch (e) {
+          // ignore
+        }
 
         supChannel = supabase
-          .channel("orders-realtime")
+          .channel("orders:all", { config: { broadcast: { self: true } } })
           .on(
             "postgres_changes",
             { event: "*", schema: "public", table: "orders" },
             (payload) => {
               try {
-                // payload.new contains the updated row
-                if (payload?.new) {
-                  applyUpdatedOrder(payload.new);
-                }
+                console.debug("Supabase postgres_changes payload:", payload);
+                if (payload?.new) applyUpdatedOrder(payload.new);
+                else if (payload?.old && String(payload.event).toUpperCase().includes("DELETE")) applyUpdatedOrder({ ...payload.old, __deleted: true });
               } catch (err) {
-                console.error("Supabase realtime handler error:", err);
+                console.error("Supabase postgres_changes handler error:", err);
               }
             }
           )
-          .subscribe();
+          .on(
+            "broadcast",
+            { event: "orders_broadcast" },
+            (payload) => {
+              try {
+                console.debug("Supabase broadcast payload:", payload);
+                // payload may contain nested shapes depending on trigger
+                const p = payload?.payload ?? payload?.data ?? payload;
+                // Expecting { action: 'INSERT'|'UPDATE'|'DELETE', order: {...} }
+                if (p?.action && p?.order) {
+                  applyUpdatedOrder(p.order);
+                } else if (p?.order) {
+                  // fallback
+                  applyUpdatedOrder(p.order);
+                }
+              } catch (err) {
+                console.error("Supabase broadcast handler error:", err);
+              }
+            }
+          )
+          .subscribe((status, err) => {
+            console.log("Supabase orders channel status:", status);
+            if (err) console.error("Supabase channel subscribe error:", err);
+            if (status === "SUBSCRIBED") {
+              // Optionally refetch to ensure no missed rows
+              fetchOrders().catch(() => {});
+            }
+          });
       }
     } catch (e) {
-      console.warn("Supabase realtime not enabled:", e);
+      console.warn("Supabase realtime error:", e);
     }
 
     // Read any localStorage fallback written before navigation
