@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ProductCard } from "@/components/ProductCard";
 import { PRODUCTS } from "@/lib/catalog";
 import HeroSection from "@/components/HeroSection";
-import ShippingInfo from "@/components/ShippingInfo";
+import { ShippingInfo } from "@/components/ShippingInfo";
 import FAQSection from "@/components/FAQSection";
 
 export const metadata = {

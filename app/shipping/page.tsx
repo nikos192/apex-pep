@@ -1,4 +1,4 @@
-import ShippingInfo from "@/components/ShippingInfo";
+import { ShippingInfo } from "@/components/ShippingInfo";
 
 export const metadata = {
   title: "Shipping & Fulfillment — Apex Labs",
