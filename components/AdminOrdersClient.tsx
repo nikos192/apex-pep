@@ -194,6 +194,19 @@ export default function AdminOrdersClient() {
       console.warn("Supabase realtime error:", e);
     }
 
+    // Listen to storage events (other tabs)
+    const storageHandler = (e: StorageEvent) => {
+      if (e.key === "order-updated" && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          if (parsed?.order) applyUpdatedOrder(parsed.order);
+        } catch (err) {
+          console.error("storage event handler error:", err);
+          fetchOrders();
+        }
+      }
+    };
+
     window.addEventListener("storage", storageHandler);
 
     return () => {
