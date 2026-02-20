@@ -3,7 +3,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { ShippingInfo } from "@/components/ShippingInfo";
 
 export const metadata = {
-  title: "Research Peptides | Apex Labs Australia",
+  title: "Shop now | Apex Labs Australia",
   description: "Browse our catalog of research peptide compounds for laboratory use.",
 };
 
@@ -14,7 +14,7 @@ export default function PeptidesPage() {
       <section className="border-b border-slate-200 bg-white">
         <div className="container-custom py-12 md:py-16 animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-4">
-            Research Peptides
+            Shop now
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl leading-relaxed mb-6">
             Premium research compounds supplied for laboratory use.
