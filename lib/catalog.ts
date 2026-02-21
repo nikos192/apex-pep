@@ -255,6 +255,7 @@ export const PRODUCTS: Product[] = [
     shipping: "Express courier with temperature-controlled insulated packaging. Delivery within 1-2 business days in Australia.",
     dosageForm: "Lyophilized powder, 10mg per vial",
   },
+];
 export function getProduct(slug: string): Product | undefined {
   return PRODUCTS.find((p) => p.slug === slug);
 }
