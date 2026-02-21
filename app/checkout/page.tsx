@@ -51,7 +51,8 @@ export default function CheckoutPage() {
   const promoCodeUpper = promoCode.toUpperCase();
   const VALID_PROMOS: Record<string, number> = {
     TAMA: 0.1,
-    SYBO: 0.1,
+    SYDO: 0.1,
+    BLAKE: 0.1,
   };
   const promoPercent = VALID_PROMOS[promoCodeUpper] || 0;
   const promoDiscount = Math.round(subtotal * promoPercent * 100) / 100;
