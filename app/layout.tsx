@@ -33,7 +33,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="alternate icon" href="/logos/apex_logo_transparent.png" />
+        <link rel="icon" href="/logos/apex_logo_transparent.png" sizes="32x32" />
+        <link rel="apple-touch-icon" href="/logos/apex_logo_transparent.png" />
       </head>
       <body className={`${inter.className} bg-white text-slate-900 antialiased`}>
         <CartProvider>
