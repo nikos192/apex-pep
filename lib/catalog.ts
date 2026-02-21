@@ -19,7 +19,8 @@ export const PRODUCTS: Product[] = [
     name: "RETA 10MG",
     slug: "reta-10mg",
     image: "/images/reta-10mg.png",
-    regularPrice: 149,
+    regularPrice: 160,
+    salePrice: 150,
     badge: "Research Grade",
     description:
       "Reta (Retatrutide) is a novel GLP-1/GIP/glucagon triple receptor agonist studied in preclinical research contexts. Researchers investigate this advanced peptide for its effects on multiple metabolic signaling pathways simultaneously, examining interactions with glucose homeostasis and energy metabolism mechanisms. In laboratory studies, this compound has demonstrated potential to influence cellular responses through three distinct receptor classes. Scientific literature shows researchers commonly examine triple agonists for understanding complex metabolic pathway interactions in controlled preclinical environments. This research peptide is intended exclusively for laboratory-based research applications by qualified researchers.",
@@ -254,9 +255,6 @@ export const PRODUCTS: Product[] = [
     shipping: "Express courier with temperature-controlled insulated packaging. Delivery within 1-2 business days in Australia.",
     dosageForm: "Lyophilized powder, 10mg per vial",
   },
-      regularPrice: 160,
-      salePrice: 150,
-
 export function getProduct(slug: string): Product | undefined {
   return PRODUCTS.find((p) => p.slug === slug);
 }
