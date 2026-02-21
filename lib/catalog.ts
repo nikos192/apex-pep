@@ -118,7 +118,8 @@ export const PRODUCTS: Product[] = [
     name: "GHK-CU 50MG",
     slug: "ghk-cu-50mg",
     image: "/images/ghkcu 50mg.png",
-    regularPrice: 104,
+    regularPrice: 115,
+    salePrice: 100,
     badge: "Research Grade",
     description:
       "GHK-Cu (glycine-histidine-lysine copper peptide) is extensively studied in preclinical research for its role in copper-dependent signaling pathways. Researchers investigate this tripeptide complex for its potential effects on tissue remodeling, cellular communication, and growth factor interactions. In laboratory studies, GHK-Cu has demonstrated interesting patterns in metalloproteinase regulation and collagen synthesis pathways. Scientific literature shows researchers commonly examine this peptide for its influence on wound healing mechanisms and skin cell behavior in controlled experimental contexts. This research compound is intended solely for laboratory-based preclinical studies.",
@@ -137,7 +138,8 @@ export const PRODUCTS: Product[] = [
     name: "GHK-CU 100MG",
     slug: "ghk-cu-100mg",
     image: "/images/ghkcu-100mg.png",
-    regularPrice: 161,
+    regularPrice: 170,
+    salePrice: 160,
     badge: "Research Grade",
     description:
       "Larger 100mg format of GHK-Cu peptide for extended research programs and batch studies. This copper-containing tripeptide is studied broadly in preclinical research for its role in cellular signaling and tissue-related pathways. Researchers investigate GHK-Cu for its potential to influence multiple physiological mechanisms through copper-dependent enzymatic interactions. In controlled laboratory environments, this peptide has shown interesting effects on growth factor behavior and cellular communication networks. The larger format suits ongoing research protocols and comparative dosage studies in qualified research facilities.",
@@ -156,7 +158,8 @@ export const PRODUCTS: Product[] = [
     name: "MT 1",
     slug: "mt-1",
     image: "/images/mt-1.png",
-    regularPrice: 228,
+    regularPrice: 100,
+    salePrice: 90,
     badge: "Research Grade",
     description:
       "MT-1 (Melanotan-1) is studied in preclinical research for its interactions with melanocortin receptor systems. Researchers investigate this synthetic peptide analog for effects on melanin production and receptor signaling in controlled laboratory settings. In scientific literature, MT-1 has been examined for its potential influence on pigmentation mechanisms and cellular responses to melanocortin pathway stimulation. Laboratory research suggests this compound affects multiple physiological processes through specific receptor interactions. This research peptide is intended exclusively for in vitro studies and preclinical research conducted by qualified laboratory professionals in controlled research environments.",
@@ -217,7 +220,7 @@ export const PRODUCTS: Product[] = [
     slug: "semax-11mg",
     image: "/images/semax 11mg.png",
     regularPrice: 130,
-    salePrice: 85,
+    salePrice: 95,
     badge: "Research Grade",
     description:
       "Semax is a synthetic hexapeptide studied in preclinical research for its effects on ACTH-related signaling pathways and neurological mechanisms. Researchers investigate this compound for its potential influence on cognitive signaling, neuronal protection, and cellular communication in controlled laboratory environments. In scientific literature, Semax has demonstrated interesting patterns in neural cell behavior and neuropeptide interactions. Laboratory research suggests researchers commonly examine this peptide for its effects on memory-related pathways and neurological signaling in preclinical contexts. This research compound is intended exclusively for in vitro studies and laboratory-based research applications.",
@@ -236,7 +239,8 @@ export const PRODUCTS: Product[] = [
     name: "TB-500 10MG",
     slug: "tb-500-10mg",
     image: "/images/tb-500-10mg.png",
-    regularPrice: 161,
+    regularPrice: 130,
+    salePrice: 120,
     badge: "Research Grade",
     description:
       "TB-500 (Thymosin Beta 4) is a naturally occurring peptide extensively studied in preclinical research for its roles in cellular signaling and tissue-related pathways. Researchers investigate this 43-amino acid peptide for its potential effects on wound healing mechanisms, cellular migration, and angiogenesis processes in controlled laboratory settings. In scientific literature, TB-500 has demonstrated interesting interactions with actin-related proteins and multiple growth factors. Laboratory research suggests researchers commonly examine this peptide for its influence on tissue repair and cellular protection mechanisms in preclinical research contexts. This research peptide is intended solely for in vitro studies by qualified laboratory researchers.",
@@ -250,7 +254,8 @@ export const PRODUCTS: Product[] = [
     shipping: "Express courier with temperature-controlled insulated packaging. Delivery within 1-2 business days in Australia.",
     dosageForm: "Lyophilized powder, 10mg per vial",
   },
-];
+      regularPrice: 160,
+      salePrice: 150,
 
 export function getProduct(slug: string): Product | undefined {
   return PRODUCTS.find((p) => p.slug === slug);
