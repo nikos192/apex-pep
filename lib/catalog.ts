@@ -254,7 +254,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Same high-purity research grade compound",
     ],
     storage: "Store at 2-8°C in original sealed containers. Protect from light and moisture.",
-    shipping: "$55 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
+    shipping: "$35 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
     dosageForm: "Lyophilized powder, 10mg per vial × 10 vials",
   },
   {
@@ -274,7 +274,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Same high-purity research grade compound",
     ],
     storage: "Store at 2-8°C in sealed containers. Protect from light and oxidative conditions.",
-    shipping: "$55 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
+    shipping: "$35 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
     dosageForm: "Lyophilized powder, 10 vials per pack",
   },
   {
@@ -294,7 +294,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Same high-purity research grade compound",
     ],
     storage: "Store at 2-8°C in sealed container away from light. Protect from freezing.",
-    shipping: "$55 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
+    shipping: "$35 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
     dosageForm: "Lyophilized powder, 10mg per vial × 10 vials",
   },
   {
