@@ -81,7 +81,7 @@ function generateDescription(productName: string): string {
  */
 const PRICING_MAP: Record<string, { original: number; sale: number }> = {
   "BPC-157": { original: 100, sale: 90 },
-  "RETA 10MG": { original: 160, sale: 149 },
+  "Retatrutide 10MG": { original: 160, sale: 149 },
   
   "GHK-CU 100MG": { original: 170, sale: 160 },
   "MT-2 10MG": { original: 90, sale: 75 },
@@ -92,7 +92,7 @@ const PRICING_MAP: Record<string, { original: number; sale: number }> = {
   "CJC+IPA": { original: 160, sale: 150 },
   "TB-500 10MG": { original: 140, sale: 120 },
   "MT 1": { original: 100, sale: 90 },
-  "RETA X10, GHK X10 (MEGA DEAL!)": { original: 2600, sale: 1250 },
+  "RETA + GHK-CU Combined Bundle": { original: 1800, sale: 1090 },
 };
 
 /**

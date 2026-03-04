@@ -16,14 +16,14 @@ export interface Product {
 export const PRODUCTS: Product[] = [
   {
     id: "reta-10mg",
-    name: "RETA 10MG",
+    name: "Retatrutide 10MG",
     slug: "reta-10mg",
     image: "/images/reta-10mg.png",
     regularPrice: 160,
     salePrice: 150,
     badge: "Research Grade",
     description:
-      "Reta (Retatrutide) is a novel GLP-1/GIP/glucagon triple receptor agonist studied in preclinical research contexts. Researchers investigate this advanced peptide for its effects on multiple metabolic signaling pathways simultaneously, examining interactions with glucose homeostasis and energy metabolism mechanisms. In laboratory studies, this compound has demonstrated potential to influence cellular responses through three distinct receptor classes. Scientific literature shows researchers commonly examine triple agonists for understanding complex metabolic pathway interactions in controlled preclinical environments. This research peptide is intended exclusively for laboratory-based research applications by qualified researchers.",
+      "Retatrutide is a novel GLP-1/GIP/glucagon triple receptor agonist studied in preclinical research contexts. Researchers investigate this advanced peptide for its effects on multiple metabolic signaling pathways simultaneously, examining interactions with glucose homeostasis and energy metabolism mechanisms. In laboratory studies, this compound has demonstrated potential to influence cellular responses through three distinct receptor classes. Scientific literature shows researchers commonly examine triple agonists for understanding complex metabolic pathway interactions in controlled preclinical environments. This research peptide is intended exclusively for laboratory-based research applications by qualified researchers.",
     bullets: [
       "Triple receptor agonist research",
       "Researchers investigate metabolic pathway interactions",
@@ -52,7 +52,7 @@ export const PRODUCTS: Product[] = [
     ],
     storage: "Store at 2-8°C in original sealed container. Protect from light and moisture. Opened vials should be used within 30 days.",
     shipping: "Shipped via express courier in temperature-controlled packaging. Delivery to major Australian cities within 1-2 business days.",
-    dosageForm: "Lyophilized powder, 5mg per vial",
+    dosageForm: "Lyophilized powder, 10mg per vial",
   },
   {
     id: "bac-water-10ml",
@@ -112,7 +112,7 @@ export const PRODUCTS: Product[] = [
     ],
     storage: "Store at 2-8°C in original sealed container. Protect from light. Reconstituted solutions stable for 7 days refrigerated.",
     shipping: "Shipped via express courier in temperature-controlled insulated packaging. Delivery within 1-2 business days.",
-    dosageForm: "Lyophilized powder combination",
+    dosageForm: "Lyophilized powder combination, 10mg per vial",
   },
   {
     id: "ghk-cu-50mg",
@@ -195,27 +195,6 @@ export const PRODUCTS: Product[] = [
     dosageForm: "Lyophilized powder, 10mg per vial",
   },
   {
-    id: "reta-10x-ghk-10x",
-    name: "RETA X10, GHK X10 (MEGA DEAL!)",
-    slug: "reta-10x-ghk-10x",
-    image: "/images/reta 10x, ghk 10x (mega deal).png",
-    regularPrice: 2600,
-    salePrice: 1250,
-    badge: "Research Grade",
-    description:
-      "Comprehensive peptide research bundle combining 10 vials of Reta-10MG with 10 vials of GHK-Cu for extended preclinical research programs. This bundle supports comparative studies examining growth hormone-releasing pathways alongside copper-dependent signaling mechanisms. Researchers commonly use such combinations to investigate interactive effects between different peptide classes in controlled laboratory environments. The bundled format provides cost efficiency for long-term research protocols, reducing per-vial expenses while maintaining access to high-purity research compounds. Ideal for institutions conducting comprehensive preclinical studies on multiple peptide mechanisms.",
-    bullets: [
-      "Comprehensive dual-peptide research bundle",
-      "Supports comparative pathway studies",
-      "Reduces cost for extended protocols",
-      "Enables mechanistic interaction research",
-    ],
-    storage: "Store both components at 2-8°C in sealed containers. Protect from light and temperature fluctuations.",
-    shipping: "Shipped as complete bundle in insulated temperature-controlled packaging. Delivery within 1-2 business days.",
-    dosageForm: "Dual bundle: 10x Reta-10MG + 10x GHK-Cu vials",
-  },
-  
-  {
     id: "semax-11mg",
     name: "SEMAX 11MG",
     slug: "semax-11mg",
@@ -256,12 +235,96 @@ export const PRODUCTS: Product[] = [
     dosageForm: "Lyophilized powder, 10mg per vial",
   },
 ];
+
+export const BULK_PRODUCTS: Product[] = [
+  {
+    id: "bpc-157-bulk-10",
+    name: "BPC-157 Bulk (10-pack)",
+    slug: "bpc-157-bulk-10",
+    image: "/images/bpc bulk.jpeg",
+    regularPrice: 800,
+    salePrice: 520,
+    badge: "Bulk Deal",
+    description:
+      "Save big with a 10-vial bulk pack of BPC-157 research peptide. Ideal for extended preclinical research programs requiring consistent supply. Each vial contains 10mg of high-purity BPC-157 peptide in lyophilized powder form.",
+    bullets: [
+      "10 vials of BPC-157 per pack",
+      "Massive bulk savings — up to 60% off per vial",
+      "Consistent batch for extended research protocols",
+      "Same high-purity research grade compound",
+    ],
+    storage: "Store at 2-8°C in original sealed containers. Protect from light and moisture.",
+    shipping: "$55 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
+    dosageForm: "Lyophilized powder, 10mg per vial × 10 vials",
+  },
+  {
+    id: "ghk-cu-bulk-10",
+    name: "GHK-CU Bulk (10-pack)",
+    slug: "ghk-cu-bulk-10",
+    image: "/images/ghk bulk.jpeg",
+    regularPrice: 910,
+    salePrice: 600,
+    badge: "Bulk Deal",
+    description:
+      "Save big with a 10-vial bulk pack of GHK-Cu research peptide. Ideal for extended preclinical copper-peptide research programs. Each vial contains high-purity GHK-Cu peptide in lyophilized powder form.",
+    bullets: [
+      "10 vials of GHK-Cu per pack",
+      "Massive bulk savings — up to 60% off per vial",
+      "Consistent batch for extended research protocols",
+      "Same high-purity research grade compound",
+    ],
+    storage: "Store at 2-8°C in sealed containers. Protect from light and oxidative conditions.",
+    shipping: "$55 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
+    dosageForm: "Lyophilized powder, 10 vials per pack",
+  },
+  {
+    id: "reta-bulk-10",
+    name: "Retatrutide (RETA) Bulk (10-pack)",
+    slug: "reta-bulk-10",
+    image: "/images/reta bulk.jpeg",
+    regularPrice: 890,
+    salePrice: 590,
+    badge: "Bulk Deal",
+    description:
+      "Save big with a 10-vial bulk pack of Retatrutide research peptide. Ideal for extended preclinical metabolic pathway research programs. Each vial contains 10mg of high-purity Retatrutide peptide in lyophilized powder form.",
+    bullets: [
+      "10 vials of Retatrutide per pack",
+      "Massive bulk savings — up to 60% off per vial",
+      "Consistent batch for extended research protocols",
+      "Same high-purity research grade compound",
+    ],
+    storage: "Store at 2-8°C in sealed container away from light. Protect from freezing.",
+    shipping: "$55 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
+    dosageForm: "Lyophilized powder, 10mg per vial × 10 vials",
+  },
+  {
+    id: "reta-10x-ghk-10x",
+    name: "RETA + GHK-CU Combined Bundle",
+    slug: "reta-10x-ghk-10x",
+    image: "/images/reta 10x, ghk 10x (mega deal).png",
+    regularPrice: 1800,
+    salePrice: 1090,
+    badge: "Mega Deal",
+    description:
+      "Comprehensive peptide research bundle combining 10 vials of Retatrutide-10MG with 10 vials of GHK-Cu for extended preclinical research programs. This bundle supports comparative studies examining growth hormone-releasing pathways alongside copper-dependent signaling mechanisms. Researchers commonly use such combinations to investigate interactive effects between different peptide classes in controlled laboratory environments. The bundled format provides cost efficiency for long-term research protocols, reducing per-vial expenses while maintaining access to high-purity research compounds.",
+    bullets: [
+      "Comprehensive dual-peptide research bundle",
+      "Supports comparative pathway studies",
+      "Reduces cost for extended protocols",
+      "Enables mechanistic interaction research",
+    ],
+    storage: "Store both components at 2-8°C in sealed containers. Protect from light and temperature fluctuations.",
+    shipping: "Shipped as complete bundle in insulated temperature-controlled packaging. Delivery within 1-2 business days.",
+    dosageForm: "Dual bundle: 10x Retatrutide-10MG + 10x GHK-Cu vials",
+  },
+];
+
 export function getProduct(slug: string): Product | undefined {
-  return PRODUCTS.find((p) => p.slug === slug);
+  return [...PRODUCTS, ...BULK_PRODUCTS].find((p) => p.slug === slug);
 }
 
 export function getRelatedProducts(excludeSlug: string, count: number = 4): Product[] {
-  return PRODUCTS.filter((p) => p.slug !== excludeSlug)
+  return [...PRODUCTS, ...BULK_PRODUCTS].filter((p) => p.slug !== excludeSlug)
     .sort(() => Math.random() - 0.5)
     .slice(0, count);
 }

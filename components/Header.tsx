@@ -24,6 +24,7 @@ export function Header() {
   const navItems = [
     { href: "/", label: "Home" },
     { href: "/peptides", label: "Peptides" },
+    { href: "/bulk-deals", label: "Bulk Deals" },
     { href: "/research", label: "Research" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },

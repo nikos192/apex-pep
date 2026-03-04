@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PRODUCTS, getProduct, getRelatedProducts, formatAUD } from "@/lib/catalog";
+import { PRODUCTS, BULK_PRODUCTS, getProduct, getRelatedProducts, formatAUD } from "@/lib/catalog";
 import { Accordion } from "@/components/Accordion";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductImage } from "@/components/ProductImage";
@@ -18,7 +18,7 @@ interface ProductDetailPageProps {
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  return PRODUCTS.map((product) => ({
+  return [...PRODUCTS, ...BULK_PRODUCTS].map((product) => ({
     slug: product.slug,
   }));
 }
