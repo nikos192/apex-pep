@@ -534,7 +534,7 @@ export default function CheckoutPage() {
                     </p>
                   </div>
                   <span className="font-semibold text-slate-900 text-sm md:text-base flex-shrink-0">
-                    $20
+                    ${baseShippingCost}
                   </span>
                 </div>
               </div>
