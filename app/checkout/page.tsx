@@ -47,7 +47,7 @@ export default function CheckoutPage() {
 
   // Calculate totals
   const subtotal = cart.total;
-  const hasBulkItem = cart.items.some((item) => BULK_IDS.includes(item.id));
+  const hasBulkItem = cart.items.some((item) => BULK_IDS.includes(item.productId));
   const baseShippingCost = hasBulkItem ? BULK_SHIPPING_COST : SHIPPING_COST;
   const shippingCost = formData.shippingOption === "standard" ? baseShippingCost : 0;
   // Promo code handling
