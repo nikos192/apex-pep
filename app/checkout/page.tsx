@@ -42,10 +42,14 @@ export default function CheckoutPage() {
   const [apiWarnings, setApiWarnings] = useState<string[]>([]);
 
   const SHIPPING_COST = 20;
+  const BULK_SHIPPING_COST = 55;
+  const BULK_IDS = ["bpc-157-bulk-10", "ghk-cu-bulk-10", "reta-bulk-10", "reta-10x-ghk-10x"];
 
   // Calculate totals
   const subtotal = cart.total;
-  const shippingCost = formData.shippingOption === "standard" ? SHIPPING_COST : 0;
+  const hasBulkItem = cart.items.some((item) => BULK_IDS.includes(item.id));
+  const baseShippingCost = hasBulkItem ? BULK_SHIPPING_COST : SHIPPING_COST;
+  const shippingCost = formData.shippingOption === "standard" ? baseShippingCost : 0;
   // Promo code handling
   const promoCode = (formData.promoCode || "").trim();
   const promoCodeUpper = promoCode.toUpperCase();
