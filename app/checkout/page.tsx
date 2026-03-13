@@ -59,6 +59,7 @@ export default function CheckoutPage() {
     BLAKE: 0.1,
     ALISHA: 0.1,
     "TAMA FAMILY": 0.1,
+    NIKOS: 0.1,
   };
   const promoPercent = VALID_PROMOS[promoCodeUpper] || 0;
   const promoDiscount = Math.round(subtotal * promoPercent * 100) / 100;
