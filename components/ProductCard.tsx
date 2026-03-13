@@ -17,65 +17,59 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Link href={`/peptides/${product.slug}`}>
-      <div className="group cursor-pointer h-full flex flex-col animate-fade-in">
-        {/* Product Image Container - Square AR */}
-        <div className="relative mb-5 overflow-hidden rounded-xl bg-brand-100 border border-brand-200 shadow-card hover-lift aspect-square w-full">
+      <div className="group cursor-pointer h-full flex flex-col bg-white rounded-2xl border border-slate-100 shadow-card hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-300 overflow-hidden animate-fade-in">
+        {/* Product Image */}
+        <div className="relative overflow-hidden bg-slate-50 aspect-square w-full">
           {/* Discount Badge */}
           {hasDiscount && (
-            <div className="absolute top-4 right-4 z-10 bg-brand-primary text-white text-sm font-bold px-3 py-1.5 rounded-full animate-scale-in">
+            <div className="absolute top-3 right-3 z-10 bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md animate-scale-in">
               Save {discountPercent}%
             </div>
           )}
-
-          {/* Image */}
-          <div className="relative w-full h-full overflow-hidden bg-brand-100">
-            <Image
-              src={product.image}
-              alt={product.name}
-              fill
-              className="object-cover group-hover:scale-110 transition-transform duration-500"
-              onError={(e) => {
-                const img = e.target as HTMLImageElement;
-                img.src = "/images/placeholder.png";
-              }}
-            />
-          </div>
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => {
+              const img = e.target as HTMLImageElement;
+              img.src = "/images/placeholder.png";
+            }}
+          />
         </div>
 
         {/* Product Info */}
-        <div className="space-y-3 flex-1 flex flex-col justify-between">
+        <div className="p-4 md:p-5 flex-1 flex flex-col gap-3">
           {/* Badge */}
-          <div className="inline-block w-fit px-2.5 py-1 bg-blue-100 text-xs font-semibold text-brand-primary rounded-full">
+          <div className="inline-block w-fit px-2.5 py-1 bg-blue-50 text-xs font-semibold text-blue-600 rounded-full border border-blue-100">
             {product.badge}
           </div>
 
           {/* Product Name */}
-          <div>
-            <h3 className="text-lg font-semibold text-brand-900 group-hover:text-brand-primary transition-colors">
-              {product.name}
-            </h3>
-          </div>
+          <h3 className="text-base md:text-lg font-semibold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">
+            {product.name}
+          </h3>
 
           {/* Price */}
-          <div className="space-y-1">
+          <div className="mt-auto pt-2">
             {hasDiscount ? (
-              <div className="flex items-center gap-3">
-                <span className="text-2xl font-bold text-brand-900">
+              <div className="flex items-baseline gap-2.5">
+                <span className="text-xl md:text-2xl font-bold text-slate-900">
                   {formatAUD(product.salePrice!)}
                 </span>
-                <span className="text-sm text-brand-600 line-through">
+                <span className="text-sm text-slate-400 line-through">
                   {formatAUD(product.regularPrice)}
                 </span>
               </div>
             ) : (
-              <p className="text-2xl font-bold text-brand-900">
+              <p className="text-xl md:text-2xl font-bold text-slate-900">
                 {formatAUD(product.regularPrice)}
               </p>
             )}
           </div>
 
           {/* CTA */}
-          <button className="w-full mt-4 py-2.5 px-4 bg-brand-primary text-white text-sm font-semibold rounded-lg hover:bg-blue-600 transition-all duration-200 shadow-subtle hover:shadow-card-hover group-hover:translate-y-0 translate-y-1 opacity-90 group-hover:opacity-100">
+          <button className="w-full py-2.5 px-4 bg-slate-900 text-white text-sm font-semibold rounded-xl group-hover:bg-blue-600 transition-all duration-200 mt-1">
             View Details →
           </button>
         </div>
