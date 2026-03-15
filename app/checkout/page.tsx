@@ -58,7 +58,7 @@ export default function CheckoutPage() {
     SYDO: 0.1,
     BLAKE: 0.1,
     ALISHA: 0.1,
-    "TAMA FAMILY": 0.1,
+    "TAMA FAMILY": 0.38,
     NIKOS: 0.1,
     MARCH: 0.1,
   };
@@ -226,7 +226,6 @@ export default function CheckoutPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      // Continue to confirmation (clear cart and redirect)
                       try {
                         const stored = localStorage.getItem("lastOrder");
                         const parsed = stored ? JSON.parse(stored) : null;
@@ -359,9 +358,7 @@ export default function CheckoutPage() {
                       required
                     />
                     {errors.firstName && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.firstName}
-                      </p>
+                      <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>
                     )}
                   </div>
 
@@ -382,9 +379,7 @@ export default function CheckoutPage() {
                       required
                     />
                     {errors.lastName && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.lastName}
-                      </p>
+                      <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
                     )}
                   </div>
                 </div>
@@ -406,9 +401,7 @@ export default function CheckoutPage() {
                     required
                   />
                   {errors.address1 && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {errors.address1}
-                    </p>
+                    <p className="text-red-500 text-xs mt-1">{errors.address1}</p>
                   )}
                 </div>
 
@@ -445,9 +438,7 @@ export default function CheckoutPage() {
                       required
                     />
                     {errors.suburb && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.suburb}
-                      </p>
+                      <p className="text-red-500 text-xs mt-1">{errors.suburb}</p>
                     )}
                   </div>
 
@@ -468,9 +459,7 @@ export default function CheckoutPage() {
                       required
                     />
                     {errors.state && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.state}
-                      </p>
+                      <p className="text-red-500 text-xs mt-1">{errors.state}</p>
                     )}
                   </div>
 
@@ -491,9 +480,7 @@ export default function CheckoutPage() {
                       required
                     />
                     {errors.postcode && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.postcode}
-                      </p>
+                      <p className="text-red-500 text-xs mt-1">{errors.postcode}</p>
                     )}
                   </div>
                 </div>
@@ -520,6 +507,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
+
             {/* Shipping Options */}
             <div className="bg-white border border-slate-200 rounded-lg p-4 md:p-8">
               <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-4 md:mb-6">
@@ -565,6 +553,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
+
             {/* Promo Code */}
             <div className="bg-white border border-slate-200 rounded-lg p-4 md:p-8">
               <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-4 md:mb-6">
@@ -589,6 +578,7 @@ export default function CheckoutPage() {
                 <p className="text-sm text-red-700 mt-2">Invalid promo code</p>
               ) : null}
             </div>
+
             {/* Order Notes */}
             <div className="bg-white border border-slate-200 rounded-lg p-4 md:p-8">
               <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-4 md:mb-6">
