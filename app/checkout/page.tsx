@@ -61,6 +61,7 @@ export default function CheckoutPage() {
     "TAMA FAMILY": 0.38,
     NIKOS: 0.1,
     MARCH: 0.1,
+    SARAH: 0.1,
   };
   const promoPercent = VALID_PROMOS[promoCodeUpper] || 0;
   const promoDiscount = Math.round(subtotal * promoPercent * 100) / 100;
@@ -351,9 +352,7 @@ export default function CheckoutPage() {
                       value={formData.firstName}
                       onChange={handleInputChange}
                       placeholder="John"
-                      className={`input-field text-sm ${
-                        errors.firstName ? "border-red-500" : ""
-                      }`}
+                      className={`input-field text-sm ${errors.firstName ? "border-red-500" : ""}`}
                       disabled={isLoading}
                       required
                     />
@@ -372,9 +371,7 @@ export default function CheckoutPage() {
                       value={formData.lastName}
                       onChange={handleInputChange}
                       placeholder="Doe"
-                      className={`input-field text-sm ${
-                        errors.lastName ? "border-red-500" : ""
-                      }`}
+                      className={`input-field text-sm ${errors.lastName ? "border-red-500" : ""}`}
                       disabled={isLoading}
                       required
                     />
@@ -394,9 +391,7 @@ export default function CheckoutPage() {
                     value={formData.address1}
                     onChange={handleInputChange}
                     placeholder="123 Main Street"
-                    className={`input-field text-sm ${
-                      errors.address1 ? "border-red-500" : ""
-                    }`}
+                    className={`input-field text-sm ${errors.address1 ? "border-red-500" : ""}`}
                     disabled={isLoading}
                     required
                   />
@@ -431,9 +426,7 @@ export default function CheckoutPage() {
                       value={formData.suburb}
                       onChange={handleInputChange}
                       placeholder="Sydney"
-                      className={`input-field text-sm ${
-                        errors.suburb ? "border-red-500" : ""
-                      }`}
+                      className={`input-field text-sm ${errors.suburb ? "border-red-500" : ""}`}
                       disabled={isLoading}
                       required
                     />
@@ -452,9 +445,7 @@ export default function CheckoutPage() {
                       value={formData.state}
                       onChange={handleInputChange}
                       placeholder="NSW"
-                      className={`input-field text-sm ${
-                        errors.state ? "border-red-500" : ""
-                      }`}
+                      className={`input-field text-sm ${errors.state ? "border-red-500" : ""}`}
                       disabled={isLoading}
                       required
                     />
@@ -473,9 +464,7 @@ export default function CheckoutPage() {
                       value={formData.postcode}
                       onChange={handleInputChange}
                       placeholder="2000"
-                      className={`input-field text-sm ${
-                        errors.postcode ? "border-red-500" : ""
-                      }`}
+                      className={`input-field text-sm ${errors.postcode ? "border-red-500" : ""}`}
                       disabled={isLoading}
                       required
                     />
@@ -495,9 +484,7 @@ export default function CheckoutPage() {
                     value={formData.phone}
                     onChange={handleInputChange}
                     placeholder="+61 2 XXXX XXXX"
-                    className={`input-field text-sm ${
-                      errors.phone ? "border-red-500" : ""
-                    }`}
+                    className={`input-field text-sm ${errors.phone ? "border-red-500" : ""}`}
                     disabled={isLoading}
                     required
                   />
