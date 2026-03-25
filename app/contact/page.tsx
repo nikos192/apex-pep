@@ -153,7 +153,7 @@ export default function ContactPage() {
                 Can I reach you for urgent matters?
               </h3>
               <p className="text-slate-600 leading-relaxed">
-                For urgent matters, Telegram (@apexlabs_aus) is the fastest way to reach us. You
+                For urgent matters, Telegram (@apexlabaus) is the fastest way to reach us. You
                 can also call or email with "URGENT" in the subject line for priority handling.
               </p>
             </div>
