@@ -24,7 +24,7 @@ export function Footer() {
               <p>
                 <span className="text-slate-500">Telegram:</span>{" "}
                 <a
-                  href="https://t.me/apexlabs_aus"
+                  href="https://t.me/apexlabaus"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-400 hover:text-blue-300 transition-colors"
