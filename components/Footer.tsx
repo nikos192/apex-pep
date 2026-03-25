@@ -73,7 +73,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://t.me/apexlabs_aus"
+                  href="https://t.me/apexlabaus"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-slate-400 hover:text-white transition-colors"
