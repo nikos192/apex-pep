@@ -263,12 +263,12 @@ export default function OrderConfirmationContent() {
                   Telegram
                 </p>
                 <a
-                  href="https://t.me/apexlabs_aus"
+                  href="https://t.me/apexlabaus"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:text-blue-700 font-medium text-lg"
                 >
-                  @apexlabs_aus
+                  @apexlabaus
                 </a>
               </div>
             </div>
