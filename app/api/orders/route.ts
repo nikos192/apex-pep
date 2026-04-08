@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
-import { validateOrderPayload, generateOrderNumber } from "@/lib/order";
+import { validateOrderPayload, generateOrderNumber, normalizeOrderPayload } from "@/lib/order";
 import type { OrderPayload } from "@/lib/order";
 import {
   OrderEmailTemplate,
@@ -16,7 +16,8 @@ const SHOP_NAME = "Apex Labs Australia";
 
 export async function POST(request: NextRequest) {
   try {
-    const payload: OrderPayload = await request.json();
+    const rawPayload: OrderPayload = await request.json();
+    const payload = normalizeOrderPayload(rawPayload);
 
     // Validate order payload
     const validation = validateOrderPayload(payload);

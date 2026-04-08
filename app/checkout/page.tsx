@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/app/context/CartContext";
 import { useCartActions } from "@/app/hooks/useCartActions";
 import { formatPrice } from "@/lib/utils";
-import { validateOrderPayload } from "@/lib/order";
+import { getOrderPricing, normalizePromoCode, validateOrderPayload } from "@/lib/order";
 import type { OrderPayload } from "@/lib/order";
 
 export default function CheckoutPage() {
@@ -50,23 +50,12 @@ export default function CheckoutPage() {
   const hasBulkItem = cart.items.some((item) => BULK_IDS.includes(item.productId));
   const baseShippingCost = hasBulkItem ? BULK_SHIPPING_COST : SHIPPING_COST;
   const shippingCost = formData.shippingOption === "standard" ? baseShippingCost : 0;
-  // Promo code handling
-  const promoCode = (formData.promoCode || "").trim();
-  const promoCodeUpper = promoCode.toUpperCase();
-  const VALID_PROMOS: Record<string, number> = {
-    TAMA: 0.1,
-    SYDO: 0.1,
-    BLAKE: 0.1,
-    ALISHA: 0.1,
-    "TAMA FAMILY": 0.38,
-    NIKOS: 0.1,
-    MARCH: 0.1,
-    SARAH: 0.1,
-  };
-  const promoPercent = VALID_PROMOS[promoCodeUpper] || 0;
-  const promoDiscount = Math.round(subtotal * promoPercent * 100) / 100;
-  const discountedSubtotal = Math.max(0, subtotal - promoDiscount);
-  const total = discountedSubtotal + shippingCost;
+  const promoCode = normalizePromoCode(formData.promoCode);
+  const { promoPercent, promoDiscount, total } = getOrderPricing({
+    subtotal,
+    shippingCost,
+    promoCode,
+  });
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -118,7 +107,7 @@ export default function CheckoutPage() {
           country: formData.country,
         },
         note: formData.note,
-        ...(formData.promoCode && { promoCode: formData.promoCode }),
+        ...(promoCode && { promoCode }),
         ...(promoPercent > 0 && { promoPercent, promoDiscount }),
         paymentMethod: "Direct bank transfer",
         shippingCost,

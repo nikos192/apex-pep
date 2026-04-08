@@ -126,6 +126,14 @@ export function OrderEmailTemplate({
         <span class="detail-label">Subtotal</span>
         <span class="detail-value">$${payload.subtotal.toFixed(2)}</span>
       </div>
+      ${
+        payload.promoDiscount && payload.promoDiscount > 0
+          ? `<div class="detail-row">
+        <span class="detail-label">Discount${payload.promoCode ? ` (${payload.promoCode})` : ""}</span>
+        <span class="detail-value">-$${payload.promoDiscount.toFixed(2)}</span>
+      </div>`
+          : ""
+      }
       <div class="detail-row">
         <span class="detail-label">Shipping (Flat Rate)</span>
         <span class="detail-value">$${payload.shippingCost.toFixed(2)}</span>
@@ -243,6 +251,14 @@ export function CustomerConfirmationEmailTemplate({
         <span class="detail-label">Subtotal</span>
         <span class="detail-value">$${payload.subtotal.toFixed(2)}</span>
       </div>
+      ${
+        payload.promoDiscount && payload.promoDiscount > 0
+          ? `<div class="detail-row">
+        <span class="detail-label">Discount${payload.promoCode ? ` (${payload.promoCode})` : ""}</span>
+        <span class="detail-value">-$${payload.promoDiscount.toFixed(2)}</span>
+      </div>`
+          : ""
+      }
       <div class="detail-row">
         <span class="detail-label">Shipping</span>
         <span class="detail-value">$${payload.shippingCost.toFixed(2)}</span>

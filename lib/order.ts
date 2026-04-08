@@ -59,6 +59,64 @@ export function formatAUD(amount: number): string {
   }).format(amount);
 }
 
+export const VALID_PROMOS: Record<string, number> = {
+  TAMA: 0.1,
+  SYDO: 0.1,
+  BLAKE: 0.1,
+  ALISHA: 0.1,
+  "TAMA FAMILY": 0.38,
+  NIKOS: 0.1,
+  MARCH: 0.1,
+  SARAH: 0.1,
+  PEPPER: 0.1,
+};
+
+export function normalizePromoCode(promoCode?: string): string {
+  return (promoCode || "").trim().toUpperCase();
+}
+
+export function getOrderPricing({
+  subtotal,
+  shippingCost,
+  promoCode,
+}: {
+  subtotal: number;
+  shippingCost: number;
+  promoCode?: string;
+}) {
+  const normalizedPromoCode = normalizePromoCode(promoCode);
+  const promoPercent = VALID_PROMOS[normalizedPromoCode] || 0;
+  const promoDiscount = Math.round(subtotal * promoPercent * 100) / 100;
+  const discountedSubtotal = Math.max(0, subtotal - promoDiscount);
+
+  return {
+    normalizedPromoCode,
+    promoPercent,
+    promoDiscount,
+    discountedSubtotal,
+    total: discountedSubtotal + shippingCost,
+  };
+}
+
+export function normalizeOrderPayload(payload: OrderPayload): OrderPayload {
+  const { promoCode: _promoCode, promoPercent: _promoPercent, promoDiscount: _promoDiscount, total: _total, ...rest } = payload;
+  const pricing = getOrderPricing({
+    subtotal: payload.subtotal,
+    shippingCost: payload.shippingCost,
+    promoCode: payload.promoCode,
+  });
+
+  return {
+    ...rest,
+    ...(pricing.normalizedPromoCode && { promoCode: pricing.normalizedPromoCode }),
+    ...(pricing.promoPercent > 0 && {
+      promoPercent: pricing.promoPercent,
+      promoDiscount: pricing.promoDiscount,
+    }),
+    total: pricing.total,
+  };
+}
+
 /**
  * Validate order payload
  */
