@@ -291,7 +291,7 @@ export function CustomerConfirmationEmailTemplate({
       
       <div class="bank-details">
         <div class="bank-label">Account Name</div>
-        <div class="bank-value">Apex Labs Australia</div>
+        <div class="bank-value">Apex Lab Aus</div>
 
         <div class="bank-label">BSB Number</div>
         <div class="bank-value">067872</div>
