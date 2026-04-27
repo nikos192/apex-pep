@@ -234,6 +234,26 @@ export const PRODUCTS: Product[] = [
     shipping: "Express courier with temperature-controlled insulated packaging. Delivery within 1-2 business days in Australia.",
     dosageForm: "Lyophilized powder, 10mg per vial",
   },
+  {
+    id: "neuromax-stack",
+    name: "NeuroMax Stack",
+    slug: "neuromax-stack",
+    image: "",
+    regularPrice: 170,
+    salePrice: 149.99,
+    badge: "Stack",
+    description:
+      "A neuro-focused peptide research stack curated for laboratories investigating neurotrophic, neuropeptide and cognitive-signaling mechanisms. Bundles compounds commonly examined together in preclinical neurological-pathway studies, sold as a single SKU at a saving versus buying components individually.",
+    bullets: [
+      "Pre-bundled neuro-research stack",
+      "Discounted vs. buying components individually",
+      "Same high-purity research grade compounds",
+      "Convenient single-SKU ordering",
+    ],
+    storage: "Store all components at 2-8°C in sealed containers. Protect from light and temperature fluctuations.",
+    shipping: "Express courier with temperature-controlled insulated packaging. Delivery within 1-2 business days in Australia.",
+    dosageForm: "Multi-vial neuro-research stack",
+  },
 ];
 
 export const BULK_PRODUCTS: Product[] = [
@@ -395,26 +415,6 @@ export const BULK_PRODUCTS: Product[] = [
     storage: "Store peptide vials at 2-8°C in sealed containers. BAC water at room temperature. Protect from light and temperature fluctuations.",
     shipping: "$50 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
     dosageForm: "Combo bundle: 10× GHK-Cu 100mg + 10× Retatrutide 10mg + 10× BAC Water",
-  },
-  {
-    id: "neuromax-stack",
-    name: "NeuroMax Stack",
-    slug: "neuromax-stack",
-    image: "",
-    regularPrice: 170,
-    salePrice: 149.99,
-    badge: "Stack",
-    description:
-      "A neuro-focused peptide research stack curated for laboratories investigating neurotrophic, neuropeptide and cognitive-signaling mechanisms. Bundles compounds commonly examined together in preclinical neurological-pathway studies, sold as a single SKU at a saving versus buying components individually.",
-    bullets: [
-      "Pre-bundled neuro-research stack",
-      "Discounted vs. buying components individually",
-      "Same high-purity research grade compounds",
-      "Convenient single-SKU ordering",
-    ],
-    storage: "Store all components at 2-8°C in sealed containers. Protect from light and temperature fluctuations.",
-    shipping: "$50 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
-    dosageForm: "Multi-vial neuro-research stack",
   },
 ];
 
