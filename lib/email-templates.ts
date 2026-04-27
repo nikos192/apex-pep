@@ -127,6 +127,14 @@ export function OrderEmailTemplate({
         <span class="detail-value">$${payload.subtotal.toFixed(2)}</span>
       </div>
       ${
+        payload.bundleDiscount && payload.bundleDiscount > 0
+          ? `<div class="detail-row">
+        <span class="detail-label">${payload.bundleDiscountLabel || "Bundle discount"}</span>
+        <span class="detail-value">-$${payload.bundleDiscount.toFixed(2)}</span>
+      </div>`
+          : ""
+      }
+      ${
         payload.promoDiscount && payload.promoDiscount > 0
           ? `<div class="detail-row">
         <span class="detail-label">Discount${payload.promoCode ? ` (${payload.promoCode})` : ""}</span>
@@ -251,6 +259,14 @@ export function CustomerConfirmationEmailTemplate({
         <span class="detail-label">Subtotal</span>
         <span class="detail-value">$${payload.subtotal.toFixed(2)}</span>
       </div>
+      ${
+        payload.bundleDiscount && payload.bundleDiscount > 0
+          ? `<div class="detail-row">
+        <span class="detail-label">${payload.bundleDiscountLabel || "Bundle discount"}</span>
+        <span class="detail-value">-$${payload.bundleDiscount.toFixed(2)}</span>
+      </div>`
+          : ""
+      }
       ${
         payload.promoDiscount && payload.promoDiscount > 0
           ? `<div class="detail-row">

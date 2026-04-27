@@ -27,6 +27,8 @@ export interface OrderPayload {
   promoCode?: string;
   promoPercent?: number;
   promoDiscount?: number;
+  bundleDiscount?: number;
+  bundleDiscountLabel?: string;
   paymentMethod: "Direct bank transfer";
   shippingCost: number;
   items: CartItem[];
@@ -79,31 +81,42 @@ export function getOrderPricing({
   subtotal,
   shippingCost,
   promoCode,
+  bundleDiscount = 0,
 }: {
   subtotal: number;
   shippingCost: number;
   promoCode?: string;
+  bundleDiscount?: number;
 }) {
   const normalizedPromoCode = normalizePromoCode(promoCode);
   const promoPercent = VALID_PROMOS[normalizedPromoCode] || 0;
-  const promoDiscount = Math.round(subtotal * promoPercent * 100) / 100;
-  const discountedSubtotal = Math.max(0, subtotal - promoDiscount);
+  const subtotalAfterBundle = Math.max(0, subtotal - bundleDiscount);
+  const promoDiscount = Math.round(subtotalAfterBundle * promoPercent * 100) / 100;
+  const discountedSubtotal = Math.max(0, subtotalAfterBundle - promoDiscount);
 
   return {
     normalizedPromoCode,
     promoPercent,
     promoDiscount,
+    bundleDiscount,
     discountedSubtotal,
     total: discountedSubtotal + shippingCost,
   };
 }
 
 export function normalizeOrderPayload(payload: OrderPayload): OrderPayload {
-  const { promoCode: _promoCode, promoPercent: _promoPercent, promoDiscount: _promoDiscount, total: _total, ...rest } = payload;
+  const {
+    promoCode: _promoCode,
+    promoPercent: _promoPercent,
+    promoDiscount: _promoDiscount,
+    total: _total,
+    ...rest
+  } = payload;
   const pricing = getOrderPricing({
     subtotal: payload.subtotal,
     shippingCost: payload.shippingCost,
     promoCode: payload.promoCode,
+    bundleDiscount: payload.bundleDiscount,
   });
 
   return {

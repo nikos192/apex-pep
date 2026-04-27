@@ -87,14 +87,20 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   className="flex gap-4 border-b border-brand-100 pb-4 last:border-0 last:pb-0"
                 >
                   {/* Image */}
-                  <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-brand-100 border border-brand-200">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      width={80}
-                      height={80}
-                      className="w-full h-full object-cover"
-                    />
+                  <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border border-brand-200">
+                    {item.image ? (
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        width={80}
+                        height={80}
+                        className="w-full h-full object-cover bg-brand-100"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-900 to-blue-900 text-white text-[10px] font-bold tracking-wider text-center px-1 leading-tight">
+                        {item.name}
+                      </div>
+                    )}
                   </div>
 
                   {/* Details */}

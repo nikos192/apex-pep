@@ -9,6 +9,7 @@ import { useCartActions } from "@/app/hooks/useCartActions";
 import { formatPrice } from "@/lib/utils";
 import { getOrderPricing, normalizePromoCode, validateOrderPayload } from "@/lib/order";
 import type { OrderPayload } from "@/lib/order";
+import { BULK_PRODUCT_IDS, BAC_WATER_BULK_ID, BAC_WATER_BULK_ADDON_PRICE } from "@/lib/catalog";
 
 export default function CheckoutPage() {
   const { cart } = useCart();
@@ -42,12 +43,19 @@ export default function CheckoutPage() {
   const [apiWarnings, setApiWarnings] = useState<string[]>([]);
 
   const SHIPPING_COST = 20;
-  const BULK_SHIPPING_COST = 35;
-  const BULK_IDS = ["bpc-157-bulk-10", "ghk-cu-bulk-10", "reta-bulk-10", "reta-10x-ghk-10x"];
+  const BULK_SHIPPING_COST = 50;
 
   // Calculate totals
   const subtotal = cart.total;
-  const hasBulkItem = cart.items.some((item) => BULK_IDS.includes(item.productId));
+  const hasBulkItem = cart.items.some((item) => BULK_PRODUCT_IDS.includes(item.productId));
+  const hasNonBacBulkItem = cart.items.some(
+    (item) => BULK_PRODUCT_IDS.includes(item.productId) && item.productId !== BAC_WATER_BULK_ID
+  );
+  const bacWaterBulkItem = cart.items.find((item) => item.productId === BAC_WATER_BULK_ID);
+  const bundleDiscount =
+    hasNonBacBulkItem && bacWaterBulkItem
+      ? Math.max(0, (bacWaterBulkItem.price - BAC_WATER_BULK_ADDON_PRICE) * bacWaterBulkItem.quantity)
+      : 0;
   const baseShippingCost = hasBulkItem ? BULK_SHIPPING_COST : SHIPPING_COST;
   const shippingCost = formData.shippingOption === "standard" ? baseShippingCost : 0;
   const promoCode = normalizePromoCode(formData.promoCode);
@@ -55,6 +63,7 @@ export default function CheckoutPage() {
     subtotal,
     shippingCost,
     promoCode,
+    bundleDiscount,
   });
 
   const handleInputChange = (
@@ -109,6 +118,10 @@ export default function CheckoutPage() {
         note: formData.note,
         ...(promoCode && { promoCode }),
         ...(promoPercent > 0 && { promoPercent, promoDiscount }),
+        ...(bundleDiscount > 0 && {
+          bundleDiscount,
+          bundleDiscountLabel: "BAC Water bulk add-on",
+        }),
         paymentMethod: "Direct bank transfer",
         shippingCost,
         items: cart.items,
@@ -250,14 +263,20 @@ export default function CheckoutPage() {
                     key={item.id}
                     className="flex gap-3 md:gap-4 border-b border-slate-100 pb-4 md:pb-6 last:border-0 last:pb-0"
                   >
-                    <div className="h-20 w-20 md:h-24 md:w-24 flex-shrink-0 overflow-hidden rounded-lg bg-slate-50 border border-slate-200">
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        width={96}
-                        height={96}
-                        className="w-full h-full object-cover"
-                      />
+                    <div className="h-20 w-20 md:h-24 md:w-24 flex-shrink-0 overflow-hidden rounded-lg border border-slate-200">
+                      {item.image ? (
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          width={96}
+                          height={96}
+                          className="w-full h-full object-cover bg-slate-50"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-900 to-blue-900 text-white text-[10px] font-bold tracking-wider text-center px-1 leading-tight">
+                          {item.name}
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex-1 min-w-0">
@@ -662,6 +681,13 @@ export default function CheckoutPage() {
                   <span>Subtotal</span>
                   <span>{formatPrice(subtotal)}</span>
                 </div>
+
+                {bundleDiscount > 0 && (
+                  <div className="flex justify-between text-xs md:text-sm text-emerald-700">
+                    <span>BAC Water bulk add-on</span>
+                    <span className="font-semibold">-{formatPrice(bundleDiscount)}</span>
+                  </div>
+                )}
 
                 <div className="flex justify-between text-xs md:text-sm text-slate-600">
                   <span>Shipping</span>

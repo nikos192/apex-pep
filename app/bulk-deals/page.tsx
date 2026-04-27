@@ -11,6 +11,36 @@ export const metadata = {
 export default function BulkDealsPage() {
   return (
     <div className="w-full">
+      {/* Telegram Hero — much wider stock available off-site */}
+      <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white">
+        <div className="container-custom py-10 md:py-14">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div className="max-w-3xl">
+              <span className="inline-block rounded-full bg-white/15 backdrop-blur px-3 py-1 text-xs font-bold tracking-[0.18em] uppercase mb-4">
+                More stock available
+              </span>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
+                Looking for supplies not listed?
+              </h2>
+              <p className="mt-3 text-lg md:text-xl text-blue-50/90 leading-relaxed">
+                DM our Telegram —  we carry much more stock than what&apos;s shown here.
+              </p>
+            </div>
+            <a
+              href="https://t.me/apexlabaus"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-3 rounded-2xl bg-white px-6 py-4 text-base md:text-lg font-bold text-blue-700 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 whitespace-nowrap self-start lg:self-auto"
+            >
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+              </svg>
+              <span>@apexlabaus on Telegram</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Header Section */}
       <section className="border-b border-slate-200 bg-white">
         <div className="container-custom py-12 md:py-16 animate-fade-in">
@@ -32,18 +62,9 @@ export default function BulkDealsPage() {
               <span>Up to 60% off per vial</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-lg">🇦🇺</span>
-              <span>Australian express shipping</span>
+              <span className="text-lg">🚚</span>
+              <span>$50 flat-rate AU express shipping</span>
             </div>
-          </div>
-
-          <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-900">
-            <span className="rounded-full bg-emerald-700 px-2 py-1 text-xs font-bold tracking-[0.18em] text-white">
-              EXTRA 10% OFF
-            </span>
-            <span>
-              Use code <span className="font-mono font-bold">PEPPER</span> at checkout.
-            </span>
           </div>
         </div>
       </section>

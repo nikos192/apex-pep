@@ -10,6 +10,8 @@ interface OrderSummaryCardProps {
   shipping: number;
   total: number;
   promoDiscount?: number;
+  bundleDiscount?: number;
+  bundleDiscountLabel?: string;
 }
 
 export default function OrderSummaryCard({
@@ -18,6 +20,8 @@ export default function OrderSummaryCard({
   shipping,
   total,
   promoDiscount,
+  bundleDiscount,
+  bundleDiscountLabel,
 }: OrderSummaryCardProps) {
   return (
     <div className="bg-white rounded-lg border border-slate-200 p-8 shadow-sm">
@@ -53,6 +57,12 @@ export default function OrderSummaryCard({
           <span className="text-slate-600">Subtotal</span>
           <span className="text-slate-900 font-medium">${subtotal.toFixed(2)} AUD</span>
         </div>
+          {bundleDiscount && bundleDiscount > 0 && (
+            <div className="flex justify-between">
+              <span className="text-slate-600">{bundleDiscountLabel || "Bundle discount"}</span>
+              <span className="text-emerald-700 font-medium">-${bundleDiscount.toFixed(2)} AUD</span>
+            </div>
+          )}
           {promoDiscount && promoDiscount > 0 && (
             <div className="flex justify-between">
               <span className="text-slate-600">Discount</span>

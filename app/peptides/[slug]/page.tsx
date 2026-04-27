@@ -71,19 +71,34 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start animate-fade-in">
           {/* Product Image */}
           <div className="flex items-center justify-center sticky top-16 lg:top-24 h-fit">
-            <div className="w-full max-w-md aspect-square overflow-hidden rounded-lg bg-slate-100 border border-slate-200 shadow-sm relative">
+            <div className="w-full max-w-md aspect-square overflow-hidden rounded-lg border border-slate-200 shadow-sm relative">
               {hasDiscount && (
                 <div className="absolute top-4 right-4 z-10 bg-blue-600 text-white px-4 py-2 rounded font-bold text-sm">
                   Save {discountPercent}%
                 </div>
               )}
-              <ProductImage
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-cover"
-                priority
-              />
+              {product.image ? (
+                <div className="absolute inset-0 bg-slate-100">
+                  <ProductImage
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              ) : (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 text-white p-8 text-center">
+                  <span className="text-xs tracking-[0.32em] uppercase font-semibold text-blue-200/80 mb-4">
+                    {product.badge}
+                  </span>
+                  <span className="text-3xl md:text-4xl font-extrabold leading-tight">
+                    {product.name}
+                  </span>
+                  <span className="mt-4 inline-block h-px w-14 bg-blue-300/60" />
+                  <span className="mt-4 text-sm text-blue-100/70">Apex Labs Australia</span>
+                </div>
+              )}
             </div>
           </div>
 

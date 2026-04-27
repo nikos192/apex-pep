@@ -19,23 +19,34 @@ export function ProductCard({ product }: ProductCardProps) {
     <Link href={`/peptides/${product.slug}`}>
       <div className="group cursor-pointer h-full flex flex-col bg-white rounded-2xl border border-slate-100 shadow-card hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-300 overflow-hidden animate-fade-in">
         {/* Product Image */}
-        <div className="relative overflow-hidden bg-slate-50 aspect-square w-full">
+        <div className="relative overflow-hidden aspect-square w-full">
           {/* Discount Badge */}
           {hasDiscount && (
             <div className="absolute top-3 right-3 z-10 bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md animate-scale-in">
               Save {discountPercent}%
             </div>
           )}
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
-            onError={(e) => {
-              const img = e.target as HTMLImageElement;
-              img.src = "/images/placeholder.png";
-            }}
-          />
+          {product.image ? (
+            <div className="relative w-full h-full bg-slate-50">
+              <Image
+                src={product.image}
+                alt={product.name}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 text-white p-6 text-center">
+              <span className="text-[10px] tracking-[0.28em] uppercase font-semibold text-blue-200/80 mb-3">
+                {product.badge}
+              </span>
+              <span className="text-2xl md:text-3xl font-extrabold leading-tight">
+                {product.name}
+              </span>
+              <span className="mt-3 inline-block h-px w-10 bg-blue-300/60" />
+              <span className="mt-3 text-xs text-blue-100/70">Apex Labs Australia</span>
+            </div>
+          )}
         </div>
 
         {/* Product Info */}

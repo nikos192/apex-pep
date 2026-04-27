@@ -186,6 +186,8 @@ export default function OrderConfirmationContent() {
             shipping={order.shippingCost}
             total={order.total}
             promoDiscount={order.promoDiscount}
+            bundleDiscount={order.bundleDiscount}
+            bundleDiscountLabel={order.bundleDiscountLabel}
           />
 
           {/* Customer Details */}
