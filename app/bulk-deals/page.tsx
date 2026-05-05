@@ -69,6 +69,35 @@ export default function BulkDealsPage() {
         </div>
       </section>
 
+      {/* Bulk Dispatch Notice */}
+      <section className="container-custom pt-8 md:pt-10">
+        <div
+          role="alert"
+          className="flex items-start gap-4 rounded-2xl border-2 border-amber-300 bg-amber-50 p-5 md:p-6 shadow-sm"
+        >
+          <span className="text-3xl md:text-4xl flex-shrink-0 leading-none">⏱️</span>
+          <div>
+            <h2 className="text-lg md:text-xl font-extrabold text-amber-900 uppercase tracking-wide mb-1">
+              Heads up — bulk orders may be delayed
+            </h2>
+            <p className="text-sm md:text-base text-amber-900/90 leading-relaxed">
+              Bulk packs are dispatched separately from our regular peptide stock and can take{" "}
+              <strong>a few extra business days</strong> to ship while we batch and QC the order.
+              If you need it urgently, DM us on{" "}
+              <a
+                href="https://t.me/apexlabaus"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline font-bold hover:text-amber-700"
+              >
+                Telegram @apexlabaus
+              </a>{" "}
+              before placing the order.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Product Grid */}
       <section className="section-padding container-custom">
         <div className="mb-10 animate-fade-in">
