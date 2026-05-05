@@ -38,11 +38,11 @@ export default function BankDetailsCard({ orderNumber, total }: BankDetailsCardP
           </div>
           <div>
             <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Account Number</p>
-            <p className="text-lg font-semibold text-slate-900 font-mono">25422126</p>
+            <p className="text-lg font-semibold text-slate-900 font-mono">035621846</p>
           </div>
           <div>
             <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">BSB</p>
-            <p className="text-lg font-semibold text-slate-900 font-mono">067872</p>
+            <p className="text-lg font-semibold text-slate-900 font-mono">182-182</p>
           </div>
           <div>
             <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Payment Reference</p>
