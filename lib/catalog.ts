@@ -274,7 +274,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Same high-purity research grade compound",
     ],
     storage: "Store at 2-8°C in original sealed containers. Protect from light and moisture.",
-    shipping: "$50 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
+    shipping: "$50 flat-rate import shipment. Temperature-controlled insulated packaging. Allow a few extra business days for bulk dispatch.",
     dosageForm: "Lyophilized powder, 10mg per vial × 10 vials",
   },
   {
@@ -294,7 +294,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Same high-purity research grade compound",
     ],
     storage: "Store at 2-8°C in sealed containers. Protect from light and oxidative conditions.",
-    shipping: "$50 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
+    shipping: "$50 flat-rate import shipment. Temperature-controlled insulated packaging. Allow a few extra business days for bulk dispatch.",
     dosageForm: "Lyophilized powder, 100mg per vial × 10 vials",
   },
   {
@@ -314,7 +314,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Same high-purity research grade compound",
     ],
     storage: "Store at 2-8°C in sealed container away from light. Protect from freezing.",
-    shipping: "$50 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
+    shipping: "$50 flat-rate import shipment. Temperature-controlled insulated packaging. Allow a few extra business days for bulk dispatch.",
     dosageForm: "Lyophilized powder, 10mg per vial × 10 vials",
   },
   {
@@ -334,7 +334,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Same high-purity research grade compound",
     ],
     storage: "Store at 2-8°C in original sealed container. Protect from light. Reconstituted solutions stable for 7 days refrigerated.",
-    shipping: "$50 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
+    shipping: "$50 flat-rate import shipment. Temperature-controlled insulated packaging. Allow a few extra business days for bulk dispatch.",
     dosageForm: "Lyophilized powder combination, 10mg per vial × 10 vials",
   },
   {
@@ -354,7 +354,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Same high-purity research grade compound",
     ],
     storage: "Store at 2-8°C in sealed container away from light. Reconstituted solutions stable 7 days refrigerated.",
-    shipping: "$50 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
+    shipping: "$50 flat-rate import shipment. Temperature-controlled insulated packaging. Allow a few extra business days for bulk dispatch.",
     dosageForm: "Lyophilized powder, 10mg per vial × 10 vials",
   },
   {
@@ -374,7 +374,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Same high-purity research grade compound",
     ],
     storage: "Store at 2-8°C in sealed container away from light. Reconstituted solutions stable 7 days refrigerated.",
-    shipping: "$50 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
+    shipping: "$50 flat-rate import shipment. Temperature-controlled insulated packaging. Allow a few extra business days for bulk dispatch.",
     dosageForm: "Lyophilized powder, 10mg per vial × 10 vials",
   },
   {
@@ -393,7 +393,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Reduces per-vial cost across long research protocols",
     ],
     storage: "Store at room temperature (15-25°C). Keep sealed until use. Once opened, use within 7 days.",
-    shipping: "$50 flat-rate express shipping. Ships at ambient temperature in secure packaging.",
+    shipping: "$50 flat-rate import shipment. Ships at ambient temperature in secure packaging. Allow a few extra business days for bulk dispatch.",
     dosageForm: "Sterile bacteriostatic water, 10 vials per pack",
   },
   {
@@ -413,7 +413,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Lowest per-vial pricing across our bulk catalogue",
     ],
     storage: "Store peptide vials at 2-8°C in sealed containers. BAC water at room temperature. Protect from light and temperature fluctuations.",
-    shipping: "$50 flat-rate express shipping. Temperature-controlled insulated packaging. 1-2 business days.",
+    shipping: "$50 flat-rate import shipment. Temperature-controlled insulated packaging. Allow a few extra business days for bulk dispatch.",
     dosageForm: "Combo bundle: 10× GHK-Cu 100mg + 10× Retatrutide 10mg + 10× BAC Water",
   },
 ];

@@ -62,14 +62,14 @@ export default function BulkDealsPage() {
               <span>Up to 60% off per vial</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-lg">🚚</span>
-              <span>$50 flat-rate AU express shipping</span>
+              <span className="text-lg">✈️</span>
+              <span>$50 flat-rate import shipment</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Bulk Dispatch Notice */}
+      {/* Bulk + Reta Dispatch Notice */}
       <section className="container-custom pt-8 md:pt-10">
         <div
           role="alert"
@@ -78,12 +78,13 @@ export default function BulkDealsPage() {
           <span className="text-3xl md:text-4xl flex-shrink-0 leading-none">⏱️</span>
           <div>
             <h2 className="text-lg md:text-xl font-extrabold text-amber-900 uppercase tracking-wide mb-1">
-              Heads up — bulk orders may be delayed
+              Heads up — bulk &amp; Reta orders may take a little bit longer
             </h2>
             <p className="text-sm md:text-base text-amber-900/90 leading-relaxed">
-              Bulk packs are dispatched separately from our regular peptide stock and can take{" "}
-              <strong>a few extra business days</strong> to ship while we batch and QC the order.
-              If you need it urgently, DM us on{" "}
+              Bulk packs ship as an <strong>import shipment</strong> separate from our regular
+              stock, and <strong>all Retatrutide orders</strong> (single vials and bulk) currently
+              have a small dispatch delay. Expect a few extra business days while we batch and QC
+              the order. If you need it urgently, DM us on{" "}
               <a
                 href="https://t.me/apexlabaus"
                 target="_blank"
@@ -122,7 +123,7 @@ export default function BulkDealsPage() {
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
             Shipping & Handling
           </h2>
-          <ShippingInfo />
+          <ShippingInfo hideDomestic />
         </div>
       </section>
 

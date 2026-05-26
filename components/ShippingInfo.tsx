@@ -31,15 +31,23 @@ const features = [
   },
 ];
 
-export function ShippingInfo() {
+interface ShippingInfoProps {
+  hideDomestic?: boolean;
+}
+
+export function ShippingInfo({ hideDomestic = false }: ShippingInfoProps = {}) {
+  const visibleFeatures = hideDomestic
+    ? features.filter((f) => f.title !== "Domestic Shipping")
+    : features;
+  const gridCols = visibleFeatures.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3";
   return (
     <div>
       <div className="text-center mb-8 md:mb-10">
         <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Shipping & Storage</h3>
         <p className="text-slate-500 text-sm md:text-base">Everything you need to know about your order</p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-        {features.map((feature) => (
+      <div className={`grid grid-cols-1 ${gridCols} gap-4 md:gap-6`}>
+        {visibleFeatures.map((feature) => (
           <div
             key={feature.title}
             className="bg-white rounded-2xl border border-slate-100 shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 p-6"

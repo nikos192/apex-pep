@@ -135,6 +135,30 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               )}
             </div>
 
+            {/* Reta dispatch delay notice */}
+            {product.slug.startsWith("reta") && (
+              <div
+                role="alert"
+                className="flex items-start gap-3 rounded-xl border-2 border-amber-300 bg-amber-50 p-4 mb-6"
+              >
+                <span className="text-2xl leading-none flex-shrink-0">⏱️</span>
+                <p className="text-sm text-amber-900 leading-relaxed">
+                  <strong className="block mb-0.5">Retatrutide orders may take a little bit longer.</strong>
+                  Reta currently has a small dispatch delay — please allow a few extra business
+                  days. For urgent orders DM us on{" "}
+                  <a
+                    href="https://t.me/apexlabaus"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline font-bold hover:text-amber-700"
+                  >
+                    Telegram @apexlabaus
+                  </a>
+                  .
+                </p>
+              </div>
+            )}
+
             {/* Quick Description */}
             <p className="text-slate-700 mb-8 leading-relaxed text-base">
               {product.description}
