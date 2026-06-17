@@ -33,16 +33,16 @@ export default function BankDetailsCard({ orderNumber, total }: BankDetailsCardP
         <div className="grid grid-cols-2 gap-8">
           <div>
             <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Account Name</p>
-            <p className="text-lg font-semibold text-slate-900">Apex Lab Aus</p>
+            <p className="text-lg font-semibold text-slate-900">APL</p>
             <p className="text-xs text-slate-500 mt-1">Note: the account name displayed by some banks may differ; rely on the account number and BSB above.</p>
           </div>
           <div>
             <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Account Number</p>
-            <p className="text-lg font-semibold text-slate-900 font-mono">035621846</p>
+            <p className="text-lg font-semibold text-slate-900 font-mono">15852423</p>
           </div>
           <div>
             <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">BSB</p>
-            <p className="text-lg font-semibold text-slate-900 font-mono">182-182</p>
+            <p className="text-lg font-semibold text-slate-900 font-mono">638-010</p>
           </div>
           <div>
             <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">Payment Reference</p>
