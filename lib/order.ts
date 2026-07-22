@@ -66,7 +66,7 @@ export const VALID_PROMOS: Record<string, number> = {
   SYDO: 0.1,
   BLAKE: 0.1,
   ALISHA: 0.1,
-  "TAMA FAMILY": 0.38,
+  "TAMA FAMILY": 0.2,
   NIKOS: 0.1,
   MARCH: 0.1,
   SARAH: 0.1,
