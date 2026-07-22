@@ -19,9 +19,9 @@ export const PRODUCTS: Product[] = [
     name: "Retatrutide 10MG",
     slug: "reta-10mg",
     image: "/images/reta-10mg.png",
-    regularPrice: 160,
-    salePrice: 150,
-    badge: "Research Grade",
+    regularPrice: 155,
+    salePrice: 145,
+    badge: "On Sale",
     description:
       "Retatrutide is a novel GLP-1/GIP/glucagon triple receptor agonist studied in preclinical research contexts. Researchers investigate this advanced peptide for its effects on multiple metabolic signaling pathways simultaneously, examining interactions with glucose homeostasis and energy metabolism mechanisms. In laboratory studies, this compound has demonstrated potential to influence cellular responses through three distinct receptor classes. Scientific literature shows researchers commonly examine triple agonists for understanding complex metabolic pathway interactions in controlled preclinical environments. This research peptide is intended exclusively for laboratory-based research applications by qualified researchers.",
     bullets: [
@@ -139,9 +139,9 @@ export const PRODUCTS: Product[] = [
     name: "GHK-CU 100MG",
     slug: "ghk-cu-100mg",
     image: "/images/ghkcu-100mg.png",
-    regularPrice: 170,
-    salePrice: 160,
-    badge: "Research Grade",
+    regularPrice: 150,
+    salePrice: 135,
+    badge: "On Sale",
     description:
       "Larger 100mg format of GHK-Cu peptide for extended research programs and batch studies. This copper-containing tripeptide is studied broadly in preclinical research for its role in cellular signaling and tissue-related pathways. Researchers investigate GHK-Cu for its potential to influence multiple physiological mechanisms through copper-dependent enzymatic interactions. In controlled laboratory environments, this peptide has shown interesting effects on growth factor behavior and cellular communication networks. The larger format suits ongoing research protocols and comparative dosage studies in qualified research facilities.",
     bullets: [
@@ -200,8 +200,8 @@ export const PRODUCTS: Product[] = [
     slug: "semax-11mg",
     image: "/images/semax 11mg.png",
     regularPrice: 130,
-    salePrice: 95,
-    badge: "Research Grade",
+    salePrice: 65,
+    badge: "On Sale",
     description:
       "Semax is a synthetic hexapeptide studied in preclinical research for its effects on ACTH-related signaling pathways and neurological mechanisms. Researchers investigate this compound for its potential influence on cognitive signaling, neuronal protection, and cellular communication in controlled laboratory environments. In scientific literature, Semax has demonstrated interesting patterns in neural cell behavior and neuropeptide interactions. Laboratory research suggests researchers commonly examine this peptide for its effects on memory-related pathways and neurological signaling in preclinical contexts. This research compound is intended exclusively for in vitro studies and laboratory-based research applications.",
     bullets: [
@@ -213,6 +213,25 @@ export const PRODUCTS: Product[] = [
     storage: "Store at 2-8°C in sealed, light-protected container. Reconstituted peptide stable for 14 days refrigerated.",
     shipping: "Temperature-controlled express courier delivery. 1-2 business days to major Australian cities.",
     dosageForm: "Lyophilized powder, 11mg per vial",
+  },
+  {
+    id: "selank",
+    name: "SELANK",
+    slug: "selank",
+    image: "",
+    regularPrice: 130,
+    salePrice: 65,
+    badge: "On Sale",
+    description:
+      "Selank is a synthetic heptapeptide analog of tuftsin studied in preclinical research for its interactions with neuropeptide signaling pathways. Researchers investigate this compound in controlled laboratory environments to better understand neurological signaling, cellular communication, and related mechanisms. This research compound is intended exclusively for in vitro studies and laboratory-based research applications.",
+    bullets: [
+      "Synthetic tuftsin-analog research",
+      "Commonly studied in neurological pathways",
+      "Researchers investigate neuropeptide signaling",
+      "For controlled laboratory research only",
+    ],
+    storage: "Store at 2-8°C in a sealed, light-protected container.",
+    shipping: "Temperature-controlled express courier delivery. 1-2 business days to major Australian cities.",
   },
   {
     id: "tb-500-10mg",
@@ -269,7 +288,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Save big with a 10-vial bulk pack of BPC-157 research peptide. Ideal for extended preclinical research programs requiring consistent supply. Each vial contains 10mg of high-purity BPC-157 peptide in lyophilized powder form.",
     bullets: [
       "10 vials of BPC-157 per pack",
-      "Massive bulk savings — up to 60% off per vial",
+      "Bulk savings — save up to 80% per vial",
       "Consistent batch for extended research protocols",
       "Same high-purity research grade compound",
     ],
@@ -289,7 +308,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Save big with a 10-vial bulk pack of GHK-Cu research peptide. Ideal for extended preclinical copper-peptide research programs. Each vial contains high-purity GHK-Cu peptide in lyophilized powder form.",
     bullets: [
       "10 vials of GHK-Cu per pack",
-      "Massive bulk savings — up to 60% off per vial",
+      "Bulk savings — save up to 80% per vial",
       "Consistent batch for extended research protocols",
       "Same high-purity research grade compound",
     ],
@@ -309,7 +328,7 @@ export const BULK_PRODUCTS: Product[] = [
       "Save big with a 10-vial bulk pack of Retatrutide research peptide. Ideal for extended preclinical metabolic pathway research programs. Each vial contains 10mg of high-purity Retatrutide peptide in lyophilized powder form.",
     bullets: [
       "10 vials of Retatrutide per pack",
-      "Massive bulk savings — up to 60% off per vial",
+      "Bulk savings — save up to 80% per vial",
       "Consistent batch for extended research protocols",
       "Same high-purity research grade compound",
     ],

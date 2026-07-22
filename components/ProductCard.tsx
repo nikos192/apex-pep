@@ -22,8 +22,8 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="relative overflow-hidden aspect-square w-full">
           {/* Discount Badge */}
           {hasDiscount && (
-            <div className="absolute top-3 right-3 z-10 bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-md animate-scale-in">
-              Save {discountPercent}%
+            <div className="absolute top-3 right-3 z-10 rounded-full bg-rose-600 px-3 py-1.5 text-xs font-black uppercase tracking-wide text-white shadow-lg shadow-rose-900/20 animate-scale-in">
+              Sale · Save {discountPercent}%
             </div>
           )}
           {product.image ? (
@@ -65,7 +65,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <div className="mt-auto pt-2">
             {hasDiscount ? (
               <div className="flex items-baseline gap-2.5">
-                <span className="text-xl md:text-2xl font-bold text-slate-900">
+                <span className="text-xl md:text-2xl font-black text-rose-600">
                   {formatAUD(product.salePrice!)}
                 </span>
                 <span className="text-sm text-slate-400 line-through">

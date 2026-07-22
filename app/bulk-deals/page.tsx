@@ -5,7 +5,7 @@ import { ShippingInfo } from "@/components/ShippingInfo";
 export const metadata = {
   title: "Bulk Mega Deals | Apex Labs Australia",
   description:
-    "Bulk peptide research packs at massive savings — up to 60% off per vial. BPC-157, GHK-Cu, Retatrutide and combined bundles.",
+    "Bulk peptide research packs at massive savings — save up to 80% per vial. BPC-157, GHK-Cu, Retatrutide and combined bundles.",
 };
 
 export default function BulkDealsPage() {
@@ -45,7 +45,7 @@ export default function BulkDealsPage() {
       <section className="border-b border-slate-200 bg-white">
         <div className="container-custom py-12 md:py-16 animate-fade-in">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-            Bulk Mega Deals — Up to 60% Off Per Vial
+            Bulk Mega Deals — Save Up to 80% Per Vial
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl leading-relaxed mb-6">
             Stock up and save big on research-grade peptide bulk packs. Perfect for extended laboratory protocols.
@@ -59,7 +59,7 @@ export default function BulkDealsPage() {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-lg">💰</span>
-              <span>Up to 60% off per vial</span>
+              <span>Save up to 80% per vial</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-lg">✈️</span>
@@ -69,32 +69,28 @@ export default function BulkDealsPage() {
         </div>
       </section>
 
-      {/* Bulk + Reta Dispatch Notice */}
-      <section className="container-custom pt-8 md:pt-10">
-        <div
-          role="alert"
-          className="flex items-start gap-4 rounded-2xl border-2 border-amber-300 bg-amber-50 p-5 md:p-6 shadow-sm"
-        >
-          <span className="text-3xl md:text-4xl flex-shrink-0 leading-none">⏱️</span>
-          <div>
-            <h2 className="text-lg md:text-xl font-extrabold text-amber-900 uppercase tracking-wide mb-1">
-              Heads up — bulk &amp; Reta orders may take a little bit longer
-            </h2>
-            <p className="text-sm md:text-base text-amber-900/90 leading-relaxed">
-              Bulk packs ship as an <strong>import shipment</strong> separate from our regular
-              stock, and <strong>all Retatrutide orders</strong> (single vials and bulk) currently
-              have a small dispatch delay. Expect a few extra business days while we batch and QC
-              the order. If you need it urgently, DM us on{" "}
-              <a
-                href="https://t.me/apexlabaus"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline font-bold hover:text-amber-700"
-              >
-                Telegram @apexlabaus
-              </a>{" "}
-              before placing the order.
-            </p>
+      {/* How bulk savings work */}
+      <section className="container-custom pt-10 md:pt-14">
+        <div className="rounded-3xl bg-slate-950 p-6 text-white shadow-xl md:p-10">
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_1.9fr] lg:items-center">
+            <div>
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-cyan-300">More vials. Lower cost.</span>
+              <h2 className="mt-3 text-3xl font-black leading-tight text-white md:text-4xl">How bulk pricing works</h2>
+              <p className="mt-3 text-slate-300">Choose a ready-made 10-vial pack or one of our deepest-discount combined bundles.</p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {[
+                ["01", "Choose your pack", "Select a 10-vial pack or a multi-product mega bundle."],
+                ["02", "Save per vial", "Unlock bulk-only rates with savings of up to 80% per vial."],
+                ["03", "One flat rate", "Bulk orders ship with a $50 flat-rate import shipment."],
+              ].map(([number, title, copy]) => (
+                <div key={number} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                  <span className="font-mono text-sm font-bold text-cyan-300">{number}</span>
+                  <h3 className="mt-3 text-lg font-bold text-white">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-300">{copy}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
