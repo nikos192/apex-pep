@@ -240,13 +240,13 @@ export const PRODUCTS: Product[] = [
     slug: "neuromax-stack",
     image: "/images/neurostack.JPG",
     regularPrice: 170,
-    salePrice: 65,
+    salePrice: 115,
     badge: "Stack",
     description:
       "A combined Selank and Semax research stack curated for laboratories investigating neurotrophic, neuropeptide, and cognitive-signaling mechanisms. Both compounds are bundled as one convenient SKU at a substantial saving.",
     bullets: [
       "Combined Selank + Semax research stack",
-      "Special $65 discounted bundle price",
+      "Special $115 discounted bundle price",
       "Same high-purity research grade compounds",
       "Convenient single-SKU ordering",
     ],
