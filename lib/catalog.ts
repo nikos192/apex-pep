@@ -200,8 +200,8 @@ export const PRODUCTS: Product[] = [
     slug: "semax-11mg",
     image: "/images/semax 11mg.png",
     regularPrice: 130,
-    salePrice: 65,
-    badge: "On Sale",
+    salePrice: 95,
+    badge: "Research Grade",
     description:
       "Semax is a synthetic hexapeptide studied in preclinical research for its effects on ACTH-related signaling pathways and neurological mechanisms. Researchers investigate this compound for its potential influence on cognitive signaling, neuronal protection, and cellular communication in controlled laboratory environments. In scientific literature, Semax has demonstrated interesting patterns in neural cell behavior and neuropeptide interactions. Laboratory research suggests researchers commonly examine this peptide for its effects on memory-related pathways and neurological signaling in preclinical contexts. This research compound is intended exclusively for in vitro studies and laboratory-based research applications.",
     bullets: [
@@ -213,25 +213,6 @@ export const PRODUCTS: Product[] = [
     storage: "Store at 2-8°C in sealed, light-protected container. Reconstituted peptide stable for 14 days refrigerated.",
     shipping: "Temperature-controlled express courier delivery. 1-2 business days to major Australian cities.",
     dosageForm: "Lyophilized powder, 11mg per vial",
-  },
-  {
-    id: "selank",
-    name: "SELANK",
-    slug: "selank",
-    image: "",
-    regularPrice: 130,
-    salePrice: 65,
-    badge: "On Sale",
-    description:
-      "Selank is a synthetic heptapeptide analog of tuftsin studied in preclinical research for its interactions with neuropeptide signaling pathways. Researchers investigate this compound in controlled laboratory environments to better understand neurological signaling, cellular communication, and related mechanisms. This research compound is intended exclusively for in vitro studies and laboratory-based research applications.",
-    bullets: [
-      "Synthetic tuftsin-analog research",
-      "Commonly studied in neurological pathways",
-      "Researchers investigate neuropeptide signaling",
-      "For controlled laboratory research only",
-    ],
-    storage: "Store at 2-8°C in a sealed, light-protected container.",
-    shipping: "Temperature-controlled express courier delivery. 1-2 business days to major Australian cities.",
   },
   {
     id: "tb-500-10mg",
@@ -255,23 +236,23 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "neuromax-stack",
-    name: "NeuroMax Stack",
+    name: "NeuroMax Stack — Selank + Semax",
     slug: "neuromax-stack",
     image: "/images/neurostack.JPG",
     regularPrice: 170,
-    salePrice: 149.99,
+    salePrice: 65,
     badge: "Stack",
     description:
-      "A neuro-focused peptide research stack curated for laboratories investigating neurotrophic, neuropeptide and cognitive-signaling mechanisms. Bundles compounds commonly examined together in preclinical neurological-pathway studies, sold as a single SKU at a saving versus buying components individually.",
+      "A combined Selank and Semax research stack curated for laboratories investigating neurotrophic, neuropeptide, and cognitive-signaling mechanisms. Both compounds are bundled as one convenient SKU at a substantial saving.",
     bullets: [
-      "Pre-bundled neuro-research stack",
-      "Discounted vs. buying components individually",
+      "Combined Selank + Semax research stack",
+      "Special $65 discounted bundle price",
       "Same high-purity research grade compounds",
       "Convenient single-SKU ordering",
     ],
     storage: "Store all components at 2-8°C in sealed containers. Protect from light and temperature fluctuations.",
     shipping: "Express courier with temperature-controlled insulated packaging. Delivery within 1-2 business days in Australia.",
-    dosageForm: "Multi-vial neuro-research stack",
+    dosageForm: "Combined Selank + Semax research stack",
   },
 ];
 
