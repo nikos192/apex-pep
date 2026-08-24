@@ -63,6 +63,7 @@ export function formatAUD(amount: number): string {
 
 export const VALID_PROMOS: Record<string, number> = {
   TAMA: 0.1,
+  YAS: 0.1,
   SYDO: 0.1,
   BLAKE: 0.1,
   ALISHA: 0.1,
