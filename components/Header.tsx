@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/app/context/CartContext";
@@ -14,17 +14,20 @@ export function Header() {
 
   const cartItemCount = cart.items.reduce((total, item) => total + item.quantity, 0);
 
-  // Track scroll for blur effect
-  if (typeof window !== "undefined") {
-    window.addEventListener("scroll", () => {
-      setIsScrolled(window.scrollY > 0);
-    });
-  }
+  // Track scroll for blur effect without adding a new listener on every render.
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 0);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
     { href: "/", label: "Home" },
     { href: "/peptides", label: "Peptides" },
     { href: "/bulk-deals", label: "Bulk Deals" },
+    { href: "/test-reports", label: "Test Reports" },
     { href: "/research", label: "Research" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
@@ -51,7 +54,7 @@ export function Header() {
           </Link>
 
           {/* Navigation - Desktop */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-5 lg:gap-8">
             {navItems.map((item) => (
               <Link
                 key={item.href}
