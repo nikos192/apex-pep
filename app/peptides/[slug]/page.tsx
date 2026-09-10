@@ -157,8 +157,17 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               </div>
             )}
 
-            {/* Add to Cart */}
-            <AddToCartButton product={product} />
+            {/* Add to Cart / Availability */}
+            {product.available === false ? (
+              <div className="rounded-xl border border-slate-200 bg-slate-100 px-6 py-5 text-center">
+                <p className="text-lg font-black text-slate-900">Coming Soon</p>
+                <p className="mt-1 text-sm text-slate-600">
+                  This product is not available to purchase yet.
+                </p>
+              </div>
+            ) : (
+              <AddToCartButton product={product} />
+            )}
 
             {/* Research Disclaimer */}
             <div className="mt-8 p-5 bg-slate-50 border border-slate-200 rounded-lg">

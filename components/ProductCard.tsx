@@ -11,13 +11,19 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const hasDiscount = product.salePrice && product.salePrice < product.regularPrice;
+  const isAvailable = product.available !== false;
   const discountPercent = hasDiscount
     ? Math.round(((product.regularPrice - product.salePrice!) / product.regularPrice) * 100)
     : 0;
 
-  return (
-    <Link href={`/peptides/${product.slug}`}>
-      <div className="group cursor-pointer h-full flex flex-col bg-white rounded-2xl border border-slate-100 shadow-card hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-300 overflow-hidden animate-fade-in">
+  const card = (
+      <div
+        className={`group h-full flex flex-col bg-white rounded-2xl border border-slate-100 shadow-card transition-all duration-300 overflow-hidden animate-fade-in ${
+          isAvailable
+            ? "cursor-pointer hover:shadow-card-hover hover:-translate-y-1.5"
+            : "cursor-not-allowed"
+        }`}
+      >
         {/* Product Image */}
         <div className="relative overflow-hidden aspect-square w-full">
           {/* Discount Badge */}
@@ -32,7 +38,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 src={product.image}
                 alt={product.name}
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                className={`object-cover transition-transform duration-500 ${isAvailable ? "group-hover:scale-105" : ""}`}
               />
             </div>
           ) : (
@@ -57,7 +63,7 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* Product Name */}
-          <h3 className="text-base md:text-lg font-semibold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">
+          <h3 className={`text-base md:text-lg font-semibold text-slate-900 transition-colors leading-snug ${isAvailable ? "group-hover:text-blue-600" : ""}`}>
             {product.name}
           </h3>
 
@@ -80,11 +86,30 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* CTA */}
-          <button className="w-full py-2.5 px-4 bg-slate-900 text-white text-sm font-semibold rounded-xl group-hover:bg-blue-600 transition-all duration-200 mt-1">
-            View Details →
-          </button>
+          <span
+            className={`w-full py-2.5 px-4 text-center text-sm font-semibold rounded-xl transition-all duration-200 mt-1 ${
+              isAvailable
+                ? "bg-slate-900 text-white group-hover:bg-blue-600"
+                : "border border-slate-200 bg-slate-100 text-slate-500"
+            }`}
+          >
+            {isAvailable ? "View Details →" : "Available Soon"}
+          </span>
         </div>
       </div>
+  );
+
+  if (!isAvailable) {
+    return (
+      <div aria-disabled="true" title={`${product.name} is coming soon`} className="h-full">
+        {card}
+      </div>
+    );
+  }
+
+  return (
+    <Link href={`/peptides/${product.slug}`} className="block h-full">
+      {card}
     </Link>
   );
 }

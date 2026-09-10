@@ -11,6 +11,7 @@ export interface Product {
   storage: string;
   shipping: string;
   dosageForm?: string;
+  available?: boolean;
 }
 
 export const PRODUCTS: Product[] = [
@@ -41,6 +42,7 @@ export const PRODUCTS: Product[] = [
     image: "/images/retatrutide-30mg-placeholder.svg",
     regularPrice: 300,
     badge: "Coming Soon",
+    available: false,
     description:
       "Retatrutide is a novel GLP-1/GIP/glucagon triple receptor agonist studied in preclinical research contexts. This 30mg format supports extended laboratory protocols investigating multi-pathway metabolic signaling, receptor interactions, glucose homeostasis, and energy metabolism mechanisms. The compound is supplied as a research-grade lyophilized powder and is intended exclusively for controlled laboratory research by qualified researchers.",
     bullets: [
@@ -60,6 +62,7 @@ export const PRODUCTS: Product[] = [
     image: "/images/nad-plus-500mg-placeholder.svg",
     regularPrice: 110,
     badge: "Coming Soon",
+    available: false,
     description:
       "Nicotinamide adenine dinucleotide (NAD+) is an essential coenzyme studied across cellular energy, redox, and metabolic pathway research. This 500mg research-grade format is suited to controlled laboratory investigations examining mitochondrial function, enzymatic reactions, and cellular signaling. It is supplied exclusively for analytical and preclinical research applications by qualified researchers.",
     bullets: [
