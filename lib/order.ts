@@ -74,6 +74,7 @@ export const VALID_PROMOS: Record<string, number> = {
   PEPPER: 0.1,
   WELCOME: 0.1,
   COAST: 0.1,
+  COACH10: 0.1,
 };
 
 export function normalizePromoCode(promoCode?: string): string {
