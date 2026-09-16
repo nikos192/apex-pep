@@ -1,8 +1,6 @@
 import type { OrderPayload } from "@/lib/order";
 
-export const GOAFFPRO_STORE_KEY =
-  process.env.NEXT_PUBLIC_GOAFFPRO_STORE_KEY?.trim() ||
-  "545e5fc3434cc1087c3247fc6ea15827eee7d2855c777cd078093fd76eff4875";
+export const GOAFFPRO_STORE_KEY = "vwvwrobnpu";
 
 export interface CompletedOrder extends OrderPayload {
   orderNumber: string;
