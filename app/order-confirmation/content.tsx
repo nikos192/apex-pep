@@ -6,10 +6,10 @@ import Link from "next/link";
 import SuccessHeader from "@/components/SuccessHeader";
 import BankDetailsCard from "@/components/BankDetailsCard";
 import OrderSummaryCard from "@/components/OrderSummaryCard";
-import type { OrderPayload } from "@/lib/order";
+import GoAffProConversion from "@/components/GoAffProConversion";
+import type { CompletedOrder } from "@/lib/goaffpro";
 
-interface OrderData extends OrderPayload {
-  orderNumber: string;
+interface OrderData extends CompletedOrder {
   warnings?: string[];
 }
 
@@ -115,6 +115,8 @@ export default function OrderConfirmationContent() {
 
   return (
     <div className="w-full bg-slate-50 min-h-screen">
+      <GoAffProConversion order={order} />
+
       {/* Hero Section */}
       <section className="bg-white border-b border-slate-200">
         <div className="container-custom py-16">

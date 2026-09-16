@@ -28,7 +28,8 @@ export async function POST(request: NextRequest) {
 
     const orderNumber = generateOrderNumber();
 
-    const orderDate = new Date().toLocaleString("en-AU", {
+    const createdAt = new Date();
+    const orderDate = createdAt.toLocaleString("en-AU", {
       timeZone: "Australia/Brisbane",
       year: "numeric",
       month: "long",
@@ -105,6 +106,7 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         orderNumber,
+        createdAt: createdAt.toISOString(),
         ...(warnings.length > 0 && { warnings }),
       },
       { status: 200 }

@@ -6,11 +6,11 @@ import { ShippingInfo } from "@/components/ShippingInfo";
 import FAQSection from "@/components/FAQSection";
 
 export const metadata = {
-  title: "Apex Labs — Research Peptides Australia",
+  title: "Apex Lab — Research Peptides Australia",
   description:
-    "Premium research peptides supplied in Australia. ≥99% purity, precision manufactured, and securely shipped. Shop research-grade peptides from Apex Labs.",
+    "Premium research peptides supplied in Australia. ≥99% purity, precision manufactured, and securely shipped. Shop research-grade peptides from Apex Lab.",
   openGraph: {
-    title: "Apex Labs — Research Peptides Australia",
+    title: "Apex Lab — Research Peptides Australia",
     description:
       "Premium research peptides supplied in Australia. ≥99% purity, precision manufactured, and securely shipped.",
     url: "https://apexlabs.com.au",

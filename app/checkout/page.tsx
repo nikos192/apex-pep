@@ -159,6 +159,7 @@ export default function CheckoutPage() {
       // Save order (and any API warnings) to localStorage for confirmation page
       const orderData = {
         orderNumber: result.orderNumber,
+        createdAt: result.createdAt,
         ...orderPayload,
         warnings: result.warnings || [],
       };

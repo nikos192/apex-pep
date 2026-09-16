@@ -39,6 +39,7 @@ export interface OrderPayload {
 export interface OrderResponse {
   success: boolean;
   orderNumber?: string;
+  createdAt?: string;
   error?: string;
 }
 

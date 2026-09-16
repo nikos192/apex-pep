@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import { CartProvider } from "@/app/context/CartContext";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { GOAFFPRO_STORE_KEY } from "@/lib/goaffpro";
 import "@/app/globals.css";
 
 const inter = Inter({
@@ -37,6 +39,11 @@ export default function RootLayout({
         <link rel="alternate icon" href="/logos/apex_logo_transparent.png" />
         <link rel="icon" href="/logos/apex_logo_transparent.png" sizes="32x32" />
         <link rel="apple-touch-icon" href="/logos/apex_logo_transparent.png" />
+        <Script
+          id="goaffpro-general-tracking"
+          src={`https://api.goaffpro.com/loader.js?shop=${encodeURIComponent(GOAFFPRO_STORE_KEY)}`}
+          strategy="beforeInteractive"
+        />
       </head>
       <body className={`${inter.className} bg-white text-slate-900 antialiased`}>
         <CartProvider>
