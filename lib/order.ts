@@ -79,6 +79,7 @@ export const VALID_PROMOS: Record<string, number> = {
   PEPTIDEHUB: 0.1,
   RECURRING10: 0.1,
   KIKI: 0.1,
+  GC10: 0.1,
 };
 
 export function normalizePromoCode(promoCode?: string): string {
