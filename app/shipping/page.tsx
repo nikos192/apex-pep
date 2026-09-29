@@ -1,9 +1,11 @@
 import { ShippingInfo } from "@/components/ShippingInfo";
+import { createPageMetadata } from "@/lib/site";
 
-export const metadata = {
+export const metadata = createPageMetadata({
   title: "Shipping & Fulfillment — Apex Labs",
   description: "Orders processed within 24–48 hours. Estimated delivery 3–7 business days in Australia. Discreet, secure packaging and tracking provided.",
-};
+  path: "/shipping",
+});
 
 export default function ShippingPage() {
   return (

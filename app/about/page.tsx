@@ -1,3 +1,12 @@
+import { createPageMetadata } from "@/lib/site";
+
+export const metadata = createPageMetadata({
+  title: "About Apex Labs Australia",
+  description:
+    "Learn about Apex Labs Australia's research standards, analytical testing, and commitment to high-purity research peptides.",
+  path: "/about",
+});
+
 export default function AboutPage() {
   return (
     <div className="w-full">

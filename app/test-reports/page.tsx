@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/site";
 
-export const metadata = {
+export const metadata = createPageMetadata({
   title: "Product Test Reports | Apex Labs Australia",
   description:
     "Request Apex Labs Australia product test reports directly through our official Telegram account.",
-};
+  path: "/test-reports",
+});
 
 export default function TestReportsPage() {
   return (

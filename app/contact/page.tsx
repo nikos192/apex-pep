@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import { ContactForm } from '@/components/ContactForm';
+import { createPageMetadata } from '@/lib/site';
 
-export const metadata = {
+export const metadata = createPageMetadata({
   title: 'Contact | Apex Labs Australia',
   description:
     'Get in touch with Apex Labs Australia for research enquiries, order support, and general assistance.',
-};
+  path: '/contact',
+});
 
 export default function ContactPage() {
   return (

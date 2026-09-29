@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PRODUCTS, BULK_PRODUCTS, getProduct, getRelatedProducts, formatAUD } from "@/lib/catalog";
@@ -8,6 +9,7 @@ import { ProductImage } from "@/components/ProductImage";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { ShippingInfo } from "@/components/ShippingInfo";
 import StorageInstructions from "@/components/StorageInstructions";
+import { createPageMetadata } from "@/lib/site";
 
 interface ProductDetailPageProps {
   params: {
@@ -23,14 +25,17 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: ProductDetailPageProps) {
+export async function generateMetadata({ params }: ProductDetailPageProps): Promise<Metadata> {
   const product = getProduct(params.slug);
   if (!product) return {};
 
-  return {
+  return createPageMetadata({
     title: `${product.name} | Apex Labs Australia`,
     description: product.description.substring(0, 160),
-  };
+    path: `/peptides/${product.slug}`,
+    image: product.image,
+    imageAlt: product.name,
+  });
 }
 
 export default function ProductDetailPage({ params }: ProductDetailPageProps) {

@@ -4,19 +4,14 @@ import { PRODUCTS } from "@/lib/catalog";
 import HeroSection from "@/components/HeroSection";
 import { ShippingInfo } from "@/components/ShippingInfo";
 import FAQSection from "@/components/FAQSection";
+import { createPageMetadata } from "@/lib/site";
 
-export const metadata = {
+export const metadata = createPageMetadata({
   title: "Apex Lab — Research Peptides Australia",
   description:
     "Premium research peptides supplied in Australia. ≥99% purity, precision manufactured, and securely shipped. Shop research-grade peptides from Apex Lab.",
-  openGraph: {
-    title: "Apex Lab — Research Peptides Australia",
-    description:
-      "Premium research peptides supplied in Australia. ≥99% purity, precision manufactured, and securely shipped.",
-    url: "https://apexlabs.com.au",
-    siteName: "Apex Labs Australia",
-  },
-};
+  path: "/",
+});
 
 export default function HomePage() {
   const featuredProducts = PRODUCTS.slice(0, 6);

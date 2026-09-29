@@ -1,3 +1,12 @@
+import { createPageMetadata } from "@/lib/site";
+
+export const metadata = createPageMetadata({
+  title: "Research Protocols & Standards | Apex Labs Australia",
+  description:
+    "Review the quality assurance, analytical testing, and research standards used by Apex Labs Australia.",
+  path: "/research",
+});
+
 export default function ResearchPage() {
   return (
     <div className="w-full">

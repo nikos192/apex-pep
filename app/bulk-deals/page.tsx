@@ -1,12 +1,14 @@
 import { BULK_PRODUCTS } from "@/lib/catalog";
 import { ProductCard } from "@/components/ProductCard";
 import { ShippingInfo } from "@/components/ShippingInfo";
+import { createPageMetadata } from "@/lib/site";
 
-export const metadata = {
+export const metadata = createPageMetadata({
   title: "Bulk Mega Deals | Apex Labs Australia",
   description:
     "Bulk peptide research packs at massive savings — save up to 80% per vial. BPC-157, GHK-Cu, Retatrutide and combined bundles.",
-};
+  path: "/bulk-deals",
+});
 
 export default function BulkDealsPage() {
   return (

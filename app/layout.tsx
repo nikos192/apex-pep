@@ -5,6 +5,7 @@ import { CartProvider } from "@/app/context/CartContext";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { GOAFFPRO_STORE_KEY } from "@/lib/goaffpro";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "@/app/globals.css";
 
 const inter = Inter({
@@ -14,6 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Apex Labs Australia - Research-Grade Peptides",
   description:
     "Premium, research-grade peptides from Australia. Third-party tested. Pharmaceutical precision. Highest purity standards.",
@@ -22,8 +24,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_AU",
-    url: "https://apexlabs.com.au",
-    siteName: "Apex Labs Australia",
+    url: SITE_URL,
+    siteName: SITE_NAME,
   },
 };
 

@@ -1,11 +1,13 @@
 import { PRODUCTS } from "@/lib/catalog";
 import { ProductCard } from "@/components/ProductCard";
 import { ShippingInfo } from "@/components/ShippingInfo";
+import { createPageMetadata } from "@/lib/site";
 
-export const metadata = {
+export const metadata = createPageMetadata({
   title: "Shop now | Apex Labs Australia",
   description: "Browse our catalog of research peptide compounds for laboratory use.",
-};
+  path: "/peptides",
+});
 
 export default function PeptidesPage() {
   return (
