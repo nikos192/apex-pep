@@ -24,13 +24,12 @@ export function Header() {
   }, []);
 
   const navItems = [
-    { href: "/", label: "Home" },
     { href: "/peptides", label: "Peptides" },
-    { href: "/bulk-deals", label: "Bulk Deals" },
+    { href: "/bulk-deals", label: "Bulk Catalogue" },
     { href: "/test-reports", label: "Test Reports" },
-    { href: "/research", label: "Research" },
-    { href: "/about", label: "About" },
+    { href: "/customer-reviews", label: "Customer Reviews" },
     { href: "/contact", label: "Contact" },
+    { href: "/about", label: "About" },
   ];
 
   return (
@@ -54,7 +53,7 @@ export function Header() {
           </Link>
 
           {/* Navigation - Desktop */}
-          <nav className="hidden md:flex items-center gap-5 lg:gap-8">
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-8">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -98,8 +97,9 @@ export function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-slate-600 hover:text-blue-600 transition-colors rounded-lg hover:bg-slate-100"
+              className="lg:hidden p-2 text-slate-600 hover:text-blue-600 transition-colors rounded-lg hover:bg-slate-100"
               aria-label="Toggle menu"
+              aria-expanded={isMobileMenuOpen}
             >
               <svg
                 className="w-5 h-5"
@@ -120,7 +120,7 @@ export function Header() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-slate-200 bg-white">
+          <div className="lg:hidden border-t border-slate-200 bg-white">
             <nav className="container-custom py-4 flex flex-col gap-3">
               {navItems.map((item) => (
                 <Link

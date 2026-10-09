@@ -4,7 +4,7 @@ import { ShippingInfo } from "@/components/ShippingInfo";
 import { createPageMetadata } from "@/lib/site";
 
 export const metadata = createPageMetadata({
-  title: "Bulk Mega Deals | Apex Labs Australia",
+  title: "Bulk Catalogue | Apex Labs Australia",
   description:
     "Bulk peptide research packs at massive savings — save up to 80% per vial. BPC-157, GHK-Cu, Retatrutide and combined bundles.",
   path: "/bulk-deals",
@@ -47,7 +47,7 @@ export default function BulkDealsPage() {
       <section className="border-b border-slate-200 bg-white">
         <div className="container-custom py-12 md:py-16 animate-fade-in">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-            Bulk Mega Deals — Save Up to 80% Per Vial
+            Bulk Catalogue — Save Up to 80% Per Vial
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl leading-relaxed mb-6">
             Stock up and save big on research-grade peptide bulk packs. Perfect for extended laboratory protocols.

@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/peptides` },
     { url: `${SITE_URL}/bulk-deals` },
     { url: `${SITE_URL}/test-reports` },
+    { url: `${SITE_URL}/customer-reviews` },
     { url: `${SITE_URL}/research` },
     { url: `${SITE_URL}/about` },
     { url: `${SITE_URL}/shipping` },
