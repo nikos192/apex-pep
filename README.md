@@ -375,11 +375,11 @@ Built with ❤️ for premium research-grade peptides.
 
 ### Customer reviews
 
-The `/customer-reviews` page displays the customer quote supplied and confirmed by the store owner, plus approved database reviews. No other reviews are generated. It accepts all star ratings and refreshes approved reviews every 30 seconds. Names, ratings and review text are public; email addresses remain server-side. The supplied review uses an anonymous attribution because no customer name was provided.
+The `/customer-reviews` page displays the nine customer reviews supplied by the store owner, plus approved database reviews. No other reviews are generated. It accepts all star ratings and refreshes approved reviews every 30 seconds. Names, ratings and review text are public; email addresses remain server-side. The supplied reviews use anonymous attribution because no customer names were provided.
 
 To activate live submissions:
 1. Create a Supabase project and run `scripts/reviews-schema.sql` in its SQL editor.
 2. Set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in the hosting environment (and `.env.local` for local development). Keep the service role key private.
 3. Restart/redeploy. Submit a review, check it in the Supabase table editor, then set `approved` to `true` to publish it. Moderate consistently across ratings.
 
-Without these settings, the provided review remains visible and customers are directed to Contact to share feedback. No database has been provisioned by this change. The feed includes the latest 500 approved database reviews; the average reflects the displayed feed. For a high-volume launch, add infrastructure-level rate limiting/CAPTCHA to the submission route; a honeypot and input validation are already included.
+Without these settings, the provided reviews remain visible and customers are directed to Contact to share feedback. No database has been provisioned by this change. The feed includes the latest 500 approved database reviews; the average reflects the displayed feed. For a high-volume launch, add infrastructure-level rate limiting/CAPTCHA to the submission route; a honeypot and input validation are already included.
