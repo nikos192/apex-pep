@@ -7,6 +7,7 @@ import { useCart } from "@/app/context/CartContext";
 import { useCartActions } from "@/app/hooks/useCartActions";
 import { QuantityPicker } from "./QuantityPicker";
 import { formatPrice, cn } from "@/lib/utils";
+import { getBulkProduct } from "@/lib/catalog";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -112,6 +113,15 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                       <p className="text-xs text-brand-600 mt-0.5">
                         {formatPrice(item.price)} each
                       </p>
+                      {getBulkProduct(item.productId) && (
+                        <Link
+                          href={`/peptides/${getBulkProduct(item.productId)!.slug}`}
+                          onClick={onClose}
+                          className="mt-1.5 inline-block text-xs font-bold text-emerald-700 hover:underline"
+                        >
+                          Shop the 10 Pack →
+                        </Link>
+                      )}
                     </div>
 
                     {/* Quantity */}

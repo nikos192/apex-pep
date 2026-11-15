@@ -1,3 +1,5 @@
+import { getProduct } from "./catalog";
+
 export interface CartItem {
   id: string;
   productId: string;
@@ -80,6 +82,7 @@ export const VALID_PROMOS: Record<string, number> = {
   RECURRING10: 0.1,
   KIKI: 0.1,
   GC10: 0.1,
+  KOOPER10: 0.1,
 };
 
 export function normalizePromoCode(promoCode?: string): string {
@@ -178,6 +181,17 @@ export function validateOrderPayload(payload: OrderPayload): {
 
   if (!payload.items || payload.items.length === 0) {
     errors.push("Cart cannot be empty");
+  } else {
+    for (const item of payload.items) {
+      const product = getProduct(item.productId);
+      if (product?.available === false) {
+        errors.push(
+          product.badge === "Delayed"
+            ? `${product.name} is currently delayed and cannot be ordered.`
+            : `${product.name} is coming soon and cannot be ordered.`
+        );
+      }
+    }
   }
 
   if (!payload.paymentMethod) {

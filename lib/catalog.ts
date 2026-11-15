@@ -163,6 +163,7 @@ export const PRODUCTS: Product[] = [
     regularPrice: 100,
     salePrice: 90,
     badge: "Research Grade",
+    available: true,
     description:
       "MT-1 (Melanotan-1) is studied in preclinical research for its interactions with melanocortin receptor systems. Researchers investigate this synthetic peptide analog for effects on melanin production and receptor signaling in controlled laboratory settings. In scientific literature, MT-1 has been examined for its potential influence on pigmentation mechanisms and cellular responses to melanocortin pathway stimulation. Laboratory research suggests this compound affects multiple physiological processes through specific receptor interactions. This research peptide is intended exclusively for in vitro studies and preclinical research conducted by qualified laboratory professionals in controlled research environments.",
     bullets: [
@@ -259,10 +260,11 @@ export const PRODUCTS: Product[] = [
     id: "retatrutide-30mg",
     name: "Retatrutide 30MG",
     slug: "retatrutide-30mg",
-    image: "/images/retatrutide-30mg-placeholder.svg",
-    regularPrice: 300,
-    badge: "Coming Soon",
-    available: false,
+    image: "/images/reta-30mg.png",
+    regularPrice: 370,
+    salePrice: 300,
+    badge: "On Sale",
+    available: true,
     description:
       "Retatrutide is a novel GLP-1/GIP/glucagon triple receptor agonist studied in preclinical research contexts. This 30mg format supports extended laboratory protocols investigating multi-pathway metabolic signaling, receptor interactions, glucose homeostasis, and energy metabolism mechanisms. The compound is supplied as a research-grade lyophilized powder and is intended exclusively for controlled laboratory research by qualified researchers.",
     bullets: [
@@ -274,6 +276,46 @@ export const PRODUCTS: Product[] = [
     storage: "Store at 2-8°C in a sealed container away from light. Protect from freezing. Reconstituted solutions should remain refrigerated.",
     shipping: "Express courier with temperature-controlled insulation. Delivery to major Australian cities within 1-2 business days.",
     dosageForm: "Lyophilized powder, 30mg per vial",
+  },
+  {
+    id: "tesa-10mg",
+    name: "TESA 10MG",
+    slug: "tesa-10mg",
+    image: "/images/tesa-10mg.png",
+    regularPrice: 120,
+    salePrice: 90,
+    badge: "Delayed",
+    available: false,
+    description:
+      "TESA (Tesamorelin) in a 10mg vial, supplied for laboratory research use only. This product is currently delayed and is not available to purchase. Not for human consumption.",
+    bullets: [
+      "10mg per vial",
+      "For laboratory research use only",
+      "Currently delayed — purchasing unavailable",
+    ],
+    storage: "Keep sealed and protected from light and moisture. Follow the storage instructions supplied with the product.",
+    shipping: "This product is currently delayed. Dispatch details will be confirmed when it becomes available.",
+    dosageForm: "10mg per vial",
+  },
+  {
+    id: "klow-70mg",
+    name: "KLOW 70MG",
+    slug: "klow-70mg",
+    image: "/images/klow-70mg.png",
+    regularPrice: 175,
+    salePrice: 130,
+    badge: "Delayed",
+    available: false,
+    description:
+      "KLOW in a 70mg vial, supplied for laboratory research use only. This product is currently delayed and is not available to purchase. Not for human consumption.",
+    bullets: [
+      "70mg per vial",
+      "For laboratory research use only",
+      "Currently delayed — purchasing unavailable",
+    ],
+    storage: "Keep sealed and protected from light and moisture. Follow the storage instructions supplied with the product.",
+    shipping: "This product is currently delayed. Dispatch details will be confirmed when it becomes available.",
+    dosageForm: "70mg per vial",
   },
   {
     id: "nad-plus-500mg",
@@ -465,6 +507,16 @@ export const BAC_WATER_BULK_ADDON_PRICE = 90;
 
 export function getProduct(slug: string): Product | undefined {
   return [...PRODUCTS, ...BULK_PRODUCTS].find((p) => p.slug === slug);
+}
+
+export function getBulkProduct(slug: string): Product | undefined {
+  const bulkSlugs: Record<string, string> = {
+    "bpc-157": "bpc-157-bulk-10",
+    "ghk-cu-100mg": "ghk-cu-bulk-10",
+    "reta-10mg": "reta-bulk-10",
+  };
+
+  return BULK_PRODUCTS.find((product) => product.slug === bulkSlugs[slug]);
 }
 
 export function getRelatedProducts(excludeSlug: string, count: number = 4): Product[] {

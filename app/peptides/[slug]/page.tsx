@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -7,6 +6,7 @@ import { Accordion } from "@/components/Accordion";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductImage } from "@/components/ProductImage";
 import { AddToCartButton } from "@/components/AddToCartButton";
+import { ProductPackOptions } from "@/components/ProductPackOptions";
 import { ShippingInfo } from "@/components/ShippingInfo";
 import StorageInstructions from "@/components/StorageInstructions";
 import { createPageMetadata } from "@/lib/site";
@@ -140,6 +140,8 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               )}
             </div>
 
+            <ProductPackOptions product={product} />
+
             {/* Quick Description */}
             <p className="text-slate-700 mb-8 leading-relaxed text-base">
               {product.description}
@@ -164,10 +166,12 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
             {/* Add to Cart / Availability */}
             {product.available === false ? (
-              <div className="rounded-xl border border-slate-200 bg-slate-100 px-6 py-5 text-center">
-                <p className="text-lg font-black text-slate-900">Coming Soon</p>
+              <div className={`rounded-xl border px-6 py-5 text-center ${product.badge === "Delayed" ? "border-amber-200 bg-amber-50" : "border-slate-200 bg-slate-100"}`}>
+                <p className="text-lg font-black text-slate-900">{product.badge === "Delayed" ? "Currently Delayed" : "Coming Soon"}</p>
                 <p className="mt-1 text-sm text-slate-600">
-                  This product is not available to purchase yet.
+                  {product.badge === "Delayed"
+                    ? "Stock is delayed. This product is currently unavailable to purchase."
+                    : "This product is not available to purchase yet."}
                 </p>
               </div>
             ) : (

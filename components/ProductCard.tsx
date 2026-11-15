@@ -12,6 +12,7 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const hasDiscount = product.salePrice && product.salePrice < product.regularPrice;
   const isAvailable = product.available !== false;
+  const isDelayed = !isAvailable && product.badge === "Delayed";
   const discountPercent = hasDiscount
     ? Math.round(((product.regularPrice - product.salePrice!) / product.regularPrice) * 100)
     : 0;
@@ -58,7 +59,7 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Product Info */}
         <div className="p-4 md:p-5 flex-1 flex flex-col gap-3">
           {/* Badge */}
-          <div className="inline-block w-fit px-2.5 py-1 bg-blue-50 text-xs font-semibold text-blue-600 rounded-full border border-blue-100">
+          <div className={`inline-block w-fit px-2.5 py-1 text-xs font-semibold rounded-full border ${isDelayed ? "bg-amber-50 text-amber-800 border-amber-200" : "bg-blue-50 text-blue-600 border-blue-100"}`}>
             {product.badge}
           </div>
 
@@ -93,7 +94,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 : "border border-slate-200 bg-slate-100 text-slate-500"
             }`}
           >
-            {isAvailable ? "View Details →" : "Available Soon"}
+            {isAvailable ? "View Details →" : isDelayed ? "Currently Delayed" : "Available Soon"}
           </span>
         </div>
       </div>
@@ -101,7 +102,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   if (!isAvailable) {
     return (
-      <div aria-disabled="true" title={`${product.name} is coming soon`} className="h-full">
+      <div aria-disabled="true" title={`${product.name} is ${isDelayed ? "currently delayed" : "coming soon"}`} className="h-full">
         {card}
       </div>
     );
